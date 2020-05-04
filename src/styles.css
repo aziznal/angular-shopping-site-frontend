@@ -1,1 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
+
+
+.bottom-side {
+  background-color: greenyellow;
+  grid-area: bottom-side;
+}
+
+.middle-side {
+  background-color: red;
+  grid-area: middle-side;
+}
+
+.sidebar {
+  background-color: orange;
+  grid-area: sidebar;
+}
+
+.top-side {
+  background-color: turquoise;
+  grid-area: top-side;
+}
+
+.main-grid-container {
+  display: grid;
+  background-color: blanchedalmond;
+
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: auto;
+
+  grid-template-areas:
+
+    "top-side top-side"
+    "sidebar middle-side"
+    "bottom-side bottom-side";
+
+}
