@@ -1,0 +1,48 @@
+.top-side-container {
+  display: grid;
+
+  grid-template-areas:
+  "hotlinks hotlinks hotlinks"
+  "site-title search-bar account-cart"
+  "colored-bar colored-bar colored-bar"
+  "categories categories categories"
+  ;
+
+}
+
+.hotlinks {
+  grid-area: hotlinks;
+  justify-content: center;
+
+  display: flex;
+  flex-direction: row;
+}
+
+.hotlinks li {
+  display: inline-block;
+  margin: 0 0.5em;
+}
+
+.site-title {
+  grid-area: site-title;
+
+  width: 20em;
+  height: auto;
+
+}
+
+.search-bar {
+  grid-area: search-bar;
+}
+
+.account-cart{
+  grid-area: account-cart;
+}
+
+.colored-bar{
+  grid-area: colored-bar;
+}
+
+.categories {
+  grid-area: categories;
+}

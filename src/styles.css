@@ -1,12 +1,25 @@
-/* You can add global styles to this file, and also import other style files */
 
+/* Decustomizing ul, a, etc.. */
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:link, a:visited, a:hover, a:active {
+    color: inherit;
+}
 
 .bottom-side {
   background-color: greenyellow;
   grid-area: bottom-side;
 }
 
-.middle-side {
+.middle-side, app-default-page {
   background-color: red;
   grid-area: middle-side;
 }

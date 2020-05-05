@@ -1,3 +1,14 @@
-<div>
-  hello from the top side.
+<div class="top-side-container">
+
+  <ul class="hotlinks">
+
+    <li *ngFor="let link of links">
+      <a routerLink="/">
+        {{ link }}
+      </a>
+    </li>
+
+  </ul>
+
+  <img class="site-title" src="../../assets/site-title.png" alt="site-title" />
 </div>
