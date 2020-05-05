@@ -1,0 +1,18 @@
+
+.hotlinks {
+  grid-area: hotlinks;
+  justify-content: center;
+
+  display: flex;
+  flex-direction: row;
+}
+
+.hotlinks li {
+  display: inline-block;
+  margin: 0 2em;
+
+  font-size: 0.7em;
+  font-family: sans-serif;
+  font-weight: bold;
+
+}

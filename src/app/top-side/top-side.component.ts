@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { links } from "./links";
 
 @Component({
   selector: 'app-top-side',
@@ -7,14 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TopSideComponent implements OnInit {
 
-  links = [
-    'About Us',
-    'Contact',
-    'Missing Delivery',
-    'FAQ',
-    'Report an issue',
-    'Feedback'
-  ]
+  links = links;
 
   constructor() { }
 

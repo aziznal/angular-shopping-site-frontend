@@ -30,21 +30,20 @@ a:link, a:visited, a:hover, a:active {
 }
 
 .top-side {
-  background-color: turquoise;
+  /* background-color: turquoise; */
   grid-area: top-side;
 }
 
 .main-grid-container {
   display: grid;
-  background-color: blanchedalmond;
 
-  grid-template-columns: 1fr 4fr;
+  grid-template-columns: 1fr 1fr 4fr;
   grid-template-rows: auto;
 
   grid-template-areas:
 
-    "top-side top-side"
-    "sidebar middle-side"
-    "bottom-side bottom-side";
+    "top-side top-side top-side"
+    " . sidebar middle-side"
+    "bottom-side bottom-side bottom-side";
 
 }

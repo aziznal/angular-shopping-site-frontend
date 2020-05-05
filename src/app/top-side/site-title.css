@@ -1,0 +1,19 @@
+.site-title {
+  grid-area: site-title;
+
+  display: flex;
+
+  width: 100%;
+  height: auto;
+
+  justify-content: right;
+
+}
+
+.site-title img {
+  width: 20em;
+  height: auto;
+
+  margin-right: 2em;
+
+}

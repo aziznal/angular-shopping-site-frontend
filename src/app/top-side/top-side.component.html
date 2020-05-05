@@ -1,14 +1,51 @@
 <div class="top-side-container">
-
+  <!-- Hotlinks -->
   <ul class="hotlinks">
-
     <li *ngFor="let link of links">
-      <a routerLink="/">
-        {{ link }}
+      <a routerLink="/{{ link.url }}">
+        {{ link.name }}
       </a>
     </li>
-
   </ul>
 
-  <img class="site-title" src="../../assets/site-title.png" alt="site-title" />
+  <!-- Site Title -->
+  <a class="site-title" routerLink="/">
+    <img src="../../assets/site-title.png" alt="site-title" />
+  </a>
+
+  <!-- Search Bar -->
+  <div class="search-bar">
+    <img
+      class="looking-glass"
+      src="../../assets/looking-glass.png"
+      alt="looking-glass.png"
+    />
+    <input type="text" placeholder="Search for something..." />
+  </div>
+
+  <!-- Account / Cart -->
+  <div class="account-cart">
+    <!-- Account Button -->
+    <div class="button" id="account-btn">
+      <span>Account</span>
+    </div>
+
+    <!-- Cart Button -->
+    <div class="button" id="cart-btn">
+      <img
+        class="site-cart-image"
+        src="../../assets/site-cart-empty.png"
+        alt="site-cart"
+      />
+
+      <span>Cart</span>
+
+      <div id="item-counter">
+        0
+      </div>
+    </div>
+    <!-- End of Cart Button -->
+  </div>
+  <!-- End of Account / Cart -->
 </div>
+<!-- End of top-side-container -->

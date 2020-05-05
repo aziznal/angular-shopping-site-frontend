@@ -1,5 +1,13 @@
+@import url("search-bar.css");
+@import url('hotlinks.css');
+@import url('site-title.css');
+@import url('account-cart.css');
+@import url('categories.css');
+
 .top-side-container {
   display: grid;
+
+  grid-template-columns: 35% 35% auto;
 
   grid-template-areas:
   "hotlinks hotlinks hotlinks"
@@ -10,39 +18,7 @@
 
 }
 
-.hotlinks {
-  grid-area: hotlinks;
-  justify-content: center;
-
-  display: flex;
-  flex-direction: row;
-}
-
-.hotlinks li {
-  display: inline-block;
-  margin: 0 0.5em;
-}
-
-.site-title {
-  grid-area: site-title;
-
-  width: 20em;
-  height: auto;
-
-}
-
-.search-bar {
-  grid-area: search-bar;
-}
-
-.account-cart{
-  grid-area: account-cart;
-}
-
 .colored-bar{
   grid-area: colored-bar;
 }
 
-.categories {
-  grid-area: categories;
-}
