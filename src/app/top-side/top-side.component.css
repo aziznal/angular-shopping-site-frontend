@@ -20,5 +20,11 @@
 
 .colored-bar{
   grid-area: colored-bar;
+
+  width: 100%;
+  height: 1em;
+
+  background-color: #1b4585;
+
 }
 

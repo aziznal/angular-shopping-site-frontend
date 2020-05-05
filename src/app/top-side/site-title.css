@@ -2,11 +2,10 @@
   grid-area: site-title;
 
   display: flex;
+  margin-left: 55%;
 
-  width: 100%;
+  width: 20em;
   height: auto;
-
-  justify-content: right;
 
 }
 
@@ -14,6 +13,6 @@
   width: 20em;
   height: auto;
 
-  margin-right: 2em;
+  /* margin-right: 2em; */
 
 }

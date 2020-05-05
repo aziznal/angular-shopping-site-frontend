@@ -1,3 +1,40 @@
 .categories {
   grid-area: categories;
+
+  width: 99.9%;
+  height: 3.5em;
+
+  display: flex;
+  flex-direction: row;
+
+  border: 1px solid black;
+
+  justify-content: center;
+
+  background-color: #bcd3ed;
+}
+
+.categories > li {
+
+  display: flex;
+
+  margin: auto 0.3em;
+
+  padding: 0 0.7em;
+  height: 100%;
+
+  font-size: 1em;
+  font-family: sans-serif;
+  font-weight: bold;
+
+  cursor: pointer;
+
+}
+
+.categories > li:hover {
+  background-color: aliceblue;
+}
+
+.categories > li > span {
+  margin: auto 0;
 }
