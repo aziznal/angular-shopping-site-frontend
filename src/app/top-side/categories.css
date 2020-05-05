@@ -7,32 +7,42 @@
   display: flex;
   flex-direction: row;
 
-  border: 1px solid black;
-
   justify-content: center;
 
   background-color: #bcd3ed;
+
 }
 
 .categories > li {
 
   display: flex;
 
-  margin: auto 0.3em;
+  margin: auto 0;
 
-  padding: 0 0.7em;
+  padding: 0 4em;
   height: 100%;
 
   font-size: 1em;
   font-family: sans-serif;
   font-weight: bold;
 
+  color: #1b4585;
+
   cursor: pointer;
+
+  border-left: 1px solid #1b458531;
+
+  transition: transform 150ms, border-bottom 75ms;
 
 }
 
+.categories > li:last-child {
+  border-right: 1px solid #1b458531;
+}
+
 .categories > li:hover {
-  background-color: aliceblue;
+  border-bottom: 2px solid #1b4585;
+  transform: translate(0, -2px);
 }
 
 .categories > li > span {

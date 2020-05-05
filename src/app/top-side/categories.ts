@@ -1,26 +1,26 @@
 export const categories: { name: string; url: string }[] = [
   {
-    name: 'Desktops',
-    url: 'desktops',
+    name: 'Desktop',
+    url: 'desktop',
   },
   {
-    name: 'Laptops',
-    url: 'laptops',
+    name: 'Laptop',
+    url: 'laptop',
   },
   {
-    name: 'Monitors',
-    url: 'monitors',
+    name: 'Monitor',
+    url: 'monitor',
   },
   {
-    name: 'Keyboards',
-    url: 'keyboards',
+    name: 'Keyboard',
+    url: 'keyboard',
   },
   {
-    name: 'Mice',
-    url: 'mice',
+    name: 'Mouse',
+    url: 'mouse',
   },
   {
-    name: 'Backpacks',
-    url: 'backpacks',
+    name: 'Backpack',
+    url: 'backpack',
   },
 ];
