@@ -43,13 +43,13 @@ a:link, a:visited, a:hover, a:active {
 .main-grid-container {
   display: grid;
 
-  grid-template-columns: 1fr 1fr 4fr;
+  grid-template-columns: 1fr 4fr 1fr;
   grid-template-rows: auto;
 
   grid-template-areas:
 
     "top-side       top-side      top-side"
-    " .             sidebar       middle-side"
+    " .             middle-side       ."
     ;
 
 }
