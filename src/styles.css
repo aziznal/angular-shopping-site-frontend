@@ -26,7 +26,6 @@ a:link, a:visited, a:hover, a:active {
 }
 
 .middle-side, app-default-page {
-  background-color: red;
   grid-area: middle-side;
 }
 
