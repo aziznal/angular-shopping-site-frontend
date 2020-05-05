@@ -42,8 +42,8 @@ a:link, a:visited, a:hover, a:active {
 
   grid-template-areas:
 
-    "top-side top-side top-side"
-    " . sidebar middle-side"
-    "bottom-side bottom-side bottom-side";
+    "top-side       top-side      top-side"
+    " .             sidebar       middle-side"
+    "bottom-side    bottom-side   bottom-side";
 
 }
