@@ -1,0 +1,44 @@
+.footer-main-container {
+  display: flex;
+  flex-direction: row;
+
+  width: 70%;
+  position: relative;
+  margin: 0 auto;
+
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+
+  width: 20%;
+  margin: 0.5em;
+
+}
+
+.column-title {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  font-size: 1.3em;
+
+  color: #0e2b57;
+
+}
+
+.column-details {
+
+  margin-top: 1em;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1em;
+
+}
+
+.footer-image-holder {
+  display: grid;
+
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+
+}

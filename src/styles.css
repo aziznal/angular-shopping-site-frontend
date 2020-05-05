@@ -15,8 +15,14 @@ a:link, a:visited, a:hover, a:active {
 }
 
 .bottom-side {
-  background-color: greenyellow;
+  background-color: #87a8ce;
   grid-area: bottom-side;
+
+  position: absolute;
+  bottom: 0;
+
+  padding-top: 1em;
+
 }
 
 .middle-side, app-default-page {
@@ -44,6 +50,6 @@ a:link, a:visited, a:hover, a:active {
 
     "top-side       top-side      top-side"
     " .             sidebar       middle-side"
-    "bottom-side    bottom-side   bottom-side";
+    ;
 
 }
