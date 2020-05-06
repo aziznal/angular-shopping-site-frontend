@@ -25,7 +25,7 @@ a:link, a:visited, a:hover, a:active {
 
 }
 
-.middle-side, app-default-page {
+.middle-side, app-default-page, app-debug-page {
   grid-area: middle-side;
 }
 

@@ -1,14 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { Routes, RouterModule } from '@angular/router';
+
 import { AppComponent } from './app.component'
 import { DefaultPageComponent } from './default-page/default-page.component';
-
-import { Routes, RouterModule } from '@angular/router';
+import { DebugPageComponent } from './debug-page/debug-page.component';
+import { ProductCreatorComponent } from './product-creator/product-creator.component';
 
 const routes: Routes = [
   { path: '', component: DefaultPageComponent },
-  { path: 'debug', component: DefaultPageComponent }
+  { path: 'debug', component: DebugPageComponent },
+  { path: 'debug/product-creator', component: ProductCreatorComponent}
 ]
 
 @NgModule({
