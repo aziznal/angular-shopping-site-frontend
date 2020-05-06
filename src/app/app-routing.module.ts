@@ -8,6 +8,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   { path: '', component: DefaultPageComponent },
+  { path: 'debug', component: DefaultPageComponent }
 ]
 
 @NgModule({
