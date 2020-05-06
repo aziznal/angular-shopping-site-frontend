@@ -1,3 +1,4 @@
+@import url('form-styles.css');
 
 /* Decustomizing ul, a, etc.. */
 ul {
@@ -28,7 +29,9 @@ a:link, a:visited, a:hover, a:active {
 .middle-side, app-default-page, app-debug-page, app-product-creator {
   grid-area: middle-side;
 
-  margin-bottom: 30em;
+  margin-bottom: 10em;
+
+  min-height: 35em;
 
 }
 
