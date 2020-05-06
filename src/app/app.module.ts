@@ -11,6 +11,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { DefaultPageComponent } from './default-page/default-page.component';
 import { DebugPageComponent } from './debug-page/debug-page.component';
 import { ProductCreatorComponent } from './product-creator/product-creator.component';
+import { ProductCommentAdderComponent } from './product-comment-adder/product-comment-adder.component';
+import { ProductSpecAdderComponent } from './product-spec-adder/product-spec-adder.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { ProductCreatorComponent } from './product-creator/product-creator.compo
     SidebarComponent,
     DefaultPageComponent,
     DebugPageComponent,
-    ProductCreatorComponent
+    ProductCreatorComponent,
+    ProductCommentAdderComponent,
+    ProductSpecAdderComponent
   ],
   imports: [
     BrowserModule,
