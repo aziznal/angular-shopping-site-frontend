@@ -1,0 +1,48 @@
+
+.creator-form {
+  display: flex;
+  flex-direction: column;
+
+  font-weight: bold;
+  font-size: 1.3em;
+  font-family: sans-serif;
+
+}
+
+.creator-form div {
+  margin: 0.5em 0;
+}
+
+.creator-form label {
+  display: inline-block;
+
+  text-align: right;
+
+  width: 15em;
+}
+
+.creator-form input {
+
+  font-size: 1em;
+
+  padding: 0.6em;
+  width: 25em;
+
+  margin-left: 2em;
+
+  border-radius: 5px;
+  border: 1px solid rgb(133, 165, 127);
+
+  transition: box-shadow 300ms;
+
+}
+
+.creator-form input:hover {
+  border: 1px solid rgb(0, 119, 255);
+  box-shadow: 0px 0px 5px 1px rgb(168, 168, 168);
+}
+
+.creator-form input:focus {
+  border: 1px solid rgb(0, 119, 255);
+  box-shadow: 0px 0px 5px 1px rgb(168, 168, 168);
+}
