@@ -18,15 +18,18 @@ a:link, a:visited, a:hover, a:active {
   background-color: #87a8ce;
   grid-area: bottom-side;
 
-  position: absolute;
-  bottom: 0;
+  /* position: fixed;
+  bottom: 0; */
 
   padding-top: 1em;
 
 }
 
-.middle-side, app-default-page, app-debug-page {
+.middle-side, app-default-page, app-debug-page, app-product-creator {
   grid-area: middle-side;
+
+  margin-bottom: 30em;
+
 }
 
 .sidebar {
@@ -49,6 +52,7 @@ a:link, a:visited, a:hover, a:active {
 
     "top-side       top-side      top-side"
     " .             middle-side       ."
+    "bottom-side    bottom-side   bottom-side"
     ;
 
 }
