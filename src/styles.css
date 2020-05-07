@@ -26,7 +26,11 @@ a:link, a:visited, a:hover, a:active {
 
 }
 
-.middle-side, app-default-page, app-debug-page, app-product-creator {
+.middle-side,
+app-default-page,
+app-debug-page,
+app-product-creator,
+app-test-products-page {
   grid-area: middle-side;
 
   margin-bottom: 10em;
@@ -35,10 +39,10 @@ a:link, a:visited, a:hover, a:active {
 
 }
 
-.sidebar {
+/* .sidebar {
   background-color: orange;
   grid-area: sidebar;
-}
+} */
 
 .top-side {
   /* background-color: turquoise; */
