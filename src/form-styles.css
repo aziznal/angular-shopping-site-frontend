@@ -41,6 +41,8 @@
 
 .creator-form input {
 
+  box-sizing: border-box;
+
   font-size: 1em;
 
   padding: 0.6em;
@@ -56,14 +58,47 @@
 }
 
 .creator-form input:hover {
-  border: 1px solid rgb(0, 119, 255);
+  outline: 1px solid rgb(0, 119, 255);
+  -moz-outline-radius: 6px;
   box-shadow: 0px 0px 5px 1px rgb(168, 168, 168);
 }
 
 .creator-form input:focus {
-  border: 1px solid rgb(0, 119, 255);
+  outline: 1px solid rgb(0, 119, 255);
+  -moz-outline-radius: 6px;
   box-shadow: 0px 0px 5px 1px rgb(168, 168, 168);
 }
+
+.creator-form input.ng-valid[required] {
+  border-left: 4px solid green;
+}
+
+.creator-form input.ng-invalid {
+  border-left: 4px solid red;
+}
+
+.creator-form .invalid-input {
+
+  display: none;
+
+  width: fit-content;
+
+  padding: 1.3em;
+  margin: 1em auto;
+
+  background-color: rgba(255, 0, 0, 0.11);
+
+  border: 1px solid red;
+  border-radius: 6px;
+
+  font-size: 0.8em;
+  text-align: center;
+
+}
+
+.creator-form input.ng-invalid.ng-touched + .invalid-input {
+  display: block;
+ }
 
 .creator-form button {
   display: block;
@@ -71,7 +106,7 @@
   width: fit-content;
   padding: 0.5em 1em;
 
-  margin: auto;
+  margin-left: 80%;
   margin-top: 2em;
 
 

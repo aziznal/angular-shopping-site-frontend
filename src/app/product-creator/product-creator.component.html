@@ -1,41 +1,47 @@
-<div>
+<div class="creator-form">
+  <h2>Product Creator Form</h2>
 
-  <h1 id="product-creator-page-title">Product Creator Form</h1>
-
-  <form action="" id="product-creator" class="creator-form">
-
+  <form action="" id="product-creator" #productCreatorForm="ngForm" (ngSubmit)="onSubmit()">
     <div>
       <label for="id">Product ID (12 hex characters):</label>
-      <input type="text" name="id" [title]="'String, No spaces'">
+      <input type="text" name="id" [title]="'String, No spaces'" required
+        [(ngModel)]="product.id"/>
     </div>
-
 
     <div>
       <label for="name">Product Name:</label>
-      <input type="text" name="name" [title]="'String'">
+      <input type="text" name="name" [title]="'String'"
+      [(ngModel)]="product.name"/>
     </div>
 
     <div>
       <label for="img">Path to Image:</label>
-      <input type="text" name="img" [title]="'String'">
+      <input type="text" name="img" [title]="'String'"
+      [(ngModel)]="product.img"/>
     </div>
 
     <div>
       <label for="price">Price:</label>
-      <input type="text" name="price" [title]="'Number'">
+      <input type="text" name="price" [title]="'Number'"
+      [(ngModel)]="product.price"/>
     </div>
 
     <div>
       <label for="rating">Rating ( [0-5]/5 ):</label>
-      <input type="text" name="rating" [title]="'String'">
+      <input type="text" name="rating" [title]="'String'"
+      [(ngModel)]="product.rating"/>
     </div>
 
     <div>
       <label for="seller" style="text-decoration: line-through;">Seller ID (skip)</label>
-      <input type="text" name="seller" [title]="'String'" value="seller_id">
+      <input type="text" name="seller" [title]="'String'" value="seller_id"
+      [(ngModel)]="product.seller"/>
     </div>
 
-
+    <div>
+      <button type="submit">
+        Submit
+      </button>
+    </div>
   </form>
-
 </div>
