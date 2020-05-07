@@ -5,22 +5,27 @@
   margin: 1em auto;
   background-color: rgb(236, 236, 236);
 
-  border: 1px solid black;
+  /* border: 1px solid black; */
   border-radius: 6px;
 }
 
 .dev-link {
 
-  width: 35em;
+  width: fit-content;
   height: fit-content;
 
-  margin-bottom: 4em;
+  margin: 0 auto;
+  margin-bottom: 1em;
+
 
 }
 
 .dev-link a {
 
-  min-width: 150em;
+  text-align: center;
+
+  display: block;
+  width: 12em;
 
   color: rgb(0, 0, 102);
   padding: 1.3em;
