@@ -117,4 +117,9 @@
   border: 1px solid black;
   border-radius: 5px;
 
+  cursor: pointer;
+}
+
+.creator-form button:hover {
+  background-color: darkgray;
 }

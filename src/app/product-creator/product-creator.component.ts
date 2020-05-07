@@ -35,9 +35,5 @@ export class ProductCreatorComponent implements OnInit {
 
   onSubmit() {
 
-    console.log('Product Created Successfully!');
-    for (let item of this.product) {
-      console.log(this.product[item]);
-    }
   }
 }

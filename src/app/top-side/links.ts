@@ -23,4 +23,8 @@ export const links: { name: string; url: string }[] = [
     name: 'Feedback',
     url: 'feedback',
   },
+  {
+    name: 'Dev Zone',
+    url:'debug'
+  }
 ];

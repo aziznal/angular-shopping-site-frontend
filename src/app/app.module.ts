@@ -13,6 +13,7 @@ import { DebugPageComponent } from './debug-page/debug-page.component';
 import { ProductCreatorComponent } from './product-creator/product-creator.component';
 import { ProductCommentAdderComponent } from './product-comment-adder/product-comment-adder.component';
 import { ProductSpecAdderComponent } from './product-spec-adder/product-spec-adder.component';
+import { TestProductsPageComponent } from './test-products-page/test-products-page.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { ProductSpecAdderComponent } from './product-spec-adder/product-spec-add
     ProductCreatorComponent,
     ProductCommentAdderComponent,
     ProductSpecAdderComponent,
+    TestProductsPageComponent,
   ],
   imports: [
     BrowserModule,
