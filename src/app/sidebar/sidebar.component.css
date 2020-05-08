@@ -5,18 +5,17 @@
 
   width: 100%;
 
-  /* border: 1px solid black; */
+  margin: auto;
+  padding: 0.3em 1.6em;
+
+  border: 1px solid black;
   border-bottom: none;
 
   border-radius: 6px;
-
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 
   background-color: gainsboro;
-
-  margin: auto;
-  padding: 0.3em 1.6em;
 
   text-align: center;
   font-size: 1.3em;
@@ -30,7 +29,7 @@
 
   width: 100%;
 
-  /* border: 1px solid black; */
+  border: 1px solid black;
   /* border-top: 0; */
 
   margin-top: 0;

@@ -15,3 +15,36 @@
 .products-container {
   background-color: blue;
 }
+
+.product-grid {
+  /* display: grid;
+
+  grid-template-columns: repeat(3, 19em); */
+
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  background-color: aquamarine;
+
+  padding: 1em;
+  margin: 1em;
+
+  /* width: 95%; */
+
+  min-height: 40em;
+  height: fit-content;
+
+}
+
+.product-box {
+  padding: 0.3em;
+  margin: 0.3em;
+
+  width: 30%;
+  height: 12em;
+
+  border: 1px dashed black;
+
+}
