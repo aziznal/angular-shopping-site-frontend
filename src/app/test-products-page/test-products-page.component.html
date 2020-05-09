@@ -4,59 +4,19 @@
 
   <div class="products-container">
 
-    <div class="product-filters">
-      <!-- add this in the future -->
-    </div>
+    <ul class="product-filters">
+      <li *ngFor="let filter of search_filters">
+        {{ filter }}
+      </li>
+    </ul>
 
     <div class="product-grid">
       <!-- 3 x n grid that holds the products -->
 
-      <div class="product-box">
-        <span>hey, me product</span>
-      </div>
-
-      <div class="product-box">
-        <span>hey, me product</span>
-      </div>
-
-      <div class="product-box">
-        <span>hey, me product</span>
-      </div>
-
-      <div class="product-box">
-        <span>hey, me product</span>
-      </div>
-
-      <div class="product-box">
-        <span>hey, me product</span>
-      </div>
-
-      <div class="product-box">
-        <span>hey, me product</span>
-      </div>
-
-      <div class="product-box">
-        <span>hey, me product</span>
-      </div>
-
-      <div class="product-box">
-        <span>hey, me product</span>
-      </div>
-
-      <div class="product-box">
-        <span>hey, me product</span>
-      </div>
-
-      <div class="product-box">
-        <span>hey, me product</span>
-      </div>
-
-      <div class="product-box">
-        <span>hey, me product</span>
-      </div>
-
-      <div class="product-box">
-        <span>hey, me product</span>
+      <div class="product-box" *ngFor="let product of products">
+        <h4>{{ product.name }}</h4>
+        <p>{{ product.price | currency }}</p>
+        <p>id: {{ product.id}}</p>
       </div>
 
     </div>

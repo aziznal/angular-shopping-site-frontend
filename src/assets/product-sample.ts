@@ -1,4 +1,4 @@
-export const products = [
+export const test_products = [
   {
     id: '000000000001',
     name: 'Laptop',
@@ -81,6 +81,17 @@ export const products = [
     name: 'HDMI Cable',
     img: '',
     price: '15',
+    rating: '',
+    comments: '',
+    specs: '',
+    seller: '',
+    sold: 0,
+  },
+  {
+    id: '000000000009',
+    name: 'Generic Cool Techy Thing',
+    img: '',
+    price: '9500',
     rating: '',
     comments: '',
     specs: '',

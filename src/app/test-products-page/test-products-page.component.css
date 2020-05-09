@@ -12,6 +12,35 @@
   padding: 1em;
 }
 
+.product-filters {
+  display: flex;
+  flex-direction: row;
+
+  background-color: blueviolet;
+
+  padding: 0.3em;
+
+  justify-content: left;
+
+}
+
+.product-filters li {
+
+  box-sizing: border-box;
+
+  height: 100%;
+  width: 6em;
+
+  border: 2px solid chartreuse;
+
+  background-color: azure;
+
+  padding: 0.3em;
+  margin: 0 1em;
+
+  text-align: center;
+}
+
 .products-container {
   background-color: blue;
 }
@@ -20,7 +49,6 @@
   /* display: grid;
 
   grid-template-columns: repeat(3, 19em); */
-
 
   display: flex;
   flex-direction: row;
