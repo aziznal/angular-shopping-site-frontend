@@ -1,8 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule } from '@angular/common/http';
 
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TopSideComponent } from './top-side/top-side.component';
 import { BottomSideComponent } from './bottom-side/bottom-side.component';
@@ -14,6 +15,7 @@ import { ProductCreatorComponent } from './product-creator/product-creator.compo
 import { ProductCommentAdderComponent } from './product-comment-adder/product-comment-adder.component';
 import { ProductSpecAdderComponent } from './product-spec-adder/product-spec-adder.component';
 import { TestProductsPageComponent } from './test-products-page/test-products-page.component';
+import { ServiceTestPageComponent } from './service-test-page/service-test-page.component';
 
 @NgModule({
   declarations: [
@@ -28,11 +30,13 @@ import { TestProductsPageComponent } from './test-products-page/test-products-pa
     ProductCommentAdderComponent,
     ProductSpecAdderComponent,
     TestProductsPageComponent,
+    ServiceTestPageComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],
