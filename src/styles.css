@@ -30,7 +30,8 @@ a:link, a:visited, a:hover, a:active {
 app-default-page,
 app-debug-page,
 app-product-creator,
-app-test-products-page {
+app-test-products-page,
+app-service-test-page {
   grid-area: middle-side;
 
   margin-bottom: 10em;
