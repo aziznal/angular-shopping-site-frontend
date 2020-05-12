@@ -15,9 +15,12 @@ export class ServiceTestPageComponent implements OnInit {
   }
 
   testButton(){
-    console.log("Button Clicked");
-    const res = this.productService.test();
-    console.log(res);
+
+    this.productService.test().subscribe((data) => {
+      console.log(data);
+    })
+
+    console.log("End of Test");
 
   }
 
