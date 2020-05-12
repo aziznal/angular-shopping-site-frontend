@@ -1,0 +1,12 @@
+/* this is the container for each product in the grid */
+
+.product-box {
+  padding: 0.3em;
+  margin: 0.3em;
+
+  width: 30%;
+  height: 24em;
+
+  border: 1px dashed black;
+
+}
