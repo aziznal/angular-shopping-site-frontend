@@ -14,14 +14,35 @@ export class ServiceTestPageComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  testButton(){
 
-    this.productService.test().subscribe((data) => {
+  // GET Handler
+  getButtonOnclick(){
+    this.productService.getTest().subscribe((data) => {
+      console.log(data);
+    });
+
+  }
+
+  // POST Handler
+  postButtonOnclick() {
+    this.productService.postTest().subscribe((data) => {
+      console.log(data);
+    });
+
+  }
+
+  // PUT Handler
+  putButtonOnclick() {
+    this.productService.putTest().subscribe((data) => {
+      console.log(data);
+    });
+  }
+
+  // DELETE Handler
+  deleteButtonOnclick() {
+    this.productService.deleteTest().subscribe((data) => {
       console.log(data);
     })
-
-    console.log("End of Test");
-
   }
 
 }
