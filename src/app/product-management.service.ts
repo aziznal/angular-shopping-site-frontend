@@ -11,28 +11,73 @@ import { catchError, retry } from 'rxjs/operators';
 export class ProductManagementService {
   endpoint = '//localhost:3000'; // url of Backend API
 
-  constructor(private http: HttpClient) {}
-  // IMPORTANT: last I was doing was trying to deal with the server's response
+  test_headers = {
 
-  options: {
-    headers?: HttpHeaders | {[header: string]: string | string[]},
-    observe?: 'body' | 'events' | 'response',
-    params?: HttpParams|{[param: string]: string | string[]},
-    reportProgress?: boolean,
-    responseType?: 'arraybuffer'|'blob'|'json'|'text',
-    withCredentials?: boolean,
   }
 
-  test(): Observable<any> {
+  constructor(private http: HttpClient) {}
+
+  options: {
+    headers?: HttpHeaders | { [header: string]: string | string[] };
+    observe?: 'body' | 'events' | 'response';
+    params?: HttpParams | { [param: string]: string | string[] };
+    reportProgress?: boolean;
+    responseType?: 'arraybuffer' | 'blob' | 'json' | 'text';
+    withCredentials?: boolean;
+  };
+
+  getTest(): Observable<any> {
+    // IMPORTANT: options can make or break the response handler
+    const options = {
+      observe: 'body' as const,
+      responseType: 'text' as const,
+    };
+
+    const res = this.http.get(this.endpoint + '/test', options);
+
+    return res;
+  }
+
+
+  // IMPORTANT: last I was trying to fix COR issue. found something on MDN. link: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Requests_with_credentials
+
+  // POST Handler
+  postTest() {
 
     const options = {
       observe: 'body' as const,
       responseType: 'text' as const,
-    }
+    };
 
-    console.log('Executing Test...');
-    const res = this.http.get(this.endpoint, options);
+    const res = this.http.post( this.endpoint + '/test', { "hello": "there" }, options);
 
     return res;
   }
+
+  // PUT Handler
+  putTest() {
+    const options = {
+      observe: 'body' as const,
+      responseType: 'text' as const,
+    };
+
+    const res = this.http.put( this.endpoint + "/test", { "hello": "again" }, options);
+
+    return res;
+
+  }
+
+  // DELETE Handler
+  deleteTest() {
+    const options = {
+      observe: 'body' as const,
+      responseType: 'text' as const,
+    };
+
+    const res = this.http.delete(this.endpoint + "/test", options);
+
+    return res;
+
+  }
+
 }
