@@ -1,4 +1,5 @@
-<div class="creator-form">
+<div class="product-form">
+
   <h2>Product Creator Form</h2>
 
   <h3 class="dev-link">
@@ -6,41 +7,86 @@
   </h3>
 
   <form action="" id="product-creator" #productCreatorForm="ngForm" (ngSubmit)="onSubmit()">
+
+    <!-- Category -->
     <div>
-      <label for="id">Product ID (12 hex characters):</label>
-      <input type="text" name="id" [title]="'String, No spaces'" required
-        [(ngModel)]="product.id"/>
+      <label for="category">Category:</label>
+      <select name="category" [(ngModel)]="product.category">
+        <option value="DESKTOP">Desktop</option>
+        <option value="LAPTOP">Laptop</option>
+        <option value="MONITOR">Monitor</option>
+        <option value="KEYBOARD">Keyboard</option>
+        <option value="MOUSE">Mouse</option>
+        <option value="BACKPACK">Backpack</option>
+      </select>
     </div>
 
+    <!-- Brand -->
     <div>
-      <label for="name">Product Name:</label>
+      <label for="brand">Brand:</label>
+      <select name="brand" [(ngModel)]="product.brand">
+        <option value="SONNY">Sonny</option>
+        <option value="REVOLVO">Revolvo</option>
+        <option value="COURSEAIR">Courseair</option>
+        <option value="H&P">H&P</option>
+        <option value="MAK">Mak</option>
+        <option value="LOGICHTE">LogichTe</option>
+        <option value="AZES">Azes</option>
+      </select>
+    </div>
+
+    <!-- Model -->
+    <div>
+      <label for="model">Model:</label>
+      <input type="text" name="model" [title]="'String'"
+      [(ngModel)]="product.model"/>
+    </div>
+
+    <!-- Name Checkbox -->
+    <div>
+      <span class="note">Auto-generate name
+
+        <input class="checkbox-override" type="checkbox" name="name-override" value="0"
+        (click)="updateNameField()"
+        [(ngModel)]="name_checkbox">
+
+      </span>
+
+    </div>
+
+    <!-- Name -->
+    <div>
+      <label for="name">Name / Title:</label>
       <input type="text" name="name" [title]="'String'"
-      [(ngModel)]="product.name"/>
+      [(ngModel)]="product.name" disabled="name_checkbox"
+      #nameField/>
     </div>
 
-    <div>
-      <label for="img">Path to Image:</label>
-      <input type="text" name="img" [title]="'String'"
-      [(ngModel)]="product.img"/>
-    </div>
-
+    <!-- Price -->
     <div>
       <label for="price">Price:</label>
-      <input type="text" name="price" [title]="'Number'"
+      <input type="text" name="price" [title]="'String'"
       [(ngModel)]="product.price"/>
     </div>
 
+    <!-- Rating -->
     <div>
-      <label for="rating">Rating ( [0-5]/5 ):</label>
+      <label for="rating">Rating:</label>
       <input type="text" name="rating" [title]="'String'"
       [(ngModel)]="product.rating"/>
     </div>
 
+    <!-- Sold -->
     <div>
-      <label for="seller" style="text-decoration: line-through;">Seller ID (skip)</label>
-      <input type="text" name="seller" [title]="'String'" value="seller_id"
-      [(ngModel)]="product.seller"/>
+      <label for="sold">Sold:</label>
+      <input type="text" name="sold" [title]="'String'"
+      [(ngModel)]="product.sold"/>
     </div>
+
+    <span class="note">
+      Product ID is automatically created on backend,
+      and shown after this form is submitted
+    </span>
 
     <div>
       <button type="submit">

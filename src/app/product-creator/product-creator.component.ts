@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { Product } from '../../templates/product';
@@ -9,31 +9,42 @@ import { Product } from '../../templates/product';
   styleUrls: ['./product-creator.component.css'],
 })
 export class ProductCreatorComponent implements OnInit {
-  product = {
-    id: '',
+
+  //#region Name Field Auto-Generation
+
+  @ViewChild("nameField", {read: ElementRef}) nameField: ElementRef<any>;
+
+  // if checked, name field will be generated using model and brand
+  name_checkbox: boolean = true;
+
+  updateNameField() {
+    this.nameField.nativeElement.disabled = !this.name_checkbox;
+  }
+
+  //#endregion Name Field Auto-Generation
+
+  // Initializing from Template
+  product: typeof Product = {
+    category: null,
+    brand: null,
+    model: '',
     name: '',
-    img: '',
-    price: '',
-    rating: '',
-    comments: '',
-    specs: '',
-    seller: '',
-    sold: 0,
-
-    [Symbol.iterator]: function* () {
-      let properties = Object.keys(this);
-      for (let i of properties) {
-        yield i;
-      }
-    }
-
+    price: 0,
+    rating: 1,
+    sold: 0
   };
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   onSubmit() {
+    console.log("Submitted product successfully");
+
+    Object.keys(this.product).map((key, _) => {
+      console.log(`${key}: ${this.product[key]}`);
+    })
 
   }
 }
