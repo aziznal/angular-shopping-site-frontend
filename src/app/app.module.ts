@@ -17,6 +17,9 @@ import { ProductSpecAdderComponent } from './product-spec-adder/product-spec-add
 import { TestProductsPageComponent } from './test-products-page/test-products-page.component';
 import { ServiceTestPageComponent } from './service-test-page/service-test-page.component';
 import { ProductFormsPageComponent } from './product-forms-page/product-forms-page.component';
+import { ProductRemoverFormComponent } from './product-remover-form/product-remover-form.component';
+import { ProductFilterFormComponent } from './product-filter-form/product-filter-form.component';
+import { ProductUpdaterFormComponent } from './product-updater-form/product-updater-form.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +36,9 @@ import { ProductFormsPageComponent } from './product-forms-page/product-forms-pa
     TestProductsPageComponent,
     ServiceTestPageComponent,
     ProductFormsPageComponent,
+    ProductRemoverFormComponent,
+    ProductFilterFormComponent,
+    ProductUpdaterFormComponent,
   ],
   imports: [
     BrowserModule,
