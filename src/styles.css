@@ -31,7 +31,8 @@ app-default-page,
 app-debug-page,
 app-product-creator,
 app-test-products-page,
-app-service-test-page {
+app-service-test-page,
+app-product-forms-page {
   grid-area: middle-side;
 
   margin-bottom: 10em;
