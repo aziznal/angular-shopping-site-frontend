@@ -31,15 +31,15 @@ export class ProductManagementService {
     const options = {
       observe: 'body' as const,
       responseType: 'text' as const,
+      headers: {
+        "Content-Type": "application/json"
+      }
     };
 
     const res = this.http.get(this.endpoint + '/test', options);
 
     return res;
   }
-
-
-  // IMPORTANT: last I was trying to fix COR issue. found something on MDN. link: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Requests_with_credentials
 
   // POST Handler
   postTest() {

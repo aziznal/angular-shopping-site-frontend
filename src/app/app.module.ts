@@ -16,6 +16,7 @@ import { ProductCommentAdderComponent } from './product-comment-adder/product-co
 import { ProductSpecAdderComponent } from './product-spec-adder/product-spec-adder.component';
 import { TestProductsPageComponent } from './test-products-page/test-products-page.component';
 import { ServiceTestPageComponent } from './service-test-page/service-test-page.component';
+import { ProductFormsPageComponent } from './product-forms-page/product-forms-page.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { ServiceTestPageComponent } from './service-test-page/service-test-page.
     ProductSpecAdderComponent,
     TestProductsPageComponent,
     ServiceTestPageComponent,
+    ProductFormsPageComponent,
   ],
   imports: [
     BrowserModule,
