@@ -1,1 +1,45 @@
-<p>product-updater-form works!</p>
+<div class="creator-form">
+  <h2>Product Creator Form</h2>
+
+  <h3 class="dev-link">
+    <a routerLink="/debug/product-forms-page/"><- Back</a>
+  </h3>
+
+  <form action="" id="product-filter" #productCreatorForm="ngForm">
+    <div>
+      <label for="id">Product ID (12 hex characters):</label>
+      <input type="text" name="id" [title]="'String, No spaces'" required/>
+    </div>
+
+    <div>
+      <label for="name">Product Name:</label>
+      <input type="text" name="name" [title]="'String'"/>
+    </div>
+
+    <div>
+      <label for="img">Path to Image:</label>
+      <input type="text" name="img" [title]="'String'"/>
+    </div>
+
+    <div>
+      <label for="price">Price:</label>
+      <input type="text" name="price" [title]="'Number'"/>
+    </div>
+
+    <div>
+      <label for="rating">Rating ( [0-5]/5 ):</label>
+      <input type="text" name="rating" [title]="'String'"/>
+    </div>
+
+    <div>
+      <label for="seller" style="text-decoration: line-through;">Seller ID (skip)</label>
+      <input type="text" name="seller" [title]="'String'" value="seller_id"/>
+    </div>
+
+    <div>
+      <button type="submit">
+        Submit
+      </button>
+    </div>
+  </form>
+</div>

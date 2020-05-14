@@ -1,0 +1,5 @@
+@import url('../debug-page/debug-page.component.css');
+
+.dev-link {
+  transform: scale(0.7, 0.7);
+}

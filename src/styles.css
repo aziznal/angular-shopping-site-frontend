@@ -29,10 +29,13 @@ a:link, a:visited, a:hover, a:active {
 .middle-side,
 app-default-page,
 app-debug-page,
-app-product-creator,
 app-test-products-page,
 app-service-test-page,
-app-product-forms-page {
+app-product-forms-page,
+app-product-creator,
+app-product-updater-form,
+app-product-remover-form,
+app-product-filter-form {
   grid-area: middle-side;
 
   margin-bottom: 10em;
