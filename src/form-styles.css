@@ -12,7 +12,7 @@
 
 }
 
-.product-form span.note {
+span.note {
 
   display: block;
 
@@ -28,7 +28,7 @@
 
 }
 
-.product-form span.center {
+span.note.center {
   text-align: center;
 }
 

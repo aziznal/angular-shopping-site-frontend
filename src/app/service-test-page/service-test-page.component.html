@@ -4,6 +4,8 @@
     Product Service Test Page
   </h1>
 
+  <span class="note center">Note: Open the console to see the output of these tests</span>
+
   <h3 class="dev-link">
     <a routerLink="/debug/"><- Back</a>
   </h3>
@@ -22,6 +24,10 @@
 
   <h3 class="dev-link" (click)="deleteButtonOnclick()">
     <a>DELETE Test</a>
+  </h3>
+
+  <h3 class="dev-link" (click)="ServerResponseTestOnClick()" [title]="'Sends POST request and logs inserted doc id'">
+    <a>Server Response Test</a>
   </h3>
 
 </div>

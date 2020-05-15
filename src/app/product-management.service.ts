@@ -9,11 +9,7 @@ import { catchError, retry } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ProductManagementService {
-  endpoint = '//localhost:3000'; // url of Backend API
-
-  test_headers = {
-
-  }
+  API_URL = '//localhost:3000'; // url of Backend API
 
   constructor(private http: HttpClient) {}
 
@@ -26,6 +22,8 @@ export class ProductManagementService {
     withCredentials?: boolean;
   };
 
+
+  //#region Test Handlers
   getTest(): Observable<any> {
     // IMPORTANT: options can make or break the response handler
     const options = {
@@ -36,7 +34,7 @@ export class ProductManagementService {
       }
     };
 
-    const res = this.http.get(this.endpoint + '/test', options);
+    const res = this.http.get(this.API_URL + '/test', options);
 
     return res;
   }
@@ -49,7 +47,7 @@ export class ProductManagementService {
       responseType: 'text' as const,
     };
 
-    const res = this.http.post( this.endpoint + '/test', { "hello": "there" }, options);
+    const res = this.http.post( this.API_URL + '/test', { "hello": "there" }, options);
 
     return res;
   }
@@ -61,7 +59,7 @@ export class ProductManagementService {
       responseType: 'text' as const,
     };
 
-    const res = this.http.put( this.endpoint + "/test", { "hello": "again" }, options);
+    const res = this.http.put( this.API_URL + "/test", { "hello": "again" }, options);
 
     return res;
 
@@ -74,10 +72,31 @@ export class ProductManagementService {
       responseType: 'text' as const,
     };
 
-    const res = this.http.delete(this.endpoint + "/test", options);
+    const res = this.http.delete(this.API_URL + "/test", options);
 
     return res;
 
   }
+
+  // Server Response Test
+  serverResponseTest() {
+
+    const options = {
+      observe: 'response' as const,
+      responseType: 'text' as const,
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+
+    const res = this.http.post(this.API_URL + "/forms", {"category": "TEST", "name": "Message from Frontend"}, options);
+
+    return res;
+
+  }
+
+  //#endregion Test Handlers
+
+
 
 }

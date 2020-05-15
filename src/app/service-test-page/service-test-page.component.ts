@@ -45,4 +45,11 @@ export class ServiceTestPageComponent implements OnInit {
     })
   }
 
+  // Server Response Test
+  ServerResponseTestOnClick() {
+    this.productService.serverResponseTest().subscribe((data) => {
+      console.log(data.body);
+    })
+  }
+
 }
