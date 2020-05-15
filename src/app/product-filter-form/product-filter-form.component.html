@@ -1,45 +1,100 @@
 <div class="product-form">
-  <h2>Product Creator Form</h2>
+
+  <h2>Product Finder</h2>
+
+  <span class="note center">This form shows the ID of any documents that match the query</span>
+  <span class="note center">Note: No fields are mandatory. You can be as specific as needed.</span>
 
   <h3 class="dev-link">
     <a routerLink="/debug/product-forms-page/"><- Back</a>
   </h3>
 
-  <form action="" id="product-filter" #productCreatorForm="ngForm">
+
+  <form action="" #productCreatorForm="ngForm" (ngSubmit)="onSubmit()">
+
+
+    <!-- ID -->
+    <span class="note">Optional Field: Use to confirm whether an object exists or not</span>
     <div>
-      <label for="id">Product ID (12 hex characters):</label>
-      <input type="text" name="id" [title]="'String, No spaces'" required/>
+      <label for="id">ID:</label>
+      <input type="text" name="id"
+      [(ngModel)]="product.id">
     </div>
 
+    <!-- Category -->
     <div>
-      <label for="name">Product Name:</label>
-      <input type="text" name="name" [title]="'String'"/>
+      <label for="category">Category:</label>
+      <select name="category" [(ngModel)]="product.category" #categoryField>
+        <option value="DESKTOP">Desktop</option>
+        <option value="LAPTOP">Laptop</option>
+        <option value="MONITOR">Monitor</option>
+        <option value="KEYBOARD">Keyboard</option>
+        <option value="MOUSE">Mouse</option>
+        <option value="BACKPACK">Backpack</option>
+      </select>
     </div>
 
+    <!-- Brand -->
     <div>
-      <label for="img">Path to Image:</label>
-      <input type="text" name="img" [title]="'String'"/>
+      <label for="brand">Brand:</label>
+      <select name="brand" [(ngModel)]="product.brand"
+      #brandField>
+        <option value="SONNY">Sonny</option>
+        <option value="REVOLVO">Revolvo</option>
+        <option value="COURSEAIR">Courseair</option>
+        <option value="H&P">H&P</option>
+        <option value="MAK">Mak</option>
+        <option value="LOGICHTE">LogichTe</option>
+        <option value="AZES">Azes</option>
+      </select>
     </div>
 
+    <!-- Model -->
+    <div>
+      <label for="model">Model:</label>
+      <input type="text" name="model" [title]="'String'"
+      [(ngModel)]="product.model"
+      #modelField/>
+    </div>
+
+    <!-- Name -->
+    <div>
+      <label for="name">Name / Title:</label>
+      <input type="text" name="name" [title]="'String'"
+      [(ngModel)]="product.name"
+      #nameField/>
+    </div>
+
+    <!-- Price -->
     <div>
       <label for="price">Price:</label>
-      <input type="text" name="price" [title]="'Number'"/>
+      <input type="text" name="price" [title]="'String'"
+      [(ngModel)]="product.price"/>
     </div>
 
+    <!-- Rating -->
     <div>
-      <label for="rating">Rating ( [0-5]/5 ):</label>
-      <input type="text" name="rating" [title]="'String'"/>
+      <label for="rating">Rating:</label>
+      <input type="text" name="rating" [title]="'String'"
+      [(ngModel)]="product.rating"/>
     </div>
 
+    <!-- Sold -->
     <div>
-      <label for="seller" style="text-decoration: line-through;">Seller ID (skip)</label>
-      <input type="text" name="seller" [title]="'String'" value="seller_id"/>
+      <label for="sold">Sold:</label>
+      <input type="text" name="sold" [title]="'String'"
+      [(ngModel)]="product.sold"/>
     </div>
 
+    <!-- Submit Button -->
     <div>
       <button type="submit">
         Submit
       </button>
     </div>
+
+    <!-- Query Results -->
+    <span class="note center">Results will be shown here</span>
+
   </form>
 </div>

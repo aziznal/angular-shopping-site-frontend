@@ -23,16 +23,7 @@ export class ProductCreatorComponent implements OnInit {
 
   //#endregion Name Field Auto-Generation
 
-  // Initializing from Template
-  product: typeof Product = {
-    category: null,
-    brand: null,
-    model: '',
-    name: '',
-    price: 0,
-    rating: 1,
-    sold: 0
-  };
+  product = {} as Product;
 
   constructor() {}
 

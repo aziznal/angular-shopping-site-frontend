@@ -1,44 +1,100 @@
 <div class="product-form">
-  <h2>Product Creator Form</h2>
+
+  <h2>Product Remover</h2>
 
   <h3 class="dev-link">
     <a routerLink="/debug/product-forms-page/"><- Back</a>
   </h3>
 
-  <form action="" id="product-filter" #productCreatorForm="ngForm">
-    <div>
-      <label for="id">Product ID (12 hex characters):</label>
-      <input type="text" name="id" [title]="'String, No spaces'" required/>
+  <form action="" #productCreatorForm="ngForm" (ngSubmit)="onSubmit()">
+
+    <!-- ID -->
+    <span *ngIf="!foundProduct" class="note center">Specify to-be-removed product using its ID field</span>
+    <div *ngIf="!foundProduct">
+      <!-- <label for="id">Find by ID:</label> -->
+      <input type="text" name="id" (submit)="findProductById()"
+      [(ngModel)]="idToSearch">
     </div>
 
-    <div>
-      <label for="name">Product Name:</label>
-      <input type="text" name="name" [title]="'String'"/>
+    <span class="note center" *ngIf="notFound" style="color: red;">Product was not found</span>
+
+    <div *ngIf="!foundProduct">
+      <button (click)="findProductById()">
+        Search
+      </button>
     </div>
 
-    <div>
-      <label for="img">Path to Image:</label>
-      <input type="text" name="img" [title]="'String'"/>
+    <!-- Category -->
+    <div *ngIf="foundProduct">
+      <label for="category">Category:</label>
+      <select name="category" [(ngModel)]="product.category" #categoryField>
+        <option value="DESKTOP">Desktop</option>
+        <option value="LAPTOP">Laptop</option>
+        <option value="MONITOR">Monitor</option>
+        <option value="KEYBOARD">Keyboard</option>
+        <option value="MOUSE">Mouse</option>
+        <option value="BACKPACK">Backpack</option>
+      </select>
     </div>
 
-    <div>
+    <!-- Brand -->
+    <div *ngIf="foundProduct">
+      <label for="brand">Brand:</label>
+      <select name="brand" [(ngModel)]="product.brand"
+      #brandField>
+        <option value="SONNY">Sonny</option>
+        <option value="REVOLVO">Revolvo</option>
+        <option value="COURSEAIR">Courseair</option>
+        <option value="H&P">H&P</option>
+        <option value="MAK">Mak</option>
+        <option value="LOGICHTE">LogichTe</option>
+        <option value="AZES">Azes</option>
+      </select>
+    </div>
+
+    <!-- Model -->
+    <div *ngIf="foundProduct">
+      <label for="model">Model:</label>
+      <input type="text" name="model" [title]="'String'"
+      [(ngModel)]="product.model"
+      #modelField/>
+    </div>
+
+    <!-- Name -->
+    <div *ngIf="foundProduct">
+      <label for="name">Name / Title:</label>
+      <input type="text" name="name" [title]="'String'"
+      [(ngModel)]="product.name"
+      #nameField/>
+    </div>
+
+    <!-- Price -->
+    <div *ngIf="foundProduct">
       <label for="price">Price:</label>
-      <input type="text" name="price" [title]="'Number'"/>
+      <input type="text" name="price" [title]="'String'"
+      [(ngModel)]="product.price"/>
     </div>
 
-    <div>
-      <label for="rating">Rating ( [0-5]/5 ):</label>
-      <input type="text" name="rating" [title]="'String'"/>
+    <!-- Rating -->
+    <div *ngIf="foundProduct">
+      <label for="rating">Rating:</label>
+      <input type="text" name="rating" [title]="'String'"
+      [(ngModel)]="product.rating"/>
     </div>
 
-    <div>
-      <label for="seller" style="text-decoration: line-through;">Seller ID (skip)</label>
-      <input type="text" name="seller" [title]="'String'" value="seller_id"/>
+    <!-- Sold -->
+    <div *ngIf="foundProduct">
+      <label for="sold">Sold:</label>
+      <input type="text" name="sold" [title]="'String'"
+      [(ngModel)]="product.sold"/>
     </div>
 
-    <div>
+    <span *ngIf="foundProduct" class="note" style="text-align: center;">Blank fields will be unchanged.</span>
+
+    <!-- Submit Button -->
+    <div *ngIf="foundProduct">
       <button type="submit">
-        Submit
+        Delete
       </button>
     </div>
   </form>
