@@ -2,29 +2,44 @@
 
   <h2>Product Updater Form</h2>
 
+  <!-- Back Button -->
   <h3 class="dev-link">
     <a routerLink="/debug/product-forms-page/"><- Back</a>
   </h3>
 
-  <form action="" #productCreatorForm="ngForm" (ngSubmit)="onSubmit()">
+  <!-- Reset Button -->
 
-    <!-- ID -->
-    <span *ngIf="!foundProduct" class="note center">Specify to-be-updated product using its ID field</span>
-    <span class="note center">This will always display false right now</span>
+  <h3 class="dev-link" (click)="onReset()">
+    <a>Reset</a>
+  </h3>
+
+  <form action="" #productCreatorForm="ngForm" >
+
+    <!-- Finding The Product by its ID -->
+    <span *ngIf="!foundProduct" class="note center">Specify to-be-updated product by its ID</span>
+
     <div *ngIf="!foundProduct">
-      <!-- <label for="id">Find by ID:</label> -->
       <input type="text" name="id" (submit)="findProductById()"
       [(ngModel)]="idToSearch">
     </div>
 
     <span class="note center" *ngIf="notFound" style="color: red;">Product was not found</span>
 
+    <!-- Search Button -->
     <div *ngIf="!foundProduct">
       <button (click)="findProductById()">
         Search
       </button>
     </div>
 
+
+    <!-- ID -->
+    <div *ngIf="foundProduct">
+      <label for="_id">ID:</label>
+      <input type="text" name="_id" [title]="'String'"
+      [(ngModel)]="product._id" disabled
+      #modelField/>
+    </div>
     <!-- Category -->
     <div *ngIf="foundProduct">
       <label for="category">Category:</label>
@@ -35,6 +50,7 @@
         <option value="KEYBOARD">Keyboard</option>
         <option value="MOUSE">Mouse</option>
         <option value="BACKPACK">Backpack</option>
+        <option value="TEST">TEST</option>
       </select>
     </div>
 
@@ -94,9 +110,14 @@
 
     <!-- Submit Button -->
     <div *ngIf="foundProduct">
-      <button type="submit">
+      <button (click)="onSubmit()">
         Update
       </button>
     </div>
+
+    <!-- Update Results -->
+    <span class="note center" *ngIf="!productUpdated">a message will appear here if the product is updated successfully</span>
+    <span class="note center" *ngIf="productUpdated" style="color: rgb(31, 151, 31)">Product Successfully Updated</span>
+
   </form>
 </div>

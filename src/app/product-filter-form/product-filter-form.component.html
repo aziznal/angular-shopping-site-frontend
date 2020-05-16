@@ -2,23 +2,28 @@
 
   <h2>Product Finder</h2>
 
-  <span class="note center">This form shows the ID of any documents that match the query</span>
+  <span class="note center">This form shows any documents that match the query</span>
   <span class="note center">Note: No fields are mandatory. You can be as specific as needed.</span>
 
+  <!-- Back Button -->
   <h3 class="dev-link">
     <a routerLink="/debug/product-forms-page/"><- Back</a>
   </h3>
 
+  <!-- Reset Button -->
+
+  <h3 class="dev-link" (click)="onReset()">
+    <a>Reset</a>
+  </h3>
 
   <form action="" #productCreatorForm="ngForm" (ngSubmit)="onSubmit()">
-
 
     <!-- ID -->
     <span class="note">Optional Field: Use to confirm whether an object exists or not</span>
     <div>
       <label for="id">ID:</label>
       <input type="text" name="id"
-      [(ngModel)]="product.id">
+      [(ngModel)]="product._id">
     </div>
 
     <!-- Category -->
@@ -31,6 +36,7 @@
         <option value="KEYBOARD">Keyboard</option>
         <option value="MOUSE">Mouse</option>
         <option value="BACKPACK">Backpack</option>
+        <option value="TEST">TEST</option>
       </select>
     </div>
 
@@ -95,6 +101,56 @@
 
     <!-- Query Results -->
     <span class="note center">Results will be shown here</span>
+
+    <div *ngIf="show_results" class="result-section">
+      <table>
+        <tr>
+          <th>_id</th>
+          <th>category</th>
+          <th>brand</th>
+          <th>model</th>
+          <th>name</th>
+          <th>price</th>
+          <th>rating</th>
+          <th>sold</th>
+        </tr>
+
+        <tr *ngFor="let result of results" class="table-row-container">
+          <td>
+            {{ result._id }}
+          </td>
+
+          <td>
+            {{ result.category }}
+          </td>
+
+          <td>
+            {{ result.brand }}
+          </td>
+
+          <td>
+            {{ result.model }}
+          </td>
+
+          <td>
+            {{ result.name }}
+          </td>
+
+          <td>
+            {{ result.price | currency }}
+          </td>
+
+          <td>
+            {{ result.rating }}
+          </td>
+
+          <td>
+            {{ result.sold }}
+          </td>
+        </tr>
+
+      </table>
+    </div>
 
   </form>
 </div>

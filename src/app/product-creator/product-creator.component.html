@@ -2,8 +2,15 @@
 
   <h2>Product Creator Form</h2>
 
+  <!-- Back Button -->
   <h3 class="dev-link">
     <a routerLink="/debug/product-forms-page/"><- Back</a>
+  </h3>
+
+  <!-- Reset Button -->
+
+  <h3 class="dev-link" (click)="onReset()">
+    <a>Reset</a>
   </h3>
 
   <form action="" #productCreatorForm="ngForm" (ngSubmit)="onSubmit()">
@@ -18,6 +25,7 @@
         <option value="KEYBOARD">Keyboard</option>
         <option value="MOUSE">Mouse</option>
         <option value="BACKPACK">Backpack</option>
+        <option value="TEST">TEST</option>
       </select>
     </div>
 
@@ -93,5 +101,11 @@
         Submit
       </button>
     </div>
+
+    <span class="note center">Created Product's ID will be shown here</span>
+    <div>
+      <h5>{{ product_id }}</h5>
+    </div>
+
   </form>
 </div>

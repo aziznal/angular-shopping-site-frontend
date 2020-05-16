@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
+import { Product } from 'src/templates/product';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,6 @@ export class ProductManagementService {
     withCredentials?: boolean;
   };
 
-
   //#region Test Handlers
   getTest(): Observable<any> {
     // IMPORTANT: options can make or break the response handler
@@ -30,8 +30,8 @@ export class ProductManagementService {
       observe: 'body' as const,
       responseType: 'text' as const,
       headers: {
-        "Content-Type": "application/json"
-      }
+        'Content-Type': 'application/json',
+      },
     };
 
     const res = this.http.get(this.API_URL + '/test', options);
@@ -41,13 +41,16 @@ export class ProductManagementService {
 
   // POST Handler
   postTest() {
-
     const options = {
       observe: 'body' as const,
       responseType: 'text' as const,
     };
 
-    const res = this.http.post( this.API_URL + '/test', { "hello": "there" }, options);
+    const res = this.http.post(
+      this.API_URL + '/test',
+      { hello: 'there' },
+      options
+    );
 
     return res;
   }
@@ -59,10 +62,13 @@ export class ProductManagementService {
       responseType: 'text' as const,
     };
 
-    const res = this.http.put( this.API_URL + "/test", { "hello": "again" }, options);
+    const res = this.http.put(
+      this.API_URL + '/test',
+      { hello: 'again' },
+      options
+    );
 
     return res;
-
   }
 
   // DELETE Handler
@@ -72,31 +78,108 @@ export class ProductManagementService {
       responseType: 'text' as const,
     };
 
-    const res = this.http.delete(this.API_URL + "/test", options);
+    const res = this.http.delete(this.API_URL + '/test', options);
 
     return res;
-
   }
 
   // Server Response Test
   serverResponseTest() {
-
     const options = {
       observe: 'response' as const,
       responseType: 'text' as const,
       headers: {
-        "Content-Type": "application/json"
-      }
+        'Content-Type': 'application/json',
+      },
     };
 
-    const res = this.http.post(this.API_URL + "/forms", {"category": "TEST", "name": "Message from Frontend"}, options);
+    const res = this.http.post(
+      this.API_URL + '/forms',
+      { category: 'TEST', name: 'Message from Frontend' },
+      options
+    );
 
     return res;
-
   }
 
   //#endregion Test Handlers
 
+  // Search Query
+  getDocs(query, callback) {
+    const getOptions = {
+      observe: 'body' as const,
+      responseType: 'json' as const,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
 
+    this.http.post(this.API_URL + '/forms/get', query, getOptions).subscribe(
+      (response) => {
+        callback(response);
+      },
+      (err) => {
+        callback(err);
+      }
+    );
+  }
+
+  // Product Create Request
+  createProduct(product: Product, callback) {
+    const postOptions = {
+      observe: 'body' as const,
+      responseType: 'text' as const,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    this.http
+      .post(this.API_URL + '/forms', product, postOptions)
+      .subscribe((response) => {
+        callback(response);
+      });
+  }
+
+  // Product Update Request
+  updateProduct(product: Product, callback) {
+    const putOptions = {
+      observe: 'body' as const,
+      responseType: 'text' as const,
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }
+
+    this.http.put(this.API_URL + "/forms", product, putOptions).subscribe(
+      (response) => {
+        callback(response);
+      },
+      (err) => {
+        callback(err);
+      }
+    )
+  }
+
+  // Product Delete Request
+  removeProduct(product: Product, callback) {
+    const deleteOptions = {
+      observe: 'body' as const,
+      responseType: 'text' as const,
+      headers: {
+        "Content-Type": "application/json"
+      },
+    };
+
+    this.http.post(this.API_URL + "/forms/delete", product, deleteOptions).subscribe(
+      (response) => {
+        callback(response);
+      },
+      (err) => {
+        callback(err);
+      }
+    )
+
+  }
 
 }

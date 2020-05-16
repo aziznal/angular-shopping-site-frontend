@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+
+import { ProductManagementService } from '../product-management.service';
 import { Product } from 'src/templates/product';
 
 @Component({
@@ -8,32 +10,70 @@ import { Product } from 'src/templates/product';
 })
 export class ProductRemoverFormComponent implements OnInit {
 
-  constructor() { }
+  constructor(private productService: ProductManagementService) { }
 
   ngOnInit(): void {
   }
 
-  foundProduct: boolean = false;  // set to true once product is found
-  notFound: boolean;              // set to false if product not found after search
+    //#region Finding the product
+    foundProduct: boolean = false; // set to true once product is found
+    notFound: boolean = false; // set to false if product not found after search
 
-  idToSearch: string;
+    idToSearch: string;
 
-  findProductById(): void {
-    // TODO: Set this method up once backend is ready
-    this.foundProduct = true;
-    this.notFound = false;
-  }
+    productRemoved: boolean = false;
 
-  // Initializing from Template
-  product = {} as Product;
+    findProductById(): void {
 
-  onSubmit() {
-    console.log("Submitted product successfully");
+      // Don't show form before an item with an ID is entered
+      if (this.idToSearch === undefined){
+        this.notFound = true;
+        return;
+      };
 
-    Object.keys(this.product).map((key, _) => {
-      console.log(`${key}: ${this.product[key]}`);
-    })
+      this.productService.getDocs({"_id": this.idToSearch}, (response) => {
 
-  }
+        if (response.status == 404) {
+          this.notFound = true;
+          return;
+        }
+
+        console.log(response);
+
+        this.notFound = false;
+        this.foundProduct = true;
+
+        this.product = response[0];
+
+        }
+      );
+    }
+
+    //#endregion Finding the product
+
+    // Initializing from Template
+    product = {} as Product;
+
+    onSubmit() {
+      this.productService.removeProduct(this.product, (response) => {
+
+        if (response.status == 404) {
+          console.log("Something went wrong");
+          console.error(response);
+          return;
+        }
+
+        this.productRemoved = true;
+
+      });
+    }
+
+    onReset() {
+      this.product = {} as Product;
+      this.foundProduct = false;
+      this.notFound = false;
+      this.idToSearch = undefined;
+      this.productRemoved = false;
+    }
 
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/templates/product';
+import { ProductManagementService } from '../product-management.service';
 
 @Component({
   selector: 'app-product-filter-form',
@@ -8,20 +9,39 @@ import { Product } from 'src/templates/product';
 })
 export class ProductFilterFormComponent implements OnInit {
 
-  constructor() { }
+  constructor( private productService: ProductManagementService ) { }
 
   ngOnInit(): void {
   }
 
-  product = {} as Product;
+  // IMPORTANT: last I was about to see the results of a request to the backend.
 
+  product = {} as Product;
+  results = {} as Product | Product[];
+  show_results:boolean = false;
+
+  // Form Submit Button
   onSubmit(){
 
     console.log(this.product);
 
-    Object.keys(this.product).map((key, _) => {
-      console.log(`${key}: ${this.product[key]}`);
-    })
+    this.productService.getDocs(this.product, (search_results) => {
+      this.results = search_results;
+      this.show_results = true;
+
+      console.log("\nGot the following as response from the server:\n");
+      console.log(this.results);
+
+    });
+
   }
+
+  // Form Reset Button
+  onReset(){
+    this.product = {} as Product;
+    this.results = {} as Product | Product[];
+    this.show_results = false;
+  }
+
 
 }

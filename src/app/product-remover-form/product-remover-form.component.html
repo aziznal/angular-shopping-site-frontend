@@ -1,46 +1,63 @@
 <div class="product-form">
 
-  <h2>Product Remover</h2>
+  <h2>Product Updater Form</h2>
 
+  <!-- Back Button -->
   <h3 class="dev-link">
     <a routerLink="/debug/product-forms-page/"><- Back</a>
   </h3>
 
-  <form action="" #productCreatorForm="ngForm" (ngSubmit)="onSubmit()">
+  <!-- Reset Button -->
 
-    <!-- ID -->
-    <span *ngIf="!foundProduct" class="note center">Specify to-be-removed product using its ID field</span>
+  <h3 class="dev-link" (click)="onReset()">
+    <a>Reset</a>
+  </h3>
+
+  <form action="" #productCreatorForm="ngForm" >
+
+    <!-- Finding The Product by its ID -->
+    <span *ngIf="!foundProduct" class="note center">Specify to-be-removed product by its ID</span>
+
     <div *ngIf="!foundProduct">
-      <!-- <label for="id">Find by ID:</label> -->
       <input type="text" name="id" (submit)="findProductById()"
       [(ngModel)]="idToSearch">
     </div>
 
     <span class="note center" *ngIf="notFound" style="color: red;">Product was not found</span>
 
+    <!-- Search Button -->
     <div *ngIf="!foundProduct">
       <button (click)="findProductById()">
         Search
       </button>
     </div>
 
+
+    <!-- ID -->
+    <div *ngIf="foundProduct">
+      <label for="_id">ID:</label>
+      <input type="text" name="_id" [title]="'String'"
+      [(ngModel)]="product._id" disabled
+      #modelField/>
+    </div>
     <!-- Category -->
     <div *ngIf="foundProduct">
       <label for="category">Category:</label>
-      <select name="category" [(ngModel)]="product.category" #categoryField>
+      <select name="category" [(ngModel)]="product.category" disabled #categoryField>
         <option value="DESKTOP">Desktop</option>
         <option value="LAPTOP">Laptop</option>
         <option value="MONITOR">Monitor</option>
         <option value="KEYBOARD">Keyboard</option>
         <option value="MOUSE">Mouse</option>
         <option value="BACKPACK">Backpack</option>
+        <option value="TEST">TEST</option>
       </select>
     </div>
 
     <!-- Brand -->
     <div *ngIf="foundProduct">
       <label for="brand">Brand:</label>
-      <select name="brand" [(ngModel)]="product.brand"
+      <select name="brand" [(ngModel)]="product.brand" disabled
       #brandField>
         <option value="SONNY">Sonny</option>
         <option value="REVOLVO">Revolvo</option>
@@ -56,7 +73,7 @@
     <div *ngIf="foundProduct">
       <label for="model">Model:</label>
       <input type="text" name="model" [title]="'String'"
-      [(ngModel)]="product.model"
+      [(ngModel)]="product.model" disabled
       #modelField/>
     </div>
 
@@ -64,7 +81,7 @@
     <div *ngIf="foundProduct">
       <label for="name">Name / Title:</label>
       <input type="text" name="name" [title]="'String'"
-      [(ngModel)]="product.name"
+      [(ngModel)]="product.name" disabled
       #nameField/>
     </div>
 
@@ -72,30 +89,34 @@
     <div *ngIf="foundProduct">
       <label for="price">Price:</label>
       <input type="text" name="price" [title]="'String'"
-      [(ngModel)]="product.price"/>
+      [(ngModel)]="product.price" disabled/>
     </div>
 
     <!-- Rating -->
     <div *ngIf="foundProduct">
       <label for="rating">Rating:</label>
       <input type="text" name="rating" [title]="'String'"
-      [(ngModel)]="product.rating"/>
+      [(ngModel)]="product.rating" disabled/>
     </div>
 
     <!-- Sold -->
     <div *ngIf="foundProduct">
       <label for="sold">Sold:</label>
       <input type="text" name="sold" [title]="'String'"
-      [(ngModel)]="product.sold"/>
+      [(ngModel)]="product.sold" disabled/>
     </div>
 
     <span *ngIf="foundProduct" class="note" style="text-align: center;">Blank fields will be unchanged.</span>
 
     <!-- Submit Button -->
     <div *ngIf="foundProduct">
-      <button type="submit">
+      <button (click)="onSubmit()" style="color: darkred;">
         Delete
       </button>
     </div>
+
+    <!-- Update Results -->
+    <span class="note center" *ngIf="productRemoved" style="color: rgb(31, 151, 31)">Product Deleted</span>
+
   </form>
 </div>
