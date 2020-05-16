@@ -20,7 +20,6 @@
   font-family: sans-serif;
   cursor: pointer;
 
-
 }
 
 .dev-link a {
@@ -28,7 +27,7 @@
   text-align: center;
 
   display: block;
-  width: 12em;
+  min-width: 12em;
 
   color: rgb(0, 0, 102);
   padding: 1.3em;
@@ -44,3 +43,60 @@
   color: cadetblue;
   background-color: rgb(245, 245, 245);
 }
+
+.dev-link.result a {
+  cursor: text;
+  color: black;
+  min-width: 12em;
+  max-width: 16em;
+}
+
+.dev-link.result a:hover {
+  color: black;
+  background-color: rgb(238, 238, 238);
+}
+
+.result-section {
+
+  margin: 0;
+  padding: 0;
+
+  width: 100%;
+  font-size: 0.8em;
+
+  border-collapse: collapse;
+  font-family: consolas;
+
+}
+
+.table-row-container th {
+  margin: auto;
+  min-width: 6em;
+
+  padding: 0.4em 0;
+
+  border: 1px solid black;
+  background-color: rgb(204, 204, 204);
+
+  font-weight: bold;
+}
+
+.table-row-container td {
+  padding: 0.3em 0.5em;
+  border: 1px solid black;
+
+  text-align: left;
+  font-weight: 400;
+
+  background-color: rgb(170, 207, 255);
+
+}
+
+.table-row-container:nth-child(odd) > td {
+  background-color: rgb(194, 220, 255);
+}
+
+.table-row-container:hover > td {
+  background-color: rgb(122, 142, 255);
+}
+

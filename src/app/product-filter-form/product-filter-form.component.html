@@ -1,9 +1,9 @@
 <div class="product-form">
 
-  <h2>Product Finder</h2>
+  <h2>Finder</h2>
 
   <span class="note center">This form shows any documents that match the query</span>
-  <span class="note center">Note: No fields are mandatory. You can be as specific as needed.</span>
+  <span class="note center">Note: Submitting without any fields filled will retrieve ALL Products in the database</span>
 
   <!-- Back Button -->
   <h3 class="dev-link">
@@ -11,7 +11,6 @@
   </h3>
 
   <!-- Reset Button -->
-
   <h3 class="dev-link" (click)="onReset()">
     <a>Reset</a>
   </h3>
@@ -19,17 +18,17 @@
   <form action="" #productCreatorForm="ngForm" (ngSubmit)="onSubmit()">
 
     <!-- ID -->
-    <span class="note">Optional Field: Use to confirm whether an object exists or not</span>
     <div>
       <label for="id">ID:</label>
       <input type="text" name="id"
+      [title]="'24 Hex Characters'"
       [(ngModel)]="product._id">
     </div>
 
     <!-- Category -->
     <div>
       <label for="category">Category:</label>
-      <select name="category" [(ngModel)]="product.category" #categoryField>
+      <select name="category" [(ngModel)]="product.category" [title]="'Product Category'">
         <option value="DESKTOP">Desktop</option>
         <option value="LAPTOP">Laptop</option>
         <option value="MONITOR">Monitor</option>
@@ -43,8 +42,7 @@
     <!-- Brand -->
     <div>
       <label for="brand">Brand:</label>
-      <select name="brand" [(ngModel)]="product.brand"
-      #brandField>
+      <select name="brand" [(ngModel)]="product.brand" [title]="'Product Brand'">
         <option value="SONNY">Sonny</option>
         <option value="REVOLVO">Revolvo</option>
         <option value="COURSEAIR">Courseair</option>
@@ -58,37 +56,36 @@
     <!-- Model -->
     <div>
       <label for="model">Model:</label>
-      <input type="text" name="model" [title]="'String'"
-      [(ngModel)]="product.model"
-      #modelField/>
+      <input type="text" name="model" [title]="'Product Model e.g: Pavilion XP-17'"/>
     </div>
 
     <!-- Name -->
     <div>
       <label for="name">Name / Title:</label>
-      <input type="text" name="name" [title]="'String'"
-      [(ngModel)]="product.name"
-      #nameField/>
+      <input type="text" name="name"
+      [title]="'Usually consists of Brand + Model. Add more details if needed.'"/>
     </div>
 
     <!-- Price -->
     <div>
       <label for="price">Price:</label>
-      <input type="text" name="price" [title]="'String'"
+      <input type="text" name="price" [title]="'Product Price (American Dollar)'"
       [(ngModel)]="product.price"/>
     </div>
 
     <!-- Rating -->
     <div>
       <label for="rating">Rating:</label>
-      <input type="text" name="rating" [title]="'String'"
+      <input type="text" name="rating"
+      [title]="'Any number between 1.00 and 4.99'"
       [(ngModel)]="product.rating"/>
     </div>
 
     <!-- Sold -->
     <div>
       <label for="sold">Sold:</label>
-      <input type="text" name="sold" [title]="'String'"
+      <input type="text" name="sold"
+      [title]="'Amount sold of Product.'"
       [(ngModel)]="product.sold"/>
     </div>
 
@@ -102,9 +99,9 @@
     <!-- Query Results -->
     <span class="note center">Results will be shown here</span>
 
-    <div *ngIf="show_results" class="result-section">
-      <table>
-        <tr>
+    <div *ngIf="show_results" style="border: 1px solid black;">
+      <table class="result-section">
+        <tr class="table-row-container">
           <th>_id</th>
           <th>category</th>
           <th>brand</th>
@@ -119,36 +116,28 @@
           <td>
             {{ result._id }}
           </td>
-
           <td>
             {{ result.category }}
           </td>
-
           <td>
             {{ result.brand }}
           </td>
-
           <td>
             {{ result.model }}
           </td>
-
           <td>
             {{ result.name }}
           </td>
-
           <td>
             {{ result.price | currency }}
           </td>
-
           <td>
             {{ result.rating }}
           </td>
-
           <td>
             {{ result.sold }}
           </td>
         </tr>
-
       </table>
     </div>
 

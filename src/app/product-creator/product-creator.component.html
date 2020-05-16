@@ -1,6 +1,6 @@
 <div class="product-form">
 
-  <h2>Product Creator Form</h2>
+  <h2>Creator</h2>
 
   <!-- Back Button -->
   <h3 class="dev-link">
@@ -18,7 +18,7 @@
     <!-- Category -->
     <div>
       <label for="category">Category:</label>
-      <select name="category" [(ngModel)]="product.category">
+      <select name="category" [(ngModel)]="product.category" [title]="'Product Category'">
         <option value="DESKTOP">Desktop</option>
         <option value="LAPTOP">Laptop</option>
         <option value="MONITOR">Monitor</option>
@@ -32,7 +32,7 @@
     <!-- Brand -->
     <div>
       <label for="brand">Brand:</label>
-      <select name="brand" [(ngModel)]="product.brand">
+      <select name="brand" [(ngModel)]="product.brand" [title]="'Product Brand'">
         <option value="SONNY">Sonny</option>
         <option value="REVOLVO">Revolvo</option>
         <option value="COURSEAIR">Courseair</option>
@@ -47,6 +47,7 @@
     <div>
       <label for="model">Model:</label>
       <input type="text" name="model" [title]="'String'"
+      [title]="'Product Model e.g: Pavilion XP-17'"
       [(ngModel)]="product.model"/>
     </div>
 
@@ -67,45 +68,46 @@
       <label for="name">Name / Title:</label>
       <input type="text" name="name" [title]="'String'"
       [(ngModel)]="product.name" disabled="name_checkbox"
+      [title]="'Usually consists of Brand + Model. Add more details if needed.'"
       #nameField/>
     </div>
 
     <!-- Price -->
     <div>
       <label for="price">Price:</label>
-      <input type="text" name="price" [title]="'String'"
+      <input type="text" name="price" [title]="'Product Price (American Dollar)'"
       [(ngModel)]="product.price"/>
     </div>
 
     <!-- Rating -->
     <div>
       <label for="rating">Rating:</label>
-      <input type="text" name="rating" [title]="'String'"
+      <input type="text" name="rating" [title]="'Any number between 1.00 and 4.99'"
       [(ngModel)]="product.rating"/>
     </div>
 
     <!-- Sold -->
     <div>
       <label for="sold">Sold:</label>
-      <input type="text" name="sold" [title]="'String'"
+      <input type="text" name="sold" [title]="'Amount sold of Product.'"
       [(ngModel)]="product.sold"/>
     </div>
 
     <span class="note">
-      Product ID is automatically created on backend,
-      and shown after this form is submitted
+      Product ID is shown at the bottom after creation
     </span>
 
+    <!-- Submit Button -->
     <div>
       <button type="submit">
         Submit
       </button>
     </div>
 
-    <span class="note center">Created Product's ID will be shown here</span>
-    <div>
-      <h5>{{ product_id }}</h5>
-    </div>
+    <!-- Showing Product ID after product creation -->
+    <h3 class="dev-link result">
+      <a>{{ product_id }}</a>
+    </h3>
 
   </form>
 </div>

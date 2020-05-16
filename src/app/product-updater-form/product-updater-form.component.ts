@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { ProductManagementService } from '../product-management.service';
 
 import { Product } from 'src/templates/product';
@@ -22,15 +23,13 @@ export class ProductUpdaterFormComponent implements OnInit {
   productUpdated: boolean = false;
 
   findProductById(): void {
-
     // Don't show form before an item with an ID is entered
-    if (this.idToSearch === undefined){
+    if (this.idToSearch === undefined) {
       this.notFound = true;
       return;
-    };
+    }
 
-    this.productService.getDocs({"_id": this.idToSearch}, (response) => {
-
+    this.productService.getDocs({ _id: this.idToSearch }, (response) => {
       if (response.status == 404) {
         this.notFound = true;
         return;
@@ -42,9 +41,7 @@ export class ProductUpdaterFormComponent implements OnInit {
       this.foundProduct = true;
 
       this.product = response[0];
-
-      }
-    );
+    });
   }
 
   //#endregion Finding the product
@@ -54,14 +51,12 @@ export class ProductUpdaterFormComponent implements OnInit {
 
   onSubmit() {
     this.productService.updateProduct(this.product, (response) => {
-
       if (response.status == 404) {
-        console.log("Something went wrong");
+        console.log('Something went wrong');
         return;
       }
 
       this.productUpdated = true;
-
     });
   }
 

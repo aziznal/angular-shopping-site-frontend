@@ -1,6 +1,6 @@
 <div class="product-form">
 
-  <h2>Product Updater Form</h2>
+  <h2>Updater</h2>
 
   <!-- Back Button -->
   <h3 class="dev-link">
@@ -8,7 +8,6 @@
   </h3>
 
   <!-- Reset Button -->
-
   <h3 class="dev-link" (click)="onReset()">
     <a>Reset</a>
   </h3>
@@ -16,7 +15,7 @@
   <form action="" #productCreatorForm="ngForm" >
 
     <!-- Finding The Product by its ID -->
-    <span *ngIf="!foundProduct" class="note center">Specify to-be-updated product by its ID</span>
+    <span *ngIf="!foundProduct" class="note center">Specify a product by its ID</span>
 
     <div *ngIf="!foundProduct">
       <input type="text" name="id" (submit)="findProductById()"
@@ -32,18 +31,18 @@
       </button>
     </div>
 
-
     <!-- ID -->
     <div *ngIf="foundProduct">
       <label for="_id">ID:</label>
       <input type="text" name="_id" [title]="'String'"
       [(ngModel)]="product._id" disabled
-      #modelField/>
+      />
     </div>
+
     <!-- Category -->
     <div *ngIf="foundProduct">
       <label for="category">Category:</label>
-      <select name="category" [(ngModel)]="product.category" #categoryField>
+      <select name="category" [(ngModel)]="product.category" [title]="'Product Category'" >
         <option value="DESKTOP">Desktop</option>
         <option value="LAPTOP">Laptop</option>
         <option value="MONITOR">Monitor</option>
@@ -57,8 +56,8 @@
     <!-- Brand -->
     <div *ngIf="foundProduct">
       <label for="brand">Brand:</label>
-      <select name="brand" [(ngModel)]="product.brand"
-      #brandField>
+      <select name="brand" [(ngModel)]="product.brand" [title]="'Product Brand'"
+      >
         <option value="SONNY">Sonny</option>
         <option value="REVOLVO">Revolvo</option>
         <option value="COURSEAIR">Courseair</option>
@@ -72,37 +71,37 @@
     <!-- Model -->
     <div *ngIf="foundProduct">
       <label for="model">Model:</label>
-      <input type="text" name="model" [title]="'String'"
+      <input type="text" name="model" [title]="'Product Model e.g: Pavilion XP-17'"
       [(ngModel)]="product.model"
-      #modelField/>
+      />
     </div>
 
     <!-- Name -->
     <div *ngIf="foundProduct">
       <label for="name">Name / Title:</label>
-      <input type="text" name="name" [title]="'String'"
+      <input type="text" name="name" [title]="'Usually consists of Brand + Model. Add more details if needed.'"
       [(ngModel)]="product.name"
-      #nameField/>
+      />
     </div>
 
     <!-- Price -->
     <div *ngIf="foundProduct">
       <label for="price">Price:</label>
-      <input type="text" name="price" [title]="'String'"
+      <input type="text" name="price" [title]="'Product Price (American Dollar)'"
       [(ngModel)]="product.price"/>
     </div>
 
     <!-- Rating -->
     <div *ngIf="foundProduct">
       <label for="rating">Rating:</label>
-      <input type="text" name="rating" [title]="'String'"
+      <input type="text" name="rating" [title]="'Any number between 1.00 and 4.99'"
       [(ngModel)]="product.rating"/>
     </div>
 
     <!-- Sold -->
     <div *ngIf="foundProduct">
       <label for="sold">Sold:</label>
-      <input type="text" name="sold" [title]="'String'"
+      <input type="text" name="sold" [title]="'Amount sold of Product.'"
       [(ngModel)]="product.sold"/>
     </div>
 
@@ -116,8 +115,9 @@
     </div>
 
     <!-- Update Results -->
-    <span class="note center" *ngIf="!productUpdated">a message will appear here if the product is updated successfully</span>
-    <span class="note center" *ngIf="productUpdated" style="color: rgb(31, 151, 31)">Product Successfully Updated</span>
+    <h3 class="dev-link result" *ngIf="productUpdated">
+      <a style="color: green; cursor: default;">Successfully Updated</a>
+    </h3>
 
   </form>
 </div>

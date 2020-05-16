@@ -1,6 +1,6 @@
 <div class="product-form">
 
-  <h2>Product Updater Form</h2>
+  <h2>Remover</h2>
 
   <!-- Back Button -->
   <h3 class="dev-link">
@@ -16,10 +16,10 @@
   <form action="" #productCreatorForm="ngForm" >
 
     <!-- Finding The Product by its ID -->
-    <span *ngIf="!foundProduct" class="note center">Specify to-be-removed product by its ID</span>
+    <span *ngIf="!foundProduct" class="note center">Specify a product by its ID</span>
 
     <div *ngIf="!foundProduct">
-      <input type="text" name="id" (submit)="findProductById()"
+      <input type="text" name="id" (submit)="findProductById()" [title]="'24 Hex Characters'"
       [(ngModel)]="idToSearch">
     </div>
 
@@ -36,14 +36,13 @@
     <!-- ID -->
     <div *ngIf="foundProduct">
       <label for="_id">ID:</label>
-      <input type="text" name="_id" [title]="'String'"
-      [(ngModel)]="product._id" disabled
-      #modelField/>
+      <input type="text" name="_id" [title]="'24 Hex Characters'"
+      [(ngModel)]="product._id" disabled />
     </div>
     <!-- Category -->
     <div *ngIf="foundProduct">
       <label for="category">Category:</label>
-      <select name="category" [(ngModel)]="product.category" disabled #categoryField>
+      <select name="category" [(ngModel)]="product.category" disabled [title]="'Product Category'">
         <option value="DESKTOP">Desktop</option>
         <option value="LAPTOP">Laptop</option>
         <option value="MONITOR">Monitor</option>
@@ -57,8 +56,7 @@
     <!-- Brand -->
     <div *ngIf="foundProduct">
       <label for="brand">Brand:</label>
-      <select name="brand" [(ngModel)]="product.brand" disabled
-      #brandField>
+      <select name="brand" [(ngModel)]="product.brand" disabled [title]="'Product Brand'">
         <option value="SONNY">Sonny</option>
         <option value="REVOLVO">Revolvo</option>
         <option value="COURSEAIR">Courseair</option>
@@ -72,41 +70,37 @@
     <!-- Model -->
     <div *ngIf="foundProduct">
       <label for="model">Model:</label>
-      <input type="text" name="model" [title]="'String'"
-      [(ngModel)]="product.model" disabled
-      #modelField/>
+      <input type="text" name="model"
+      [(ngModel)]="product.model" disabled [title]="'Product Model e.g: Pavilion XP-17'" />
     </div>
 
     <!-- Name -->
     <div *ngIf="foundProduct">
       <label for="name">Name / Title:</label>
-      <input type="text" name="name" [title]="'String'"
-      [(ngModel)]="product.name" disabled
-      #nameField/>
+      <input type="text" name="name" [title]="'Usually consists of Brand + Model. Add more details if needed.'"
+      [(ngModel)]="product.name" disabled />
     </div>
 
     <!-- Price -->
     <div *ngIf="foundProduct">
       <label for="price">Price:</label>
-      <input type="text" name="price" [title]="'String'"
+      <input type="text" name="price" [title]="'Product Price (American Dollar)'"
       [(ngModel)]="product.price" disabled/>
     </div>
 
     <!-- Rating -->
     <div *ngIf="foundProduct">
       <label for="rating">Rating:</label>
-      <input type="text" name="rating" [title]="'String'"
+      <input type="text" name="rating" [title]="'Any number between 1.00 and 4.99'"
       [(ngModel)]="product.rating" disabled/>
     </div>
 
     <!-- Sold -->
     <div *ngIf="foundProduct">
       <label for="sold">Sold:</label>
-      <input type="text" name="sold" [title]="'String'"
+      <input type="text" name="sold" [title]="'Amount sold of Product.'"
       [(ngModel)]="product.sold" disabled/>
     </div>
-
-    <span *ngIf="foundProduct" class="note" style="text-align: center;">Blank fields will be unchanged.</span>
 
     <!-- Submit Button -->
     <div *ngIf="foundProduct">
@@ -115,8 +109,10 @@
       </button>
     </div>
 
-    <!-- Update Results -->
-    <span class="note center" *ngIf="productRemoved" style="color: rgb(31, 151, 31)">Product Deleted</span>
+    <!-- Deletion Results -->
+    <h3 class="dev-link result" *ngIf="productRemoved">
+      <a style="color: green; cursor: default;">Successfully Deleted</a>
+    </h3>
 
   </form>
 </div>
