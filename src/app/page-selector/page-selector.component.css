@@ -1,0 +1,37 @@
+.page-selector-container {
+
+  display: flex;
+
+  justify-content: center;
+
+  padding: 1em;
+  margin: 1em;
+
+  font-size: 1.1em;
+}
+
+.page-selector-container input {
+  width: 2em;
+  text-align: center;
+
+  border: 1px solid rgb(128, 128, 128);
+  border-radius: 2px;
+
+}
+
+.page-selector-container button {
+  padding: 0.3em 0.5em;
+  margin: 0 0.3em;
+
+  background-color: aliceblue;
+
+  cursor: pointer;
+
+  border: none;
+  border: 1px solid rgb(126, 126, 126);
+
+}
+
+.page-selector-container button:hover {
+  background-color: rgb(225, 242, 255);
+}

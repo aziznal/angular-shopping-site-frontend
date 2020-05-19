@@ -6,6 +6,7 @@
   margin-top: 3em;
 
   display: grid;
+
   grid-template-columns: 1fr 3fr;
 
   font-family: sans-serif;
@@ -14,6 +15,7 @@
 
 .sidebar {
   padding: 1em;
+
 }
 
 .product-filters {
@@ -48,6 +50,7 @@
 /* Filters & Product Grid Container */
 .products-container {
   border: 1px solid rgb(163, 163, 163);
+
 }
 
 .product-grid {

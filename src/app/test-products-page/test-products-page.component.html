@@ -2,6 +2,10 @@
   <app-sidebar class="sidebar"></app-sidebar>
 
   <div class="products-container">
+
+    <!-- Page Selector -->
+    <app-page-selector></app-page-selector>
+
     <ul class="product-filters">
       <!-- Filters for viewing products sorted in different ways -->
       <li *ngFor="let filter of search_filters">
@@ -46,5 +50,9 @@
         <h4 class="product-price">{{ product.price | currency }}</h4>
       </a>
     </div>
+
+    <!-- Page Selector -->
+    <app-page-selector></app-page-selector>
+
   </div>
 </div>

@@ -18,27 +18,35 @@ export class TestProductsPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
+    this.route.queryParams.subscribe(params => {
+      this.page_number = params.page;
+    });
+
     this.route.params.subscribe(params => {
-      this.loadData(params.category);
-    })
+      this.category = params.category;
+    });
+
+    this.loadData(this.category, this.page_number);
+
   }
 
   // Page Variables
   products: Product[] | null;
   search_filters = search_filters;
 
-  loadData(category: string){
+  page_number: number;
+  category: string;
 
-    this.productService.getDocs({"category": category}, (response) => {
-      if (response.status == 404) console.log("No Products Were Found!");
+  loadData(category: string, page_number: number){
+    this.productService.advancedGetDocs(page_number, {"category": category}, (response) => {
+      if (response.status == 404) console.log("404 No Products were found!");
 
-      console.log("Found " + response.length + " Products!");
+      console.log("Displaying " + response.length + " Products");
       this.products = response;
-    });
-
-
-    return true;
+    })
   }
+
 
   //#region Rating Stars
 

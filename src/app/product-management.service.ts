@@ -104,6 +104,8 @@ export class ProductManagementService {
 
   //#endregion Test Handlers
 
+  // BUG: numerical fields (price, rating, etc, are being posted to db as strings. again.)
+
   // Search Query
   getDocs(query, callback) {
     const getOptions = {
@@ -181,5 +183,29 @@ export class ProductManagementService {
     )
 
   }
+
+
+  //#region Advanced Product Queries
+  advancedGetDocs(page_num, query, callback){
+    const getOptions = {
+      observe: 'body' as const,
+      responseType: 'json' as const,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const url = this.API_URL + '/browse?page=' + page_num;
+
+    this.http.post(url, query, getOptions).subscribe(
+      (response) => {
+        callback(response);
+      },
+      (err) => {
+        callback(err);
+      }
+    );
+  }
+  //#endregion Advanced Product Queries
 
 }

@@ -20,6 +20,7 @@ import { ProductFormsPageComponent } from './product-forms-page/product-forms-pa
 import { ProductRemoverFormComponent } from './product-remover-form/product-remover-form.component';
 import { ProductFilterFormComponent } from './product-filter-form/product-filter-form.component';
 import { ProductUpdaterFormComponent } from './product-updater-form/product-updater-form.component';
+import { PageSelectorComponent } from './page-selector/page-selector.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { ProductUpdaterFormComponent } from './product-updater-form/product-upda
     ProductRemoverFormComponent,
     ProductFilterFormComponent,
     ProductUpdaterFormComponent,
+    PageSelectorComponent,
   ],
   imports: [
     BrowserModule,
