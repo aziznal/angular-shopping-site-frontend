@@ -17,7 +17,7 @@ import { ProductFilterFormComponent } from './product-filter-form/product-filter
 const routes: Routes = [
   { path: '', component: DefaultPageComponent },
   { path: 'debug', component: DebugPageComponent },
-  { path: 'debug/product-test-page', component: TestProductsPageComponent },
+  { path: 'debug/product-test-page/:category', component: TestProductsPageComponent },
   { path: 'debug/service-test-page', component: ServiceTestPageComponent },
 
 

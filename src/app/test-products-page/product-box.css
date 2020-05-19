@@ -1,12 +1,76 @@
 /* this is the container for each product in the grid */
 
 .product-box {
+
+  display: flex;
+  flex-direction: column;
+
   padding: 0.3em;
-  margin: 0.3em;
+  margin: 0.6em;
 
-  width: 30%;
-  height: 24em;
+  width: 22em;
 
-  border: 1px dashed black;
+  height: 42em;
 
+  border: 1px solid rgb(206, 206, 206);
+  font-size: 0.8em;
+
+  cursor: pointer;
+
+  transition: background-color 200ms, box-shadow 100ms;
+
+}
+
+.product-box:hover {
+  background-color: rgb(237, 246, 255);
+  box-shadow: 0 0 5px 1px rgb(207, 207, 207);
+}
+
+.product-box > * {
+  padding: 0.3em;
+  margin: 0;
+}
+
+
+/* MAIN PRODUCT IMAGE */
+.product-image {
+  object-fit: contain;
+
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+}
+
+/* PRODUCT RATING */
+
+.product-rating {
+  display: flex;
+  flex-direction: row;
+
+  justify-content: left;
+  align-items: center;
+
+}
+
+.star-container:first-of-type {
+  margin-left: 1em;
+}
+
+.rating-star {
+  width: 1.4em;
+  height: auto;
+
+}
+
+/* PRODUCT PRICE */
+.product-price {
+
+  display: block;
+  border: 1px solid rgb(233, 233, 233);
+
+  width: fit-content;
+
+  font-size: 2em;
 }

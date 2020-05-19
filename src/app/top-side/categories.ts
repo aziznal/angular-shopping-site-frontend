@@ -5,7 +5,7 @@ export const categories: { name: string; url: string }[] = [
   },
   {
     name: 'Laptop',
-    url: 'laptop',
+    url: "LAPTOP",
   },
   {
     name: 'Monitor',
@@ -23,4 +23,8 @@ export const categories: { name: string; url: string }[] = [
     name: 'Backpack',
     url: 'backpack',
   },
+  {
+    name: 'Test',
+    url: 'TEST'
+  }
 ];

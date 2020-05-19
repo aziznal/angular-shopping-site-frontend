@@ -19,7 +19,6 @@
 
   margin: auto 0;
 
-  padding: 0 4em;
   height: 100%;
 
   font-size: 1em;
@@ -45,6 +44,20 @@
   transform: translate(0, -2px);
 }
 
-.categories > li > span {
+.categories > li > a {
+
+  /*
+    flex and align-items solve the anchor text
+    sticking to the top issue
+  */
+  display: flex;
+  align-items: center;
+
   margin: auto 0;
+
+  padding: 0 4em;
+  height: 100%;
+
+
+
 }

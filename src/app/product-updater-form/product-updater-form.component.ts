@@ -49,6 +49,8 @@ export class ProductUpdaterFormComponent implements OnInit {
   // Initializing from Template
   product = {} as Product;
 
+  // BUG: product can't be found using its name. the query isn't sending name as a parameter
+
   onSubmit() {
     this.productService.updateProduct(this.product, (response) => {
       if (response.status == 404) {

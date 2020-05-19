@@ -1,9 +1,7 @@
 <div class="product-page-container">
-
   <app-sidebar class="sidebar"></app-sidebar>
 
   <div class="products-container">
-
     <ul class="product-filters">
       <!-- Filters for viewing products sorted in different ways -->
       <li *ngFor="let filter of search_filters">
@@ -14,13 +12,39 @@
     <div class="product-grid">
       <!-- 3 x n grid that holds the products -->
 
-      <div class="product-box" *ngFor="let product of products">
-        <h4>{{ product.name }}</h4>
-        <p>{{ product.price | currency }}</p>
-        <p>id: {{ product.id}}</p>
-      </div>
+      <a class="product-box" *ngFor="let product of products">
 
+        <!-- Image -->
+        <img
+          src="../../assets/product-sample-images/product-placeholder.jpg"
+          alt="product-image.jpg"
+          class="product-image"
+        />
+
+        <!-- Name -->
+        <h4>{{ product.name | titlecase }}</h4>
+
+        <!-- Rating -->
+        <div class="product-rating">
+          <!-- TODO: create star generating script -->
+          <span><strong>Rating:</strong> {{ product.rating }} / 5</span>
+
+          <div
+            class="star-container"
+            *ngFor="let star of generateStars(product.rating)"
+          >
+            <img [src]="star" alt="star.png" class="rating-star" />
+          </div>
+        </div>
+
+        <!-- Brand -->
+        <p><strong>Brand: </strong>{{ product.brand }}</p>
+
+        <!-- Sold -->
+        <p><strong>Units Sold: </strong>{{ product.sold }}</p>
+
+        <h4 class="product-price">{{ product.price | currency }}</h4>
+      </a>
     </div>
   </div>
-
 </div>
