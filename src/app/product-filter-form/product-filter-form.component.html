@@ -56,14 +56,17 @@
     <!-- Model -->
     <div>
       <label for="model">Model:</label>
-      <input type="text" name="model" [title]="'Product Model e.g: Pavilion XP-17'"/>
+      <input type="text" name="model" [title]="'Product Model e.g: Pavilion XP-17'"
+      [(ngModel)]="product.model" />
     </div>
 
     <!-- Name -->
     <div>
       <label for="name">Name / Title:</label>
       <input type="text" name="name"
-      [title]="'Usually consists of Brand + Model. Add more details if needed.'"/>
+      [title]="'Usually consists of Brand + Model. Add more details if needed.'"
+      [(ngModel)]="product.name"
+      />
     </div>
 
     <!-- Price -->

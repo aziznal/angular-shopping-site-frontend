@@ -79,8 +79,9 @@
     <!-- Name -->
     <div *ngIf="foundProduct">
       <label for="name">Name / Title:</label>
-      <input type="text" name="name" [title]="'Usually consists of Brand + Model. Add more details if needed.'"
+      <input type="text" name="name"
       [(ngModel)]="product.name"
+      [title]="'Usually consists of Brand + Model. Add more details if needed.'"
       />
     </div>
 
