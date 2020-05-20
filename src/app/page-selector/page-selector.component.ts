@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./page-selector.component.css'],
 })
 export class PageSelectorComponent implements OnInit {
-
+  // TODO: show max amount of pages for current category
   constructor(private route: ActivatedRoute, private router: Router) {
     this.page_params = {};
   }
