@@ -185,8 +185,39 @@ export class ProductManagementService {
   }
 
 
-  //#region Advanced Product Queries
-  advancedGetDocs(page_num, query, callback){
+  //#region Product Queries
+
+  // Simple Product Query
+  simpleQuery(query, single_product:boolean, callback){
+    const options = {
+      observe: 'body' as const,
+      responseType: 'json' as const,
+      header: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+
+    let url = this.API_URL;
+
+    // backend expects this param when loading a single document
+    if (single_product){
+      url += '?for_product_page=true';
+    };
+
+    this.http.post(url, query, options).subscribe(
+      (response) => {
+        callback(response);
+      },
+      (err) => {
+        callback(err);
+      }
+    );
+
+  }
+
+  // Advanced Product Query
+  advancedGetDocs(page_num, query, callback: Function){
     const getOptions = {
       observe: 'body' as const,
       responseType: 'json' as const,
@@ -206,6 +237,7 @@ export class ProductManagementService {
       }
     );
   }
-  //#endregion Advanced Product Queries
+
+  //#endregion Product Queries
 
 }

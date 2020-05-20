@@ -21,6 +21,7 @@ import { ProductRemoverFormComponent } from './product-remover-form/product-remo
 import { ProductFilterFormComponent } from './product-filter-form/product-filter-form.component';
 import { ProductUpdaterFormComponent } from './product-updater-form/product-updater-form.component';
 import { PageSelectorComponent } from './page-selector/page-selector.component';
+import { SingleProductPageComponent } from './single-product-page/single-product-page.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { PageSelectorComponent } from './page-selector/page-selector.component';
     ProductFilterFormComponent,
     ProductUpdaterFormComponent,
     PageSelectorComponent,
+    SingleProductPageComponent,
   ],
   imports: [
     BrowserModule,

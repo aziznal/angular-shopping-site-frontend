@@ -16,7 +16,9 @@
     <div class="product-grid">
       <!-- 3 x n grid that holds the products -->
 
-      <a class="product-box" *ngFor="let product of products">
+      <a class="product-box" *ngFor="let product of products"
+      [routerLink]="'/p/' + product._id"
+      >
 
         <!-- Image -->
         <img

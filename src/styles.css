@@ -35,7 +35,8 @@ app-product-forms-page,
 app-product-creator,
 app-product-updater-form,
 app-product-remover-form,
-app-product-filter-form {
+app-product-filter-form,
+app-single-product-page {
   grid-area: middle-side;
 
   margin-bottom: 10em;

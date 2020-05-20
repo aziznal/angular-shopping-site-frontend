@@ -1,0 +1,25 @@
+<div class="single-product-page-container">
+  <!-- Product Image -->
+  <div class="product-images-container">
+    <img
+      src="../../assets/product-sample-images/product-placeholder.jpg"
+      alt="product_image"
+      class="main-product-image"
+    />
+  </div>
+
+  <!-- Product Info -->
+
+  <!-- if product was not found -->
+
+  <div class="product-info" *ngIf="!productFound">
+    <h1>Product Was not found</h1>
+  </div>
+
+  <!-- if product was found -->
+  <div class="product-info" *ngIf="productFound">
+    <h1>{{ product.name }}</h1>
+    <h2>{{ product.brand }}</h2>
+    <h3>{{ product.price | currency }}</h3>
+  </div>
+</div>

@@ -13,6 +13,7 @@ import { ProductFormsPageComponent } from './product-forms-page/product-forms-pa
 import { ProductUpdaterFormComponent } from './product-updater-form/product-updater-form.component';
 import { ProductRemoverFormComponent } from './product-remover-form/product-remover-form.component';
 import { ProductFilterFormComponent } from './product-filter-form/product-filter-form.component';
+import { SingleProductPageComponent } from './single-product-page/single-product-page.component';
 
 const routes: Routes = [
   { path: '', component: DefaultPageComponent },
@@ -27,6 +28,8 @@ const routes: Routes = [
   { path: 'debug/product-forms-page/updater', component: ProductUpdaterFormComponent },
   { path: 'debug/product-forms-page/remover', component: ProductRemoverFormComponent },
   { path: 'debug/product-forms-page/filter', component: ProductFilterFormComponent },
+
+  { path: 'p/:_id', component: SingleProductPageComponent },
 
 ]
 
