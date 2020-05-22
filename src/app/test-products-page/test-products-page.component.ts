@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { ProductManagementService } from '../product-management.service';
 
@@ -12,34 +12,42 @@ import { Product } from 'src/templates/product';
   styleUrls: ['./test-products-page.component.css'],
 })
 export class TestProductsPageComponent implements OnInit {
+
+  // Getting Sort Button Element
+  @ViewChild('sortButton', { read: ElementRef }) sort_button: ElementRef<any>;
+
   constructor(
     private productService: ProductManagementService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
 
     this.route.queryParams.subscribe(params => {
       this.page_number = params.page;
+      this.sort_by = params.sort_by;
     });
 
     this.route.params.subscribe(params => {
       this.category = params.category;
     });
 
-    this.loadData(this.category, this.page_number);
+    this.loadData();
 
   }
 
   // Page Variables
   products: Product[] | null;
-  search_filters = search_filters;
-
   page_number: number;
   category: string;
 
-  loadData(category: string, page_number: number){
-    this.productService.advancedGetDocs(page_number, {"category": category}, (response) => {
+  search_filters = search_filters;
+  sort_by: string;
+
+  loadData(){
+    this.productService.advancedGetDocs(this.page_number, {"category": this.category}, this.sort_by,
+    (response) => {
       if (response.status == 404) console.log("404 No Products were found!");
 
       console.log("Displaying " + response.length + " Products");
@@ -47,6 +55,29 @@ export class TestProductsPageComponent implements OnInit {
     })
   }
 
+  // Sort Button
+  sortButtonOnclick(){
+    this.sort_button.nativeElement.disabled = true;
+
+    // Button is disabled for two seconds after click to prevent spam
+    setTimeout(() => { this.sort_button.nativeElement.disabled = false }, 2000);
+
+    // settings params for url change
+    const query_params = {
+      page: this.page_number,
+    };
+
+    if (this.sort_by !== null && this.sort_by != 'none'){
+      query_params['sort_by'] = this.sort_by;
+    }
+
+    // adjust url to persist settings even after changing to next page
+    this.router.navigate([this.router.url.split('?')[0]], { queryParams: query_params });
+
+    // reload data
+    this.loadData();
+
+  }
 
   //#region Rating Stars
 

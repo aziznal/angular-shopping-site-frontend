@@ -6,20 +6,28 @@
     <!-- Page Selector -->
     <app-page-selector></app-page-selector>
 
-    <ul class="product-filters">
-      <!-- Filters for viewing products sorted in different ways -->
-      <li *ngFor="let filter of search_filters">
-        {{ filter }}
-      </li>
-    </ul>
+    <!-- Product Filters -->
+    <div class="product-filters">
 
+      <label for="filters">Sort By: </label>
+
+      <select name="filters" [(ngModel)]="sort_by">
+        <option *ngFor="let filter of search_filters" [value]="filter.toLowerCase()">
+          {{ filter | titlecase }}
+        </option>
+      </select>
+
+      <button id="sort-button" (click)="sortButtonOnclick()" [disabled]='false' #sortButton>
+        Sort</button>
+
+    </div>
+
+    <!-- 3 x n grid that holds the products -->
     <div class="product-grid">
-      <!-- 3 x n grid that holds the products -->
 
+      <!-- Individual Product -->
       <a class="product-box" *ngFor="let product of products"
-      [routerLink]="'/p/' + product._id"
-      >
-
+      [routerLink]="'/p/' + product._id">
         <!-- Image -->
         <img
           src="../../assets/product-sample-images/product-placeholder.jpg"

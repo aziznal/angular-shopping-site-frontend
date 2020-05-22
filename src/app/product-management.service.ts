@@ -104,7 +104,17 @@ export class ProductManagementService {
 
   //#endregion Test Handlers
 
-  // BUG: numerical fields (price, rating, etc, are being posted to db as strings. again.)
+  // Method to convert necessary fields to a numerical value
+  fixQueryValues(product: Product): void{
+    const numericals = ['price', 'rating', 'sold'];
+    Object.keys(product).map((key, _) => {
+      if (numericals.includes(key)){
+        product[key] = parseFloat(product[key]);
+      }
+    });
+  }
+
+  //#region basic CRUD queries
 
   // Search Query
   getDocs(query, callback) {
@@ -136,6 +146,9 @@ export class ProductManagementService {
       },
     };
 
+    // Convert numerical fields from <string> -> <number>
+    this.fixQueryValues(product);
+
     this.http
       .post(this.API_URL + '/forms', product, postOptions)
       .subscribe((response) => {
@@ -152,6 +165,9 @@ export class ProductManagementService {
         "Content-Type": "application/json"
       }
     }
+
+    // Convert numerical fields from <string> -> <number>
+    this.fixQueryValues(product);
 
     this.http.put(this.API_URL + "/forms", product, putOptions).subscribe(
       (response) => {
@@ -184,6 +200,7 @@ export class ProductManagementService {
 
   }
 
+  //#endregion basic CRUD queries
 
   //#region Product Queries
 
@@ -217,7 +234,7 @@ export class ProductManagementService {
   }
 
   // Advanced Product Query
-  advancedGetDocs(page_num, query, callback: Function){
+  advancedGetDocs(page_num, query, sort_by, callback: Function){
     const getOptions = {
       observe: 'body' as const,
       responseType: 'json' as const,
@@ -226,7 +243,16 @@ export class ProductManagementService {
       },
     };
 
-    const url = this.API_URL + '/browse?page=' + page_num;
+    let url = this.API_URL + '/browse?page=' + page_num;
+
+    // adding sort filters as a url parameter
+    if (sort_by !== null){
+      url += "&sort_by=" + sort_by;
+
+      console.log("current url: ");
+      console.log(url);
+
+    }
 
     this.http.post(url, query, getOptions).subscribe(
       (response) => {

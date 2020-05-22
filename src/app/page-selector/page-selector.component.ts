@@ -9,6 +9,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class PageSelectorComponent implements OnInit {
   // TODO: show max amount of pages for current category
+
+  // TODO: emit event to parent to reload data instead of entire page
+  // https://medium.com/@Zeroesandones/emit-an-event-from-a-child-to-parent-component-in-angular-9-7c3690c75f6
+
   constructor(private route: ActivatedRoute, private router: Router) {
     this.page_params = {};
   }
