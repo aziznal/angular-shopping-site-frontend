@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+
+import { Router } from '@angular/router';
+
 import { links } from "./links";
 import { categories } from "./categories";
 
@@ -12,7 +15,7 @@ export class TopSideComponent implements OnInit {
   links = links;
   categories = categories;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }

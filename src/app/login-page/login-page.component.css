@@ -1,0 +1,164 @@
+.login-page-container {
+  display: flex;
+  flex-direction: row;
+
+  justify-content: center;
+
+  /* background-color: aliceblue; */
+  height: fit-content;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+
+  background-color: rgb(238, 246, 255);
+
+  justify-content: center;
+  align-items: center;
+
+  width: 28em;
+  height: fit-content;
+
+  padding: 1em 0;
+
+  margin-top: 4em;
+
+  font-family: sans-serif;
+  font-size: 1.3em;
+
+  border: 1px solid rgb(155, 155, 155);
+  border-radius: 6px;
+}
+
+.login-form div {
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+
+  width: 85%;
+
+  padding: 0.3em;
+
+  margin-top: 0.3em;
+  margin-bottom: 0.2em;
+}
+
+.login-form label {
+  padding: 0.3em;
+
+  min-width: 7em;
+  max-width: fit-content;
+
+  margin-bottom: 0.4em;
+
+  text-align: center;
+  font-size: 0.8em;
+  font-weight: 700;
+
+  border-bottom: 1px solid rgb(80, 80, 80);
+}
+
+.login-form input {
+  width: 100%;
+
+  color: rgb(65, 65, 65);
+
+  font-size: 0.9em;
+
+  height: 1.8em;
+
+  padding: 0.4em;
+  margin-bottom: 0.3em;
+
+  border-radius: 5px;
+  border: 1px solid rgb(148, 148, 148);
+
+  transition: box-shadow 200ms;
+}
+
+.login-form input:hover {
+  border: 1px solid rgb(255, 81, 0);
+}
+
+.login-form input:focus {
+  border: 1px solid rgb(255, 81, 0);
+
+  box-shadow: 1px 1px 10px 1px rgb(170, 170, 170);
+}
+
+.login-form button {
+  align-self: flex-end;
+
+  margin-right: 3em;
+  margin-top: 1em;
+
+  padding: 0.5em 1em;
+
+  font-size: 0.8em;
+
+  background-color: rgb(224, 241, 255);
+
+  border: 1px solid rgb(110, 123, 129);
+  border-radius: 3px;
+
+  cursor: pointer;
+
+  transition: background-color 125ms;
+
+}
+
+.login-form button:hover {
+  background-color: rgb(148, 207, 255);
+}
+
+.login-link {
+
+  display: block;
+  margin: auto;
+
+  font-size: 0.9em;
+  color: rgb(80, 80, 255);
+
+}
+
+.login-link:hover {
+  color: blue;
+}
+
+.login-note {
+
+  display: block;
+
+  margin: 0.4em 0;
+  padding-left: 1em;
+
+  font-size: 0.7em;
+  color: rgb(0, 54, 102);
+
+  border-left: 2px solid black;
+
+}
+
+.login-message {
+
+  display: block;
+
+  margin: 1em auto;
+
+  font-size: 1.2em;
+  font-weight: 700;
+
+  color: black;
+
+}
+
+.login-message.success {
+  color: green;
+}
+
+.login-message.failure {
+  color: rgb(161, 0, 0);
+}
+

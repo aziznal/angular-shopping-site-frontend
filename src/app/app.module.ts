@@ -22,6 +22,8 @@ import { ProductFilterFormComponent } from './product-filter-form/product-filter
 import { ProductUpdaterFormComponent } from './product-updater-form/product-updater-form.component';
 import { PageSelectorComponent } from './page-selector/page-selector.component';
 import { SingleProductPageComponent } from './single-product-page/single-product-page.component';
+import { LoginPageComponent } from './login-page/login-page.component';
+import { CreateAccountPageComponent } from './create-account-page/create-account-page.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import { SingleProductPageComponent } from './single-product-page/single-product
     ProductUpdaterFormComponent,
     PageSelectorComponent,
     SingleProductPageComponent,
+    LoginPageComponent,
+    CreateAccountPageComponent,
   ],
   imports: [
     BrowserModule,
