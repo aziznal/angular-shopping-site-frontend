@@ -1,0 +1,58 @@
+@import url('./buttons.css');
+
+/* Main Page Container */
+.user-account-page-container {
+
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+
+  /* margin: auto; */
+  margin-top: 1em;
+  /* width: 85%; */
+
+  border: 1px solid rgb(195, 214, 223);
+  border-radius: 4px;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+}
+
+
+/* Sidebar Section Container */
+.user-account-sidebar {
+
+  display: flex;
+  flex-direction: column;
+
+  border: 1px solid rgb(199, 199, 199);
+  border-radius: 4px;
+
+  padding: 0.8em;
+  margin: 0.3em;
+
+  /* background-color: rgb(247, 251, 255); */
+
+}
+
+/* Main Sub-Section Container */
+.user-account-content-container {
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 1em;
+  margin: 0.3em;
+
+  border: 1px solid rgb(214, 214, 214);
+  border-radius: 4px;
+
+  background-color: rgb(249, 252, 255);
+
+}
+
+/* For each in div in main subsection */
+.user-account-subsection-container {
+
+  margin: 0.3em 0;
+  padding: 0.3em;
+}

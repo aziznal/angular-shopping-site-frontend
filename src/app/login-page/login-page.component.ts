@@ -3,6 +3,9 @@ import { Router } from '@angular/router';
 import { UserManagementService } from '../user-management.service';
 
 
+// TODO: delete this
+import { CookieService } from 'ngx-cookie-service';
+
 import { User } from '../../templates/user';
 
 @Component({
@@ -13,7 +16,10 @@ import { User } from '../../templates/user';
 export class LoginPageComponent implements OnInit {
   constructor(
     private userService: UserManagementService,
-    private router: Router
+    private router: Router,
+
+    // TODO: delete this
+    private cookieService: CookieService
     ) {}
 
   // Page Variables
@@ -21,10 +27,18 @@ export class LoginPageComponent implements OnInit {
   success = false;
   failed = false;
 
-  bad_email = false;
-  bad_password = false;
+  bad_email = false;      // for email field
+  bad_password = false;   // for password filed
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+    // Check to see if user accessing this page is already signed in
+    // If Yes, then redirect them to user-account immediately
+    if (this.userService.userIsLoggedIn){
+      this.router.navigate(['/user-account']);
+    }
+
+  }
 
   checkEmailField(){
     // If there's something in there, then remove warnings
@@ -49,14 +63,16 @@ export class LoginPageComponent implements OnInit {
   // Form Submit Handler
   onSubmit() {
     if (this.validateForm()) {
-      this.userService.loginUser(this.user, (response) => {
+      this.userService.loginUser(this.user, (response: Response) => {
         switch (response.status) {
 
           // Success
           case 200:
             this.success = true;
-            console.log("User successfully logged in");
-            this.router.navigate(['/']);
+            this.userService.userIsLoggedIn = true;
+            this.userService.user = this.user;
+            console.log(response['msg']);
+            document.location.reload();
             break;
 
           // Bad Password
@@ -87,6 +103,6 @@ export class LoginPageComponent implements OnInit {
       }
 
     }
-
   }
+
 }

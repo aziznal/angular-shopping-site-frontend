@@ -1,0 +1,25 @@
+/* Page Button Styles */
+.user-account-button {
+
+  padding: 0.5em 0.8em;
+  width: fit-content;
+
+  border: 1px solid rgb(166, 207, 218);
+  border-radius: 2px;
+
+  background-color: rgb(199, 221, 255);
+
+  font-size: 1em;
+
+  cursor: pointer;
+
+  outline: 0 solid rgb(166, 207, 218);
+
+  transition: outline 50ms;
+
+}
+
+.user-account-button:hover {
+  outline: 2px solid rgb(166, 207, 218);
+
+}

@@ -1,0 +1,105 @@
+<div class="user-account-page-container">
+  <!-- Sidebar -->
+  <app-user-account-sidebar class="user-account-sidebar">
+
+  </app-user-account-sidebar>
+
+  <!-- Main Sub-Section Container -->
+  <div class="user-account-content-container">
+    <!-- Welcome Messages -->
+    <div>
+      <h4>You can manage your user info here</h4>
+    </div>
+
+    <!-- Main account stuff here -->
+    <div class="user-account-subsection-container">
+      <form class="user-update-info-form">
+        <!-- Username -->
+        <div class="form-field">
+          <input
+            type="checkbox"
+            class="field-activator"
+            name="field_checkbox1"
+            (click)="disableUsernameField()"
+            [(ngModel)]="active_fields.username"
+          />
+          <label for="username">Username</label>
+          <input
+            type="text"
+            name="username"
+            [(ngModel)]="user.user_profile_info.username"
+            #usernameField
+          />
+        </div>
+
+        <!-- Phone Number -->
+        <div class="form-field">
+          <input
+            type="checkbox"
+            class="field-activator"
+            name="field_checkbox2"
+            (click)="disablePhoneField()"
+            [(ngModel)]="active_fields.phone"
+          />
+          <label for="phone">Telephone</label>
+          <input
+            type="text"
+            name="phone"
+            [(ngModel)]="user.user_profile_info.phone"
+            #phoneField
+          />
+        </div>
+
+        <!-- Age -->
+        <div class="form-field">
+          <input
+            type="checkbox"
+            class="field-activator"
+            name="field_checkbox3"
+            (click)="disableAgeField()"
+            [(ngModel)]="active_fields.age"
+          />
+          <label for="age">Age</label>
+          <select
+            type="text"
+            name="age"
+            [(ngModel)]="user.user_profile_info.age"
+            #ageField
+          >
+            <option *ngFor="let age of ages" (value)="(age)">{{ age }}</option>
+          </select>
+        </div>
+
+        <!-- Gender -->
+        <div class="form-field">
+          <input
+            type="checkbox"
+            class="field-activator"
+            name="field_checkbox4"
+            (click)="disableGenderField()"
+            [(ngModel)]="active_fields.gender"
+          />
+          <label for="gender">Gender</label>
+          <select
+            type="number"
+            name="gender"
+            [(ngModel)]="user.user_profile_info.gender"
+            #genderField
+          >
+            <option value="M">male</option>
+            <option value="F">female</option>
+          </select>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-field" style="justify-content: center;">
+          <button class="hover-button" (click)="onSubmit()">
+            <span>Update</span>
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+</div>

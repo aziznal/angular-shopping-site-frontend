@@ -16,6 +16,8 @@ import { ProductFilterFormComponent } from './product-filter-form/product-filter
 import { SingleProductPageComponent } from './single-product-page/single-product-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { CreateAccountPageComponent } from './create-account-page/create-account-page.component';
+import { UserAccountPageComponent } from './user-account-page/user-account-page.component';
+import { UpdateInfoPageComponent } from './user-account-page/update-info-page/update-info-page.component';
 
 const routes: Routes = [
   { path: '', component: DefaultPageComponent },
@@ -33,9 +35,11 @@ const routes: Routes = [
 
   { path: 'p/:_id', component: SingleProductPageComponent },
 
-  // Login Page
+  // User related pages
   { path: 'login', component: LoginPageComponent },
-  { path: 'create-user-account', component: CreateAccountPageComponent }
+  { path: 'create-user-account', component: CreateAccountPageComponent },
+  { path: 'user-account', component: UserAccountPageComponent },
+  { path: 'user-account/update-info', component: UpdateInfoPageComponent }
 
 ]
 

@@ -1,0 +1,44 @@
+.hover-button {
+  display: flex;
+
+  min-width: fit-content;
+  min-height: 2.5em;
+
+  width: 8em;
+  height: 2.5em;
+
+  background-color: #bcd3ed;
+
+  border: 1px solid rgb(180, 180, 180);
+  border-radius: 5px;
+
+  cursor: pointer;
+
+  font-family: sans-serif;
+
+  transition: transform 150ms, box-shadow 75ms;
+  box-shadow: 0px 0px 0 0 black;
+}
+
+.hover-button:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 3px 3px 0 0 black;
+}
+
+.hover-button:active {
+  transition-duration: 0ms;
+  transform: translate(0, 0);
+  box-shadow: 0px 0px 0 0 black;
+}
+
+.hover-button span {
+  /* color: #152C51; */
+  color: black;
+
+  font-size: 1em;
+  font-weight: bold;
+
+  text-align: center;
+
+  margin: auto;
+}

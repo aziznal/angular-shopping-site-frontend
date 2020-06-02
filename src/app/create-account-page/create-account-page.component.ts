@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UserManagementService } from '../user-management.service';
 
 import { User } from 'src/templates/user';
@@ -10,9 +11,19 @@ import { User } from 'src/templates/user';
 })
 export class CreateAccountPageComponent implements OnInit {
 
-  constructor(private userService: UserManagementService) { }
+  constructor(
+    private userService: UserManagementService,
+    private router: Router
+    ) { }
 
   ngOnInit(): void {
+
+    // Check to see if user accessing this page is already signed in
+    // If Yes, then redirect them to user-account immediately
+    if (this.userService.userIsLoggedIn){
+      this.router.navigate(['/user-account']);
+    }
+
   }
 
   // page variables
@@ -100,10 +111,16 @@ export class CreateAccountPageComponent implements OnInit {
 
         switch(response.status){
 
-          // if server sends a json then it won't have a response.status
+          // if server sends a json then it won't have a response.status (which is stupidly designed by me)
           case 201: case undefined:
             this.success = true;
             console.log(response.body);
+
+            // Redirect User to their settings page in like a second or something
+            setTimeout(() => {
+              this.router.navigate(['/user-account/update-info']);
+            }, 1000)
+
             break;
 
           case 409:

@@ -5,12 +5,11 @@ export type User = {
   user_password: string; // This will be stored in db as hash values
 
   // I've always hated when you HAVE to give your real name
-  // user_profile_info?: {
-  //   first_name?: string;
-  //   last_name?: string;
-  //   age?: number;
-  //   telefon?: string;
-  //   gender?: "M" | "F";
-  // };
+  user_profile_info?: {
+    username?: string;
+    age?: number;
+    phone?: string;
+    gender?: "M" | "F";
+  };
 
 };

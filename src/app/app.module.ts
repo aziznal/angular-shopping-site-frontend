@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -24,6 +25,10 @@ import { PageSelectorComponent } from './page-selector/page-selector.component';
 import { SingleProductPageComponent } from './single-product-page/single-product-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { CreateAccountPageComponent } from './create-account-page/create-account-page.component';
+import { UserManagementService } from './user-management.service';
+import { UserAccountPageComponent } from './user-account-page/user-account-page.component';
+import { UpdateInfoPageComponent } from './user-account-page/update-info-page/update-info-page.component';
+import { UserAccountSidebarComponent } from './user-account-page/user-account-sidebar/user-account-sidebar.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +52,9 @@ import { CreateAccountPageComponent } from './create-account-page/create-account
     SingleProductPageComponent,
     LoginPageComponent,
     CreateAccountPageComponent,
+    UserAccountPageComponent,
+    UpdateInfoPageComponent,
+    UserAccountSidebarComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,7 +62,10 @@ import { CreateAccountPageComponent } from './create-account-page/create-account
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+     CookieService,
+     UserManagementService
+    ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,0 +1,34 @@
+<div class="user-account-page-container">
+  <!-- Sidebar -->
+  <app-user-account-sidebar class="user-account-sidebar"></app-user-account-sidebar>
+
+  <!-- Main Sub-Section Container -->
+  <div class="user-account-content-container" *ngIf="loadPage" >
+    <!-- Welcome Messages -->
+    <div>
+      <h2>Welcome to your account, {{ username }} </h2>
+    </div>
+
+    <div>
+      <h3>Account Main Page</h3>
+    </div>
+
+    <!-- Main account stuff here -->
+    <div class="user-account-subsection-container">
+      <p>Welcome to your account!</p>
+      <p>You can't really do much here, yet!</p>
+    </div>
+
+    <div class="user-account-subsection-container">
+      <p>Check out the links in the sidebar</p>
+    </div>
+
+    <!-- Logout Button -->
+    <div class="user-account-subsection-container">
+      <button class="hover-button" (click)="logout()">
+        <span>Logout</span>
+      </button>
+    </div>
+
+  </div>
+</div>

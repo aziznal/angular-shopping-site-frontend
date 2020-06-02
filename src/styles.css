@@ -1,4 +1,5 @@
 @import url('form-styles.css');
+@import url('hover-button.css');
 
 /* Decustomizing ul, a, etc.. */
 ul {
@@ -38,7 +39,9 @@ app-product-remover-form,
 app-product-filter-form,
 app-single-product-page,
 app-login-page,
-app-create-account-page {
+app-create-account-page,
+app-user-account-page,
+app-update-info-page {
   grid-area: middle-side;
 
   margin-bottom: 10em;

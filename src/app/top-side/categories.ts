@@ -1,7 +1,7 @@
 export const categories: { name: string; url: string }[] = [
   {
     name: 'Desktop',
-    url: 'desktop',
+    url: 'DESKTOP',
   },
   {
     name: 'Laptop',
@@ -9,19 +9,19 @@ export const categories: { name: string; url: string }[] = [
   },
   {
     name: 'Monitor',
-    url: 'monitor',
+    url: 'MONITOR',
   },
   {
     name: 'Keyboard',
-    url: 'keyboard',
+    url: 'KEYBOARD',
   },
   {
     name: 'Mouse',
-    url: 'mouse',
+    url: 'MOUSE',
   },
   {
     name: 'Backpack',
-    url: 'backpack',
+    url: 'BACKPACK',
   },
   {
     name: 'Test',
