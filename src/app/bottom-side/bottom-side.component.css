@@ -42,3 +42,12 @@
   grid-template-columns: 1fr 1fr;
 
 }
+
+/* footer image settings */
+.footer-image-holder img {
+  width: 35%;
+  height: auto;
+
+  margin-top: 0.5em;
+
+}

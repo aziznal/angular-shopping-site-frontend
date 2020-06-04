@@ -16,7 +16,6 @@ import { ProductCreatorComponent } from './product-creator/product-creator.compo
 import { ProductCommentAdderComponent } from './product-comment-adder/product-comment-adder.component';
 import { ProductSpecAdderComponent } from './product-spec-adder/product-spec-adder.component';
 import { TestProductsPageComponent } from './test-products-page/test-products-page.component';
-import { ServiceTestPageComponent } from './service-test-page/service-test-page.component';
 import { ProductFormsPageComponent } from './product-forms-page/product-forms-page.component';
 import { ProductRemoverFormComponent } from './product-remover-form/product-remover-form.component';
 import { ProductFilterFormComponent } from './product-filter-form/product-filter-form.component';
@@ -43,7 +42,6 @@ import { UserAccountSidebarComponent } from './user-account-page/user-account-si
     ProductCommentAdderComponent,
     ProductSpecAdderComponent,
     TestProductsPageComponent,
-    ServiceTestPageComponent,
     ProductFormsPageComponent,
     ProductRemoverFormComponent,
     ProductFilterFormComponent,

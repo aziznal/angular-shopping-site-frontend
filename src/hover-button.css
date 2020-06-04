@@ -1,3 +1,6 @@
+/* Examples of the hover button are the account / cart buttons on the
+  top right corner */
+
 .hover-button {
   display: flex;
 
@@ -7,7 +10,7 @@
   width: 8em;
   height: 2.5em;
 
-  background-color: #bcd3ed;
+  background-color: #9ac9ff;
 
   border: 1px solid rgb(180, 180, 180);
   border-radius: 5px;
@@ -32,7 +35,6 @@
 }
 
 .hover-button span {
-  /* color: #152C51; */
   color: black;
 
   font-size: 1em;

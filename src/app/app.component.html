@@ -1,9 +1,13 @@
-<div *ngIf="load_page" class="main-grid-container">
+<div *ngIf="loadPage" class="main-grid-container">
+  <div class="top-side">
+    <app-top-side></app-top-side>
+  </div>
 
-  <app-top-side class="top-side"></app-top-side>
+  <div class="middle-side">
+    <router-outlet></router-outlet>
+  </div>
 
-  <router-outlet class="middle-side"></router-outlet>
-
-  <app-bottom-side class="bottom-side"></app-bottom-side>
-
+  <div class="bottom-side">
+    <app-bottom-side></app-bottom-side>
+  </div>
 </div>

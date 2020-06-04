@@ -1,3 +1,24 @@
-h1 {
-  text-align: center;
+
+.default-page-container {
+
+  display: flex;
+  flex-direction: column;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+}
+
+.page-container {
+  width: 100%;
+}
+
+.site-title-image {
+
+  display: block;
+
+  width: 48em;
+  height: auto;
+
+  margin: auto;
+
 }

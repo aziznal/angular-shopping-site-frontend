@@ -11,7 +11,7 @@ export const links = [
   },
   {
     title: 'Security',
-    url: '/user-account/security',
+    url: '/user-account',
     state: "inactive"
   },
 ];

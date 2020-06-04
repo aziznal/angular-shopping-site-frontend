@@ -1,62 +1,42 @@
-@import url('form-styles.css');
-@import url('hover-button.css');
+@import url("form-styles.css");
+@import url("hover-button.css");
 
-/* Decustomizing ul, a, etc.. */
+/* Removing Defaults for Unordered List */
 ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
+/* Removing Defaults for Anchor */
 a {
   text-decoration: none;
 }
 
-a:link, a:visited, a:hover, a:active {
-    color: inherit;
+/* Removing Defaults for Anchor */
+a:link,
+a:visited,
+a:hover,
+a:active {
+  color: inherit;
 }
 
 .bottom-side {
-  background-color: #87a8ce;
+  background-color: #699fdd;
   grid-area: bottom-side;
 
-  /* position: fixed;
-  bottom: 0; */
-
   padding-top: 1em;
-
 }
 
-.middle-side,
-app-default-page,
-app-debug-page,
-app-test-products-page,
-app-service-test-page,
-app-product-forms-page,
-app-product-creator,
-app-product-updater-form,
-app-product-remover-form,
-app-product-filter-form,
-app-single-product-page,
-app-login-page,
-app-create-account-page,
-app-user-account-page,
-app-update-info-page {
+.middle-side {
   grid-area: middle-side;
 
   margin-bottom: 10em;
 
   min-height: 35em;
-
 }
 
-/* .sidebar {
-  background-color: orange;
-  grid-area: sidebar;
-} */
-
 .top-side {
-  /* background-color: turquoise; */
   grid-area: top-side;
 }
 
@@ -67,10 +47,7 @@ app-update-info-page {
   grid-template-rows: auto;
 
   grid-template-areas:
-
     "top-side       top-side      top-side"
     " .             middle-side       ."
-    "bottom-side    bottom-side   bottom-side"
-    ;
-
+    "bottom-side    bottom-side   bottom-side";
 }

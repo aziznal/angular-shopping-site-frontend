@@ -10,17 +10,23 @@ import { Product } from 'src/templates/product';
   styleUrls: ['./product-remover-form.component.css'],
 })
 export class ProductRemoverFormComponent implements OnInit {
-  constructor(private productService: ProductManagementService) {}
+
+  // Page Variables
+  foundProduct: boolean; // set to true once product is found after search
+  notFound: boolean; // set to false if product not found after search
+  idToSearch: string;
+  productRemoved: boolean;
+  product: Product;
+
+  constructor(private productService: ProductManagementService) {
+    this.foundProduct = false;
+    this.notFound = false;
+    this.idToSearch = '';
+    this.productRemoved = false;
+    this.product = {} as Product;
+  }
 
   ngOnInit(): void {}
-
-  //#region Finding the product
-  foundProduct: boolean = false; // set to true once product is found
-  notFound: boolean = false; // set to false if product not found after search
-
-  idToSearch: string;
-
-  productRemoved: boolean = false;
 
   findProductById(): void {
     // Don't show form before an item with an ID is entered
@@ -29,36 +35,34 @@ export class ProductRemoverFormComponent implements OnInit {
       return;
     }
 
-    this.productService.getDocs({ _id: this.idToSearch }, (response) => {
+    this.productService.getProduct({ _id: this.idToSearch }, (response) => {
+      // TODO: check this still works after service refactor
       if (response.status == 404) {
         this.notFound = true;
         return;
       }
 
-      console.log(response);
-
       this.notFound = false;
       this.foundProduct = true;
 
+      // TODO: refactor to response.body[0] instead (after service refactor)
       this.product = response[0];
     });
   }
 
-  //#endregion Finding the product
-
-  // Initializing from Template
-  product = {} as Product;
-
   // Submit Button
   onSubmit() {
     this.productService.removeProduct(this.product, (response) => {
+
       if (response.status == 404) {
         console.log('Something went wrong');
-        console.error(response);
+        console.error(JSON.stringify(response, null, 2));
         return;
       }
 
+      // TODO: log response.body['msg'] (after service refactor)
       this.productRemoved = true;
+
     });
   }
 

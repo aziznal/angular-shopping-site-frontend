@@ -29,13 +29,9 @@
     <div>
       <label for="category">Category:</label>
       <select name="category" [(ngModel)]="product.category" [title]="'Product Category'">
-        <option value="DESKTOP">Desktop</option>
-        <option value="LAPTOP">Laptop</option>
-        <option value="MONITOR">Monitor</option>
-        <option value="KEYBOARD">Keyboard</option>
-        <option value="MOUSE">Mouse</option>
-        <option value="BACKPACK">Backpack</option>
-        <option value="TEST">TEST</option>
+        <option  value="{{category.url}}" *ngFor="let category of categories">
+          {{category.name}}
+        </option>
       </select>
     </div>
 
@@ -104,6 +100,8 @@
 
     <div *ngIf="show_results" style="border: 1px solid black;">
       <table class="result-section">
+
+        <!-- Headers -->
         <tr class="table-row-container">
           <th>_id</th>
           <th>category</th>
@@ -115,6 +113,7 @@
           <th>sold</th>
         </tr>
 
+        <!-- For Each Row -->
         <tr *ngFor="let result of results" class="table-row-container">
           <td>
             {{ result._id }}

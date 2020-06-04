@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
 import { User } from 'src/templates/user';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -8,16 +7,20 @@ import { CookieService } from 'ngx-cookie-service';
   providedIn: 'root',
 })
 export class UserManagementService {
+  // IDEA: add each API_URL used to an object to make them easier to reference
   API_URL = '//localhost:3000'; // url of Backend API
 
   // Service Variables
   userIsLoggedIn = false;
-  user = {} as User | any;
+  user: User;
 
   constructor(
     private http: HttpClient,
     private cookieService: CookieService
-    ) {}
+    ) {
+      this.userIsLoggedIn = false;
+      this.user = {} as User;
+    }
 
   options: {
     headers?: HttpHeaders | { [header: string]: string | string[] };
@@ -55,7 +58,7 @@ export class UserManagementService {
     document.location.reload();
   }
 
-  // Check if user is still logged in
+  // Check if user is still logged in (when navigating throughout site)
   checkLoggedIn() {
 
     return new Promise((resolve, reject) => {
@@ -119,9 +122,6 @@ export class UserManagementService {
         observe: 'response' as const,
         responseType: 'json' as const,
       };
-
-      console.log("Here is the user object about to be sent to the backend: ");
-      console.log(JSON.stringify(user, null, 2));
 
       this.http.put(this.API_URL + '/user/update', user, reqOptions).subscribe(
         (response) => {

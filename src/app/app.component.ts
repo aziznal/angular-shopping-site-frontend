@@ -7,24 +7,24 @@ import { UserManagementService } from './user-management.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  constructor(private userService: UserManagementService) {}
+  // TODO: create an error page that gets the error code passed to it when called
 
-  load_page = false;
+  loadPage: boolean;
+
+  constructor(private userService: UserManagementService) {
+    this.loadPage = false;
+  }
 
   async ngOnInit() {
-
-    // setTimeout(() => {
-    //   this.load_page = true;
-    // }, 1000)
+    /* Settings the user-signed-in check in here makes sure that it's
+       going to be done before any components of the page have been loaded
+    */
 
     // check if user is logged in to modify service accordingly
     const isLoggedIn = await this.userService.checkLoggedIn();
-    if (isLoggedIn) this.userService.userIsLoggedIn = true
+    if (isLoggedIn) this.userService.userIsLoggedIn = true;
     else this.userService.userIsLoggedIn = false;
 
-
-    console.log("Current User isLoggedIn = " + this.userService.userIsLoggedIn);
-    this.load_page = true;
-
+    this.loadPage = true;
   }
 }

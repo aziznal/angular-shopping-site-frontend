@@ -50,3 +50,24 @@
   border: 1px solid black;
 }
 
+/* PRODUCT RATING */
+
+.product-rating {
+  display: flex;
+  flex-direction: row;
+
+  justify-content: left;
+  align-items: center;
+
+}
+
+.star-container:first-of-type {
+  margin-left: 1em;
+}
+
+.rating-star {
+  width: 1.4em;
+  height: auto;
+
+}
+

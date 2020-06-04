@@ -1,38 +1,46 @@
 <div class="login-page-container">
 
   <form class="login-form" (ngSubmit)="onSubmit()" #loginForm="ngForm">
+
+    <!-- Email Field -->
     <div>
       <label for="email">Email</label>
-      <span class="login-note" style="color: red;" *ngIf="bad_email"
-        >Please enter a valid email</span
-      >
+
+      <!-- Bad Email Warning Message -->
+      <span class="login-note" style="color: red;" *ngIf="bad_email">
+        Please enter a valid email
+      </span>
+
       <input
         type="email"
         name="email"
         [(ngModel)]="user.user_email"
         placeholder="user@email.com"
         required
-        (ngModelChange)="checkEmailField()"
-      />
+        (ngModelChange)="checkEmailField()"/>
     </div>
 
+    <!-- Password Field -->
     <div>
       <label for="pass">Password</label>
+
+      <!-- Bad Password Warning Message -->
       <span class="login-note" style="color: red;" *ngIf="bad_password">
         Please enter your correct password
-        </span>
+      </span>
       <input
         type="password"
         name="pass"
         [(ngModel)]="user.user_password"
         placeholder="Password"
         required
-        (ngModelChange)="checkPasswordField()"
-      />
+        (ngModelChange)="checkPasswordField()"/>
     </div>
 
+    <!-- Submit Button -->
     <button type="submit">Login</button>
 
+    <!-- Sign up link -->
     <div>
       <a href="/create-user-account" class="login-link">Or sign up here</a>
     </div>

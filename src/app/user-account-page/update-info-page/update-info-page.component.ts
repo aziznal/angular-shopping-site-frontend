@@ -9,6 +9,46 @@ import { User } from 'src/templates/user';
   styleUrls: ['./update-info-page.component.css'],
 })
 export class UpdateInfoPageComponent implements OnInit {
+
+  // page variables
+  user: User;
+  ages: number[];
+
+  // To show a warning message over any fields that are 'bad'
+  bad_fields;
+
+  // Determines whether the user wants to fill in a certain field
+  active_fields;
+
+  constructor(
+    private userService: UserManagementService,
+    private router: Router
+  ) {
+    // get current user from userService
+    this.user = this.userService.user;
+
+    // Bad Field Flags
+    this.bad_fields = {
+      username: false,
+      age: false,
+      phone: false,
+      gender: false,
+    };
+
+    // Active Field Flags
+    this.active_fields = {
+      username: true,
+      age: true,
+      phone: true,
+      gender: true,
+    };
+
+    // creates an array with numbers from 1 to 100 for use in html
+    this.ages = Array(100)
+      .fill(0)
+      .map((_, index) => index + 1);
+  }
+
   //#region Enable/Disable Fields
 
   // Get fields from html
@@ -42,16 +82,12 @@ export class UpdateInfoPageComponent implements OnInit {
   // to run in onSubmit
   checkDisabledFields() {
 
-    console.log("Logging field states: ");
-    console.log(JSON.stringify(this.active_fields, null, 2));
-
     // user_profile_info has the same keys as active_fields object, making this code possible
     Object.keys(this.active_fields).map((key, _) => {
-      if (this.active_fields[key] == false){
+      if (this.active_fields[key] == false) {
         delete this.user.user_profile_info[key];
       }
-    })
-
+    });
   }
 
   //#endregion Enable/Disable Fields
@@ -89,8 +125,8 @@ export class UpdateInfoPageComponent implements OnInit {
   }
 
   // Validate Gender
+  // TODO: this field doesn't need validation per ce, but maybe a user could inject something into an <option>?
   checkFieldGender() {
-    // TODO: come up with ideas if this needs validation later
     const check = () => {
       this.bad_fields.gender = true;
     };
@@ -107,54 +143,13 @@ export class UpdateInfoPageComponent implements OnInit {
   }
   //#endregion Field Validation
 
-  constructor(
-    private userService: UserManagementService,
-    private router: Router
-  ) {
-    // get current user from userService
-    this.user = this.userService.user;
-
-    // Bad Field Flags
-    this.bad_fields = {
-      username: false,
-      age: false,
-      phone: false,
-      gender: false,
-    };
-
-    // Active Field Flags
-    this.active_fields = {
-      username: true,
-      age: true,
-      phone: true,
-      gender: true,
-    };
-
-    // creates an array with numbers from 1 to 100 for use in html
-    this.ages = Array(100)
-      .fill(0)
-      .map((val, index) => index + 1);
-  }
-
-  // TODO: delete redundant(ish) page variables
-  // page variables
-  user: User;
-  ages: number[];
-
-  // To show a warning message over any fields that are 'bad'
-  bad_fields;
-
-  // Determines whether the user wants to fill in a certain field
-  active_fields;
-
   ngOnInit(): void {
     // Check that user is signed in before displaying page
     if (!this.userService.userIsLoggedIn) {
       this.router.navigate(['/login']);
     }
 
-    // init this in case the user hadn't visited this page before
-
+    // init this in case the user hasn't visited this page before
     if (!this.user.user_profile_info) {
       this.user.user_profile_info = {};
     }
@@ -169,8 +164,5 @@ export class UpdateInfoPageComponent implements OnInit {
 
     // then reload page
     document.location.reload();
-
-
   }
-
 }

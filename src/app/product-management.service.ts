@@ -10,9 +10,15 @@ import { Product } from 'src/templates/product';
   providedIn: 'root',
 })
 export class ProductManagementService {
-  API_URL = '//localhost:3000'; // url of Backend API
+  // TODO: put the Product Star Generator script in here since it's only gonna be used with products
 
-  constructor(private http: HttpClient) {}
+  // IDEA: define the each used API_URL in an object to make referencing them easier?
+
+  API_URL: string; // url of Backend API
+
+  constructor(private http: HttpClient) {
+    this.API_URL = '//localhost:3000';
+  }
 
   options: {
     headers?: HttpHeaders | { [header: string]: string | string[] };
@@ -23,101 +29,22 @@ export class ProductManagementService {
     withCredentials?: boolean;
   };
 
-  //#region Test Handlers
-  getTest(): Observable<any> {
-    // IMPORTANT: options can make or break the response handler
-    const options = {
-      observe: 'body' as const,
-      responseType: 'text' as const,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
-    const res = this.http.get(this.API_URL + '/test', options);
-
-    return res;
-  }
-
-  // POST Handler
-  postTest() {
-    const options = {
-      observe: 'body' as const,
-      responseType: 'text' as const,
-    };
-
-    const res = this.http.post(
-      this.API_URL + '/test',
-      { hello: 'there' },
-      options
-    );
-
-    return res;
-  }
-
-  // PUT Handler
-  putTest() {
-    const options = {
-      observe: 'body' as const,
-      responseType: 'text' as const,
-    };
-
-    const res = this.http.put(
-      this.API_URL + '/test',
-      { hello: 'again' },
-      options
-    );
-
-    return res;
-  }
-
-  // DELETE Handler
-  deleteTest() {
-    const options = {
-      observe: 'body' as const,
-      responseType: 'text' as const,
-    };
-
-    const res = this.http.delete(this.API_URL + '/test', options);
-
-    return res;
-  }
-
-  // Server Response Test
-  serverResponseTest() {
-    const options = {
-      observe: 'response' as const,
-      responseType: 'text' as const,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
-    const res = this.http.post(
-      this.API_URL + '/forms',
-      { category: 'TEST', name: 'Message from Frontend' },
-      options
-    );
-
-    return res;
-  }
-
-  //#endregion Test Handlers
-
   // Method to convert necessary fields to a numerical value
-  fixQueryValues(product: Product): void{
+  fixQueryValues(product: Product): void {
     const numericals = ['price', 'rating', 'sold'];
     Object.keys(product).map((key, _) => {
-      if (numericals.includes(key)){
+      if (numericals.includes(key)) {
         product[key] = parseFloat(product[key]);
       }
     });
   }
 
-  //#region basic CRUD queries
+  //#region PRODUCT_FORM_QUERIES
+
+  // TODO: refactor service response handling as backend is being refactored
 
   // Search Query
-  getDocs(query, callback) {
+  getProduct(query, callback) {
     const getOptions = {
       observe: 'body' as const,
       responseType: 'json' as const,
@@ -162,21 +89,21 @@ export class ProductManagementService {
       observe: 'body' as const,
       responseType: 'text' as const,
       headers: {
-        "Content-Type": "application/json"
-      }
-    }
+        'Content-Type': 'application/json',
+      },
+    };
 
     // Convert numerical fields from <string> -> <number>
     this.fixQueryValues(product);
 
-    this.http.put(this.API_URL + "/forms", product, putOptions).subscribe(
+    this.http.put(this.API_URL + '/forms', product, putOptions).subscribe(
       (response) => {
         callback(response);
       },
       (err) => {
         callback(err);
       }
-    )
+    );
   }
 
   // Product Delete Request
@@ -185,42 +112,43 @@ export class ProductManagementService {
       observe: 'body' as const,
       responseType: 'text' as const,
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json',
       },
     };
 
-    this.http.post(this.API_URL + "/forms/delete", product, deleteOptions).subscribe(
-      (response) => {
-        callback(response);
-      },
-      (err) => {
-        callback(err);
-      }
-    )
-
+    this.http
+      .post(this.API_URL + '/forms/delete', product, deleteOptions)
+      .subscribe(
+        (response) => {
+          callback(response);
+        },
+        (err) => {
+          callback(err);
+        }
+      );
   }
 
-  //#endregion basic CRUD queries
+  //#endregion PRODUCT_FORM_QUERIES
 
+  // TODO: change function / method names
   //#region Product Queries
 
   // Simple Product Query
-  simpleQuery(query, single_product:boolean, callback){
+  simpleQuery(query, single_product: boolean, callback) {
     const options = {
       observe: 'body' as const,
       responseType: 'json' as const,
       header: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     };
-
 
     let url = this.API_URL;
 
     // backend expects this param when loading a single document
-    if (single_product){
+    if (single_product) {
       url += '?for_product_page=true';
-    };
+    }
 
     this.http.post(url, query, options).subscribe(
       (response) => {
@@ -230,11 +158,14 @@ export class ProductManagementService {
         callback(err);
       }
     );
-
   }
 
   // Advanced Product Query
-  advancedGetDocs(page_num, query, sort_by, callback: Function){
+  /*
+    Advanced Query is mainly used to load a page of products,
+    or load products pre-ordered according to a certain criteria
+  */
+  advancedQuery(page_num, query, sort_by, callback: Function) {
     const getOptions = {
       observe: 'body' as const,
       responseType: 'json' as const,
@@ -246,12 +177,8 @@ export class ProductManagementService {
     let url = this.API_URL + '/browse?page=' + page_num;
 
     // adding sort filters as a url parameter
-    if (sort_by !== null){
-      url += "&sort_by=" + sort_by;
-
-      console.log("current url: ");
-      console.log(url);
-
+    if (sort_by !== null) {
+      url += '&sort_by=' + sort_by;
     }
 
     this.http.post(url, query, getOptions).subscribe(
@@ -265,5 +192,4 @@ export class ProductManagementService {
   }
 
   //#endregion Product Queries
-
 }

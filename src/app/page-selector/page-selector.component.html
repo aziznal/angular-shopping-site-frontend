@@ -1,15 +1,14 @@
 <div class="page-selector-container">
+  <!-- Previous Page Button -->
+  <button (click)="previousPage()" [disabled]="!enablePrevious">Prev.</button>
 
-  <button (click)="previousPage()"
-   [disabled]="!enablePrevious"
-  >Prev.</button>
+  <!-- Page Number Input Field -->
+  <input type="text" name="for" [(ngModel)]="page_number" />
 
-  <input type="text" name="for" [(ngModel)]="page_number">
+  <!-- Next Page Button -->
+  <button (click)="nextPage()" [disabled]="!enableNext">Next</button>
 
-  <button (click)="nextPage()"
-  [disabled]="!enableNext"
-  >Next</button>
-
+  <!-- Go Button -->
   <button (click)="changePage()">Go</button>
 
 </div>

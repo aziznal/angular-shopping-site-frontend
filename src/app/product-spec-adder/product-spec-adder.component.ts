@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductSpecAdderComponent implements OnInit {
 
+  // TODO: implement
+
   constructor() { }
 
   ngOnInit(): void {

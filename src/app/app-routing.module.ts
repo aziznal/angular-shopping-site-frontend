@@ -3,12 +3,10 @@ import { CommonModule } from '@angular/common';
 
 import { Routes, RouterModule } from '@angular/router';
 
-import { AppComponent } from './app.component'
 import { DefaultPageComponent } from './default-page/default-page.component';
 import { DebugPageComponent } from './debug-page/debug-page.component';
 import { ProductCreatorComponent } from './product-creator/product-creator.component';
 import { TestProductsPageComponent } from './test-products-page/test-products-page.component';
-import { ServiceTestPageComponent } from './service-test-page/service-test-page.component';
 import { ProductFormsPageComponent } from './product-forms-page/product-forms-page.component';
 import { ProductUpdaterFormComponent } from './product-updater-form/product-updater-form.component';
 import { ProductRemoverFormComponent } from './product-remover-form/product-remover-form.component';
@@ -22,9 +20,9 @@ import { UpdateInfoPageComponent } from './user-account-page/update-info-page/up
 const routes: Routes = [
   { path: '', component: DefaultPageComponent },
   { path: 'debug', component: DebugPageComponent },
-  { path: 'debug/product-test-page/:category', component: TestProductsPageComponent },
-  { path: 'debug/service-test-page', component: ServiceTestPageComponent },
 
+  // TODO: refactor this path to root/:category/&page_params=
+  { path: 'debug/product-test-page/:category', component: TestProductsPageComponent },
 
   // Product Manipulation Forms' paths:
   { path: 'debug/product-forms-page', component: ProductFormsPageComponent },

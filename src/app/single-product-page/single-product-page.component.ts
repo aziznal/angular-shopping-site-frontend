@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { ProductManagementService } from '../product-management.service';
-
 import { Product } from '../../templates/product';
 
 @Component({
@@ -11,10 +10,15 @@ import { Product } from '../../templates/product';
   styleUrls: ['./single-product-page.component.css'],
 })
 export class SingleProductPageComponent implements OnInit {
+  // TODO: implement
+  // page variables
+  product: Product;
+  message: string;
+  productFound: boolean;
+
   constructor(
     private productService: ProductManagementService,
-    private route: ActivatedRoute,
-    private router: Router
+    private route: ActivatedRoute
   ) {
     this.product = {} as Product;
     this.productFound = true;
@@ -29,31 +33,24 @@ export class SingleProductPageComponent implements OnInit {
 
     // then load data from backend
     this.productService.simpleQuery(this.product, true, (response) => {
-
       if (response.status == 404) {
-        console.log('Product not Found');
         this.productFound = false;
         return;
       }
 
       if (response.status == 400) {
+        // TODO: replace with response.body[msg]
         console.log('More than one product was found. Check Your Query!');
         this.productFound = false;
         return;
       }
-
-      console.log('Found Product!');
+      // TODO: replace with response.body['product'] or something (after service refactor)
       this.product = response;
       this.productFound = true;
-
     });
   }
 
-  // page variables
-  product: Product;
-  message: string;
-  productFound: boolean;
-
+  // TODO: refactor into own file / component
   //#region Rating Stars
 
   generateStarsCapacity(difference: number) {

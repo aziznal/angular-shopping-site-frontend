@@ -9,18 +9,19 @@ import { User } from 'src/templates/user';
   styleUrls: ['./user-account-page.component.css'],
 })
 export class UserAccountPageComponent implements OnInit {
+  // page variables
+  user: User;
+  loadPage: boolean; // to stop page from loading before needed data is loaded
+  username: string; // displayed in html. here in case user doesn't have a username
+
   constructor(
     private userService: UserManagementService,
     private router: Router
   ) {
     this.user = this.userService.user;
     this.loadPage = false;
+    this.username = "";
   }
-
-  // page variables
-  user: User;
-  loadPage: boolean; // to stop page from loading before needed data is loaded
-  username: string; // displayed in html. here in case user doesn't have a username
 
   ngOnInit(): void {
     // Check that user is signed in before displaying page
@@ -28,9 +29,8 @@ export class UserAccountPageComponent implements OnInit {
       this.router.navigate(['/login']);
     }
 
-    // Note: everything goes INSIDE the else if the user must be loggged in
+    // Note: everything goes INSIDE the 'else' if the user must be loggged in
     else {
-
       // Determine what to display for username fields
       if (this.user.user_profile_info) {
         // User has username
@@ -48,7 +48,7 @@ export class UserAccountPageComponent implements OnInit {
         this.username = this.user.user_email.split('@')[0];
       }
 
-      // This goes in at LAST
+      // This goes in LAST
       this.loadPage = true;
     }
   }

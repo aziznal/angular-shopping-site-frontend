@@ -32,9 +32,9 @@
   color: rgb(0, 0, 102);
   padding: 1.3em;
 
-  border: 1px solid rgb(153, 153, 153);
   background-color: rgb(238, 238, 238);
 
+  border: 1px solid rgb(153, 153, 153);
   border-radius: 6px;
 
 }
@@ -42,6 +42,10 @@
 .dev-link a:hover {
   color: cadetblue;
   background-color: rgb(245, 245, 245);
+}
+
+.dev-link a:active {
+  background-color: rgb(209, 209, 209);
 }
 
 .dev-link.result a {
@@ -55,6 +59,7 @@
   color: black;
   background-color: rgb(238, 238, 238);
 }
+
 
 .result-section {
 

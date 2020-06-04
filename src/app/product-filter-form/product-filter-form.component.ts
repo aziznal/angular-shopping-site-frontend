@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Product } from 'src/templates/product';
-
 import { ProductManagementService } from '../product-management.service';
+import { categories } from '../top-side/categories';
+import { Product } from 'src/templates/product';
 
 @Component({
   selector: 'app-product-filter-form',
@@ -10,31 +10,33 @@ import { ProductManagementService } from '../product-management.service';
   styleUrls: ['./product-filter-form.component.css'],
 })
 export class ProductFilterFormComponent implements OnInit {
-  constructor(private productService: ProductManagementService) {}
+  // Page Variables
+  product: Product;
+  categories;
+  results: Product[];
+  show_results: boolean;
+
+  constructor(private productService: ProductManagementService) {
+    this.product = {} as Product;
+    this.categories = categories;
+    this.results = [] as Product[];
+    this.show_results = false;
+  }
 
   ngOnInit(): void {}
 
-  product = {} as Product;
-  results = {} as Product | Product[];
-  show_results: boolean = false;
-
   // Form Submit Button
   onSubmit() {
-    console.log(this.product);
-
-    this.productService.getDocs(this.product, (search_results) => {
+    this.productService.getProduct(this.product, (search_results) => {
       this.results = search_results;
       this.show_results = true;
-
-      console.log('\nGot the following as response from the server:\n');
-      console.log(this.results);
     });
   }
 
   // Form Reset Button
   onReset() {
     this.product = {} as Product;
-    this.results = {} as Product | Product[];
+    this.results = [] as Product[];
     this.show_results = false;
   }
 }
