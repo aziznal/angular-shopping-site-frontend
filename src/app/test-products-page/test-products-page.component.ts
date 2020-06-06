@@ -49,15 +49,14 @@ export class TestProductsPageComponent implements OnInit {
 
   // Loads all products from backend
   loadData() {
-    this.productService.advancedQuery(
+    this.productService.advancedProductQuery(
       this.page_number,
       { category: this.category },
       this.sort_by,
       (response) => {
         if (response.status == 404) console.log('404 No Products were found!');
 
-        // TODO: refactor to response.body[something] (after service refactor)
-        this.products = response;
+        this.products = response.body['results'];
       }
     );
   }

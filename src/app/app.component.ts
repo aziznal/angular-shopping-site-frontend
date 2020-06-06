@@ -8,6 +8,7 @@ import { UserManagementService } from './user-management.service';
 })
 export class AppComponent {
   // TODO: create an error page that gets the error code passed to it when called
+  // TODO: create an admin-only accessible account managing page
 
   loadPage: boolean;
 

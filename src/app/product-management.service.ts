@@ -46,11 +46,8 @@ export class ProductManagementService {
   // Search Query
   getProduct(query, callback) {
     const getOptions = {
-      observe: 'body' as const,
+      observe: 'response' as const,
       responseType: 'json' as const,
-      headers: {
-        'Content-Type': 'application/json',
-      },
     };
 
     this.http.post(this.API_URL + '/forms/get', query, getOptions).subscribe(
@@ -66,11 +63,8 @@ export class ProductManagementService {
   // Product Create Request
   createProduct(product: Product, callback) {
     const postOptions = {
-      observe: 'body' as const,
-      responseType: 'text' as const,
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      observe: 'response' as const,
+      responseType: 'json' as const,
     };
 
     // Convert numerical fields from <string> -> <number>
@@ -86,11 +80,8 @@ export class ProductManagementService {
   // Product Update Request
   updateProduct(product: Product, callback) {
     const putOptions = {
-      observe: 'body' as const,
-      responseType: 'text' as const,
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      observe: 'response' as const,
+      responseType: 'json' as const,
     };
 
     // Convert numerical fields from <string> -> <number>
@@ -109,11 +100,8 @@ export class ProductManagementService {
   // Product Delete Request
   removeProduct(product: Product, callback) {
     const deleteOptions = {
-      observe: 'body' as const,
-      responseType: 'text' as const,
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      observe: 'response' as const,
+      responseType: 'json' as const,
     };
 
     this.http
@@ -134,13 +122,10 @@ export class ProductManagementService {
   //#region Product Queries
 
   // Simple Product Query
-  simpleQuery(query, single_product: boolean, callback) {
+  simpleProductQuery(query, single_product: boolean, callback) {
     const options = {
-      observe: 'body' as const,
+      observe: 'response' as const,
       responseType: 'json' as const,
-      header: {
-        'Content-Type': 'application/json',
-      },
     };
 
     let url = this.API_URL;
@@ -165,13 +150,10 @@ export class ProductManagementService {
     Advanced Query is mainly used to load a page of products,
     or load products pre-ordered according to a certain criteria
   */
-  advancedQuery(page_num, query, sort_by, callback: Function) {
-    const getOptions = {
-      observe: 'body' as const,
+  advancedProductQuery(page_num, query, sort_by, callback: Function) {
+    const reqOptions = {
+      observe: 'response' as const,
       responseType: 'json' as const,
-      headers: {
-        'Content-Type': 'application/json',
-      },
     };
 
     let url = this.API_URL + '/browse?page=' + page_num;
@@ -181,7 +163,7 @@ export class ProductManagementService {
       url += '&sort_by=' + sort_by;
     }
 
-    this.http.post(url, query, getOptions).subscribe(
+    this.http.post(url, query, reqOptions).subscribe(
       (response) => {
         callback(response);
       },

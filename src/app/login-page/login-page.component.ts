@@ -10,7 +10,7 @@ import { User } from '../../templates/user';
   styleUrls: ['./login-page.component.css'],
 })
 export class LoginPageComponent implements OnInit {
-  // Page Variables
+  // ### Page Variables
   user = {} as User;
   success = false;
   failed = false;
@@ -24,18 +24,17 @@ export class LoginPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Check to see if user accessing this page is already signed in
-    // If Yes, then redirect them to user-account immediately
-    if (this.userService.userIsLoggedIn) {
-      this.router.navigate(['/user-account']);
-    }
+
   }
 
+
+  //#region VALIDATION_METHODS
   checkEmailField() {
     // Confirm not-empty, then remove warnings
     if (this.user.user_email) {
       this.bad_email = false;
       this.bad_password = false;
+      this.failed = false;
     }
   }
 
@@ -43,17 +42,20 @@ export class LoginPageComponent implements OnInit {
     // Confirm not-empty, then remove warnings
     if (this.user.user_password) {
       this.bad_password = false;
+      this.failed = false;
     }
   }
 
-  // Confirm fields not-empty
-  validateForm(): boolean {
+  // Confirm fields not-empty (or at least other warnings have popped up)
+  validateFormIsTouched(): boolean {
     if (this.user.user_email && this.user.user_password) return true;
   }
 
+  //#endregion VALIDATION_METHODS
+
   // Form Submit Handler
   onSubmit() {
-    if (this.validateForm()) {
+    if (this.validateFormIsTouched()) {
       this.userService.loginUser(this.user, (response: Response) => {
         switch (response.status) {
           // Success

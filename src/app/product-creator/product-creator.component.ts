@@ -49,12 +49,13 @@ export class ProductCreatorComponent implements OnInit {
       this.product.name = this.generateName();
     }
 
-    this.productService.createProduct(this.product, (response: string) => {
+    this.productService.createProduct(this.product, (response) => {
       // Response may include quotes at the start and finish, this gets rid of em
-      // TODO: refactor to use response.body['msg'] (after service refactor)
-      if (response[0] == '"') response = response.slice(1, response.length - 1);
+      let inserted_product_id = response.body['inserted_id'];
+      if (inserted_product_id[0] == '"')
+        inserted_product_id = inserted_product_id.slice(1, inserted_product_id.length - 1);
 
-      this.product_id = response;
+      this.product_id = inserted_product_id;
     });
   }
 

@@ -37,6 +37,12 @@
         (ngModelChange)="checkPasswordField()"/>
     </div>
 
+    <div>
+      <span class="login-note" style="color: red; font-size: 1em; border: none;" *ngIf="failed">
+        No account was found with the given credentials
+      </span>
+    </div>
+
     <!-- Submit Button -->
     <button type="submit">Login</button>
 

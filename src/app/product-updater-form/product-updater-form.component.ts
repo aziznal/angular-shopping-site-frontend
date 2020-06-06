@@ -43,18 +43,15 @@ export class ProductUpdaterFormComponent implements OnInit {
       this.notFound = false;
       this.foundProduct = true;
 
-      // TODO: log response.body[msg] (after service refactor)
-      // TODO: refactor this to response.body[something] (after service refactor)
-      this.product = response[0];
+      console.log(response.body['msg']);
+      this.product = response.body['results'][0];
     });
   }
 
   onSubmit() {
     this.productService.updateProduct(this.product, (response) => {
       if (response.status == 404) {
-        // TODO: refactor to use response.body['msg'] instead (after service refactor)
-        console.log('Something went wrong');
-        console.error(response);
+        console.log(response.body['msg']);
         return;
       }
 

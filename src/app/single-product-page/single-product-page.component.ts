@@ -10,7 +10,7 @@ import { Product } from '../../templates/product';
   styleUrls: ['./single-product-page.component.css'],
 })
 export class SingleProductPageComponent implements OnInit {
-  // TODO: implement
+
   // page variables
   product: Product;
   message: string;
@@ -32,20 +32,22 @@ export class SingleProductPageComponent implements OnInit {
     });
 
     // then load data from backend
-    this.productService.simpleQuery(this.product, true, (response) => {
+    this.productService.simpleProductQuery(this.product, true, (response) => {
       if (response.status == 404) {
         this.productFound = false;
         return;
       }
 
       if (response.status == 400) {
-        // TODO: replace with response.body[msg]
-        console.log('More than one product was found. Check Your Query!');
+        console.log(response.body['mgs']);
         this.productFound = false;
         return;
       }
-      // TODO: replace with response.body['product'] or something (after service refactor)
-      this.product = response;
+
+      console.log("Logging Response");
+      console.log(JSON.stringify(response, null, 2));
+
+      this.product = response.body['results'];
       this.productFound = true;
     });
   }

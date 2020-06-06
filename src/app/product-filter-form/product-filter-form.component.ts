@@ -27,8 +27,8 @@ export class ProductFilterFormComponent implements OnInit {
 
   // Form Submit Button
   onSubmit() {
-    this.productService.getProduct(this.product, (search_results) => {
-      this.results = search_results;
+    this.productService.getProduct(this.product, (response) => {
+      this.results = response.body['results'];
       this.show_results = true;
     });
   }

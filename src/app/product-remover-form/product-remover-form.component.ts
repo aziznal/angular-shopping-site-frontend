@@ -36,7 +36,6 @@ export class ProductRemoverFormComponent implements OnInit {
     }
 
     this.productService.getProduct({ _id: this.idToSearch }, (response) => {
-      // TODO: check this still works after service refactor
       if (response.status == 404) {
         this.notFound = true;
         return;
@@ -45,8 +44,7 @@ export class ProductRemoverFormComponent implements OnInit {
       this.notFound = false;
       this.foundProduct = true;
 
-      // TODO: refactor to response.body[0] instead (after service refactor)
-      this.product = response[0];
+      this.product = response.body['results'][0];
     });
   }
 
@@ -55,12 +53,11 @@ export class ProductRemoverFormComponent implements OnInit {
     this.productService.removeProduct(this.product, (response) => {
 
       if (response.status == 404) {
-        console.log('Something went wrong');
+        console.log(response.body['msg']);
         console.error(JSON.stringify(response, null, 2));
         return;
       }
 
-      // TODO: log response.body['msg'] (after service refactor)
       this.productRemoved = true;
 
     });
