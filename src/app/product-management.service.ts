@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 
 // typical service imports
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
 import { Product } from 'src/templates/product';
 
 @Injectable({
@@ -40,8 +38,6 @@ export class ProductManagementService {
   }
 
   //#region PRODUCT_FORM_QUERIES
-
-  // TODO: refactor service response handling as backend is being refactored
 
   // Search Query
   getProduct(query, callback) {
@@ -118,7 +114,6 @@ export class ProductManagementService {
 
   //#endregion PRODUCT_FORM_QUERIES
 
-  // TODO: change function / method names
   //#region Product Queries
 
   // Simple Product Query

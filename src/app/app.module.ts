@@ -28,6 +28,7 @@ import { UserManagementService } from './user-management.service';
 import { UserAccountPageComponent } from './user-account-page/user-account-page.component';
 import { UpdateInfoPageComponent } from './user-account-page/update-info-page/update-info-page.component';
 import { UserAccountSidebarComponent } from './user-account-page/user-account-sidebar/user-account-sidebar.component';
+import { CartCheckoutPageComponent } from './cart-checkout-page/cart-checkout-page.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { UserAccountSidebarComponent } from './user-account-page/user-account-si
     UserAccountPageComponent,
     UpdateInfoPageComponent,
     UserAccountSidebarComponent,
+    CartCheckoutPageComponent,
   ],
   imports: [
     BrowserModule,

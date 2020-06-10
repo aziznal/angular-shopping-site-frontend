@@ -13,7 +13,7 @@ a {
   text-decoration: none;
 }
 
-/* Removing Defaults for Anchor */
+/* Removing Default Behaviors for Anchor */
 a:link,
 a:visited,
 a:hover,

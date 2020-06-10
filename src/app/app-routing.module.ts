@@ -16,6 +16,7 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { CreateAccountPageComponent } from './create-account-page/create-account-page.component';
 import { UserAccountPageComponent } from './user-account-page/user-account-page.component';
 import { UpdateInfoPageComponent } from './user-account-page/update-info-page/update-info-page.component';
+import { CartCheckoutPageComponent } from './cart-checkout-page/cart-checkout-page.component';
 
 const routes: Routes = [
   { path: '', component: DefaultPageComponent },
@@ -24,7 +25,7 @@ const routes: Routes = [
   // TODO: refactor this path to root/:category/&page_params=
   { path: 'debug/product-test-page/:category', component: TestProductsPageComponent },
 
-  // Product Manipulation Forms' paths:
+  // ### Product Forms:
   { path: 'debug/product-forms-page', component: ProductFormsPageComponent },
   { path: 'debug/product-forms-page/creator', component: ProductCreatorComponent },
   { path: 'debug/product-forms-page/updater', component: ProductUpdaterFormComponent },
@@ -33,12 +34,14 @@ const routes: Routes = [
 
   { path: 'p/:_id', component: SingleProductPageComponent },
 
-  // User related pages
+  // ### User related
   { path: 'login', component: LoginPageComponent },
   { path: 'create-user-account', component: CreateAccountPageComponent },
   { path: 'user-account', component: UserAccountPageComponent },
-  { path: 'user-account/update-info', component: UpdateInfoPageComponent }
+  { path: 'user-account/update-info', component: UpdateInfoPageComponent },
 
+  // ### Cart
+  { path: 'cart', component: CartCheckoutPageComponent },
 ]
 
 @NgModule({

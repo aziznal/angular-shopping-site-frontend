@@ -24,9 +24,11 @@ export class LoginPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
+    // If user is already signed in, then redirect to user-account
+    if (this.userService.userIsLoggedIn) {
+      this.router.navigate(['/user-account']);
+    }
   }
-
 
   //#region VALIDATION_METHODS
   checkEmailField() {
@@ -53,7 +55,7 @@ export class LoginPageComponent implements OnInit {
 
   //#endregion VALIDATION_METHODS
 
-  // Form Submit Handler
+  // ### Form Submit Handler
   onSubmit() {
     if (this.validateFormIsTouched()) {
       this.userService.loginUser(this.user, (response: Response) => {
@@ -62,6 +64,7 @@ export class LoginPageComponent implements OnInit {
           case 200:
             this.success = true;
             this.userService.userIsLoggedIn = true;
+            this.router.navigate(['user-account']);
             document.location.reload();
             break;
 

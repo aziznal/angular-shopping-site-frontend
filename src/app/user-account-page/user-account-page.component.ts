@@ -29,6 +29,7 @@ export class UserAccountPageComponent implements OnInit {
       this.router.navigate(['/login']);
     }
 
+    // BUG: getting this.user undefined error when user first logs in and gets redirected to this page
     // Note: everything goes INSIDE the 'else' if the user must be loggged in
     else {
       // Determine what to display for username fields
