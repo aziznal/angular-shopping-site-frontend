@@ -1,0 +1,69 @@
+/* ### Main container */
+.sidebar-container {
+  display: flex;
+  flex-direction: column;
+
+
+  margin-top: 1em;
+
+  width: 30%;
+
+  background-color: var(--main-bg-color);
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  border: 1px solid var(--main-border-color);
+  border-left: 0;
+
+  border-radius: 4px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+/* ### Total Item Price */
+.sidebar-price-total {
+
+  padding: 1em;
+  margin: 1em;
+
+  font-size: 2em;
+
+  background-color: rgb(238, 238, 238);
+
+  border: 1px solid rgb(161, 161, 161);
+
+}
+
+/* ### Custom Hover Button Attributes */
+.hover-button {
+  display: inline-flex;
+
+  width: 12em;
+  height: 2.2em;
+
+  margin: 0.2em 0.4em;
+
+  background-color: rgb(72, 228, 255);
+
+  font-size: 1.4em;
+
+  border: 1px solid rgb(151, 151, 151);
+  border-radius: 8px;
+}
+
+/* ### Clear / Checkout Buttons container */
+.sidebar-button-container {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  height: 9em;
+
+  padding: 0.3em;
+  margin: 0.3em;
+
+  /* border: 1px solid black; */
+}
+

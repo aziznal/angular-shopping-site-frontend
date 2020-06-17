@@ -23,6 +23,7 @@ const routes: Routes = [
   { path: 'debug', component: DebugPageComponent },
 
   // TODO: refactor this path to root/:category/&page_params=
+  // TODO: create a differently named component for the products page
   { path: 'debug/product-test-page/:category', component: TestProductsPageComponent },
 
   // ### Product Forms:

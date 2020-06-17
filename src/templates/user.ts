@@ -12,4 +12,6 @@ export type User = {
     gender?: "M" | "F";
   };
 
+  cart?: string[];
+
 };

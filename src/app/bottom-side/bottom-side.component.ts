@@ -12,4 +12,5 @@ export class BottomSideComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
 }

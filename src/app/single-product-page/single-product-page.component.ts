@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { ProductManagementService } from '../product-management.service';
+import { CartServiceService } from '../cart-service.service';
+import { UserManagementService } from '../user-management.service';
+
 import { Product } from '../../templates/product';
 
 @Component({
@@ -10,18 +13,23 @@ import { Product } from '../../templates/product';
   styleUrls: ['./single-product-page.component.css'],
 })
 export class SingleProductPageComponent implements OnInit {
-
-  // page variables
+  // ### Page Variables
+  @Output() newItemCounter = new EventEmitter<string>(); // Sends a message to app.component
   product: Product;
   message: string;
   productFound: boolean;
+  userSignedIn: boolean;
 
   constructor(
     private productService: ProductManagementService,
-    private route: ActivatedRoute
+    private userCart: CartServiceService,
+    private userService: UserManagementService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.product = {} as Product;
     this.productFound = true;
+
   }
 
   ngOnInit(): void {
@@ -44,12 +52,28 @@ export class SingleProductPageComponent implements OnInit {
         return;
       }
 
-      console.log("Logging Response");
-      console.log(JSON.stringify(response, null, 2));
-
       this.product = response.body['results'];
       this.productFound = true;
     });
+  }
+
+  // ### Add to Cart Button
+  async addToCart() {
+    // TODO: Add counter to allow user to add multiple of the same item without clicking many times
+
+    // TODO: pass in current url to redirect to after user has logged in
+    if (!this.userService.userIsLoggedIn){
+      this.router.navigate(['login']);
+      return;
+    }
+
+    await this.userCart.add(this.product._id);
+
+    this.showAddedItemToCart();
+  }
+
+  showAddedItemToCart() {
+    console.log('Item Added to cart');
   }
 
   // TODO: refactor into own file / component

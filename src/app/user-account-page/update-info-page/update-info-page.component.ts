@@ -125,11 +125,14 @@ export class UpdateInfoPageComponent implements OnInit {
   }
 
   // Validate Gender
-  // TODO: this field doesn't need validation per ce, but maybe a user could inject something into an <option>?
   checkFieldGender() {
     const check = () => {
       this.bad_fields.gender = true;
     };
+
+    // NOTE: a user can "inject" whatever they want in an option and pass it off that way
+    if (this.user.user_profile_info.gender != "F" && this.user.user_profile_info.gender != "M") return check();
+
   }
 
   // Validate Phone number field

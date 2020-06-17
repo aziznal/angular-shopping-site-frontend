@@ -1,13 +1,83 @@
-<div class="main-cart-container">
+<div class="cart-page-container">
+  <div class="main-cart-container">
+    <!-- ### Title Section -->
 
-  <span class="cart-title">You have the following items in your cart</span>
+    <div class="title">
+      <span class="cart-title">You have the following items in your cart</span>
+    </div>
 
-  <div class="separator"></div>
+    <div class="separator"></div>
 
-  <div class="main-cart-subcontainer">
+    <div class="main-cart-subcontainer">
+      <div class="cart-item-container" *ngIf="!cartEmpty">
+        <!-- For each item in cart -->
+        <div class="cart-item" *ngFor="let item of cartItems">
+          <!-- Counter -->
+          <!-- TODO: change counter into something that doesn't use an input, and make custom increase / decrease buttons -->
+          <div class="cart-item-counter-container">
+            <span class="item-counter-button" (click)="increaseCart(item)"
+              >^</span
+            >
+            <span class="item-counter-display">{{ item.amount }}</span>
+            <span class="item-counter-button" (click)="decreaseCart(item)"
+              >v</span
+            >
+          </div>
 
-    <p *ngIf="cartEmpty">Looks like your cart is empty, browse and add some stuff!</p>
+          <!-- Image -->
+          <img
+            class="cart-product-image"
+            src="../../assets/product-sample-images/product-placeholder.jpg"
+            alt="product-image"
+          />
 
+          <!-- Name -->
+          <span class="cart-product-name">{{ item.product.name }}</span>
+
+          <!-- Rating -->
+          <div class="cart-product-rating">
+            Rating: {{ item.product.rating }} / 5
+          </div>
+
+          <!-- Price -->
+          <span class="cart-product-price">
+            {{ item.product.price * item.amount | currency }}</span
+          >
+        </div>
+      </div>
+
+      <!-- If cart is empty -->
+      <div class="empty-cart-container" *ngIf="cartEmpty">
+        <span>It's a ghost town in here! browse and add something!</span>
+      </div>
+    </div>
   </div>
 
+  <div class="sidebar-container" *ngIf="!cartEmpty">
+
+    <!-- Item Total -->
+    <span class="sidebar-price-total">Total: {{ itemsTotalPrice | currency }}</span>
+
+    <!-- Buttons -->
+    <div class="sidebar-button-container">
+
+      <!-- Checkout Button -->
+      <button
+        class="hover-button"
+        *ngIf="!cartEmpty"
+        onclick="alert('Nice try, Loser.')">
+        <span>Check out</span>
+      </button>
+
+      <!-- Clear Cart Button -->
+      <button
+        class="hover-button"
+        (click)="clearCart()"
+        style="background-color: rgb(219, 219, 219);"
+        *ngIf="!cartEmpty">
+        <span>Clear Cart</span>
+      </button>
+
+    </div>
+  </div>
 </div>

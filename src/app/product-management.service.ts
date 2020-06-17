@@ -118,26 +118,34 @@ export class ProductManagementService {
 
   // Simple Product Query
   simpleProductQuery(query, single_product: boolean, callback) {
-    const options = {
-      observe: 'response' as const,
-      responseType: 'json' as const,
-    };
 
-    let url = this.API_URL;
+    return new Promise ((resolve, reject) => {
 
-    // backend expects this param when loading a single document
-    if (single_product) {
-      url += '?for_product_page=true';
-    }
+      const options = {
+        observe: 'response' as const,
+        responseType: 'json' as const,
+      };
 
-    this.http.post(url, query, options).subscribe(
-      (response) => {
-        callback(response);
-      },
-      (err) => {
-        callback(err);
+      let url = this.API_URL;
+
+      // backend expects this param when loading a single document
+      if (single_product) {
+        url += '?for_product_page=true';
       }
-    );
+
+      this.http.post(url, query, options).subscribe(
+        (response) => {
+          callback(response);
+          resolve();
+        },
+        (err) => {
+          callback(err);
+          resolve();
+        }
+      );
+
+    });
+
   }
 
   // Advanced Product Query

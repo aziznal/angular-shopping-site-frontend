@@ -88,7 +88,7 @@ export class TestProductsPageComponent implements OnInit {
     this.loadData();
   }
 
-  // TODO: refactor script into its own file
+  // REFACTOR: put script into its own file
   //#region Rating Stars
 
   generateStarsCapacity(difference: number) {

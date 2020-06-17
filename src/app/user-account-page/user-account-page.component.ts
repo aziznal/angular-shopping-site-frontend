@@ -30,6 +30,7 @@ export class UserAccountPageComponent implements OnInit {
     }
 
     // BUG: getting this.user undefined error when user first logs in and gets redirected to this page
+    // NOTE: bug is most likely because an await is missing where one should be present
     // Note: everything goes INSIDE the 'else' if the user must be loggged in
     else {
       // Determine what to display for username fields

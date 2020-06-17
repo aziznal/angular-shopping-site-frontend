@@ -20,14 +20,22 @@
     <h1>{{ product.name }}</h1>
     <h2>{{ product.brand }}</h2>
     <h3>{{ product.price | currency }}</h3>
+
     <div class="product-rating">
       <span><strong>Rating:</strong> {{ product.rating }} / 5</span>
-
       <div
         class="star-container"
         *ngFor="let star of generateStars(product.rating)">
         <img [src]="star" alt="star.png" class="rating-star"/>
       </div>
     </div>
+
+    <!-- Add to Cart Button -->
+    <div class="add-to-cart-area">
+      <button class="hover-button" (click)="addToCart()">
+        <span>Add to Cart</span>
+      </button>
+    </div>
+
   </div>
 </div>

@@ -10,6 +10,7 @@ export class AppComponent {
   // TODO: create an error page that gets the error code passed to it when called
   // TODO: create an admin-only accessible account managing page
 
+  // ### Page Varialbes
   loadPage: boolean;
 
   constructor(private userService: UserManagementService) {
@@ -28,4 +29,5 @@ export class AppComponent {
 
     this.loadPage = true;
   }
+
 }

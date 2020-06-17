@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "angular-shopping-site"
+    }
+  },
+  "defaultProject": "angular-shopping-site",
+  "cli": {
+    "analytics": false
+  }
 }

@@ -2,7 +2,7 @@
   grid-area: categories;
 
   width: 99.9%;
-  height: 3.5em;
+  height: 2.5em;
 
   display: flex;
   flex-direction: row;
@@ -21,7 +21,7 @@
 
   height: 100%;
 
-  font-size: 1em;
+  font-size: 0.75em;
   font-family: sans-serif;
   font-weight: bold;
 
