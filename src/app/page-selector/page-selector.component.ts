@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -15,6 +15,15 @@ export class PageSelectorComponent implements OnInit {
   // Page Variables
   page_params;
   page_number: string;
+  private _total_page_number: number;
+
+  @Input()
+  set total_page_number(total_page_number: number) {
+    this._total_page_number = total_page_number;
+
+    // Update Next Button
+    this.enableNext = +this.page_number < this._total_page_number;
+  };
 
   // for enabling and disabling prev. page and next page buttons
   enablePrevious: boolean;
@@ -48,8 +57,11 @@ export class PageSelectorComponent implements OnInit {
       if (params.page) this.page_number = params.page; // then see if actually provided
 
       this.enablePrevious = +this.page_number > 0;
-      this.enableNext = true;
+      this.enableNext = +this.page_number < this._total_page_number;
     });
+
+    console.log("Page Selector now sees total_page_number as " + this.total_page_number);
+
   }
 
   // Change Page

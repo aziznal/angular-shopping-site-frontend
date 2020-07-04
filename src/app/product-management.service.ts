@@ -10,7 +10,7 @@ import { Product } from 'src/templates/product';
 export class ProductManagementService {
   // TODO: put the Product Star Generator script in here since it's only gonna be used with products
 
-  // IDEA: define the each used API_URL in an object to make referencing them easier?
+  // IDEA: define each used API_URL in an object to make referencing them easier?
 
   API_URL: string; // url of Backend API
 

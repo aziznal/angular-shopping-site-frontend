@@ -17,6 +17,7 @@ export class TestProductsPageComponent implements OnInit {
   search_filters: string[];
 
   page_number: number;
+  total_page_number: number;
   category: string;
   sort_by: string;
 
@@ -30,6 +31,7 @@ export class TestProductsPageComponent implements OnInit {
   ) {
     this.products = [] as Product[];
     this.page_number = 0;
+    this.total_page_number = 0;
     this.category = '';
     this.search_filters = search_filters;
   }
@@ -55,8 +57,9 @@ export class TestProductsPageComponent implements OnInit {
       this.sort_by,
       (response) => {
         if (response.status == 404) console.log('404 No Products were found!');
-
         this.products = response.body['results'];
+        this.total_page_number = response.body['total_page_number'];
+        console.log("Got this many total pages: " + this.total_page_number);
       }
     );
   }
