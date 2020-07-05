@@ -15,7 +15,34 @@
   text-align: center;
 
   border: 1px solid rgb(128, 128, 128);
+  border-right: none;
+
   border-radius: 2px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+
+}
+
+.page-selector-container span {
+
+  width: fit-content;
+  padding: 0.5em 0.3em;
+  overflow: hidden;
+
+  font-size: 0.75em;
+  text-align: center;
+
+  justify-self: center;
+  align-self: center;
+
+  border: 1px solid rgb(128, 128, 128);
+  border-left: none;
+
+  border-radius: 2px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+
+  cursor: default;
 
 }
 

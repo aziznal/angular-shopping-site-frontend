@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -8,11 +8,15 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./page-selector.component.css'],
 })
 export class PageSelectorComponent implements OnInit {
-  // TODO: show max amount of pages for current category (after finishing cleanup on frontend)
-  // TODO: emit event to parent to reload only data instead of entire page
-  // https://medium.com/@Zeroesandones/emit-an-event-from-a-child-to-parent-component-in-angular-9-7c3690c75f6
+
+  // Event Emitter to tell parent to update page data
+  @Output() updateData = new EventEmitter<any>();
 
   // Page Variables
+  @ViewChild('nextButton', { read: ElementRef }) nextButton: ElementRef<any>;
+  @ViewChild('prevButton', { read: ElementRef }) prevButton: ElementRef<any>;
+  @ViewChild('goButton', { read: ElementRef }) goButton: ElementRef<any>;
+
   page_params;
   page_number: string;
   private _total_page_number: number;
@@ -23,6 +27,10 @@ export class PageSelectorComponent implements OnInit {
 
     // Update Next Button
     this.enableNext = +this.page_number < this._total_page_number;
+  };
+
+  get total_page_number(): number {
+    return this._total_page_number;
   };
 
   // for enabling and disabling prev. page and next page buttons
@@ -60,45 +68,68 @@ export class PageSelectorComponent implements OnInit {
       this.enableNext = +this.page_number < this._total_page_number;
     });
 
-    console.log("Page Selector now sees total_page_number as " + this.total_page_number);
-
   }
 
-  // Change Page
-  changePage() {
-    const base_route = this.router.url.split('?')[0];
-
-    // for negative inputs, do nothing.
-    if (+this.page_number < 0) return;
-
-    this.page_params.page = this.page_number;
-
-    this.router
-      .navigate([base_route], { queryParams: this.page_params })
-      .then(() => {
-        window.scrollTo(0, 0);
-        document.location.reload();
-      });
+  onPageChange() {
+    this.updateData.emit();
   }
 
+  // ### Change Page
+  async changePage() {
+    await new Promise((resolve, reject) => {
+      const base_route = this.router.url.split('?')[0];
+
+      // for negative inputs, do nothing.
+      if (+this.page_number < 0) return;
+
+      this.page_params.page = this.page_number;
+
+      this.router.navigate([base_route], { queryParams: this.page_params })
+      .then(() => { window.scrollTo(0, 0) }); // scroll to top
+
+      // Disable all three buttons for 1.5 seconds after any of them is clicked
+      this.nextButton.nativeElement.disabled = true;
+      this.prevButton.nativeElement.disabled = true;
+      this.goButton.nativeElement.disabled  = true;
+
+      setTimeout(() => {
+        this.nextButton.nativeElement.disabled = false;
+        this.prevButton.nativeElement.disabled = false;
+        this.goButton.nativeElement.disabled  = false;
+      }, 1500);
+
+      resolve();
+    })
+
+    // Send Event to parent
+    this.onPageChange();
+  }
+
+  // ### Previous Page Button
   previousPage() {
+
     if (+this.page_number < 0) {
       this.page_number = '0';
       this.changePage();
+    } else {
+
+      this.page_number = +this.page_number - 1 + '';
+      this.changePage();
     }
 
-    this.page_number = +this.page_number - 1 + '';
-    this.changePage();
   }
 
+  // ### Next Page Button
   nextPage() {
+
     // if a negative number was entered in input, reset to 0
     if (+this.page_number < 0) {
       this.page_number = '0';
       this.changePage();
-    }
+    } else {
 
-    this.page_number = +this.page_number + 1 + '';
-    this.changePage();
+      this.page_number = +this.page_number + 1 + '';
+      this.changePage();
+    }
   }
 }

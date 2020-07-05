@@ -12,7 +12,7 @@ import { Product } from 'src/templates/product';
   styleUrls: ['./test-products-page.component.css'],
 })
 export class TestProductsPageComponent implements OnInit {
-  // Page Variables
+  // ### Page Variables
   products: Product[];
   search_filters: string[];
 
@@ -21,7 +21,7 @@ export class TestProductsPageComponent implements OnInit {
   category: string;
   sort_by: string;
 
-  // Getting Sort Button Element
+  // ### Getting Sort Button Element
   @ViewChild('sortButton', { read: ElementRef }) sort_button: ElementRef<any>;
 
   constructor(
@@ -36,35 +36,44 @@ export class TestProductsPageComponent implements OnInit {
     this.search_filters = search_filters;
   }
 
+  // ### ngOnInit
   ngOnInit(): void {
+    this.initPage();
+  }
+
+  // ### init / refresh page variables and load product data
+  initPage() {
     this.route.queryParams.subscribe((params) => {
+
+      console.log("Updating Page Data..");
+
+      console.log("page_number from " + this.page_number + " to " + params.page);
       this.page_number = params.page;
+
+      console.log("sort_by from " + this.sort_by + " to " + params.sort_by);
       this.sort_by = params.sort_by;
     });
 
     this.route.params.subscribe((params) => {
+      console.log("selected category from " + this.category + " to " + params.category);
       this.category = params.category;
     });
 
     this.loadData();
   }
 
-  // Loads all products from backend
+  // ### Loads all products from backend
   loadData() {
-    this.productService.advancedProductQuery(
-      this.page_number,
-      { category: this.category },
-      this.sort_by,
-      (response) => {
+    const _query = { category: this.category };
+    this.productService.advancedProductQuery(this.page_number, _query, this.sort_by, (response) => {
         if (response.status == 404) console.log('404 No Products were found!');
         this.products = response.body['results'];
         this.total_page_number = response.body['total_page_number'];
-        console.log("Got this many total pages: " + this.total_page_number);
       }
     );
   }
 
-  // Sort Button
+  // ### Sort Button Event Handler
   sortButtonOnclick() {
     this.sort_button.nativeElement.disabled = true;
 
@@ -82,13 +91,19 @@ export class TestProductsPageComponent implements OnInit {
       query_params['sort_by'] = this.sort_by;
     }
 
-    // adjust url to persist settings even after changing to next page
+    // adjust url to keep settings after changing to another page
     this.router.navigate([this.router.url.split('?')[0]], {
       queryParams: query_params,
     });
 
     // reload data to visualize sort
     this.loadData();
+  }
+
+  // ### Event listener for page selector
+  updatePageData() {
+    // GLITCH: Multiple page data updates seem to be getting sent per child event emitted
+    this.initPage();
   }
 
   // REFACTOR: put script into its own file
