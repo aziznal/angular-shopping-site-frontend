@@ -69,7 +69,6 @@ export class CartCheckoutPageComponent implements OnInit {
 
   }
 
-  // BUG: item order gets shifted when the user increases or decreases an item's amount
   // ### Increase item amount button
   async increaseCart(item: cartItem) {
     // increase number on display

@@ -76,8 +76,10 @@ export class CartServiceService {
   // ### Remove
   remove(product_id: string) {
     return new Promise(async (resolve, reject) => {
-      // Search for first instance of given id and remove it from array
-      for (let i = 0; i < this.id_cart.length; i++) {
+
+      // NOTE: starting search from last keeps the items in same order
+      // Search for LAST instance of given id and remove it from array
+      for (let i = this.id_cart.length - 1; i >= 0; i--) {
         if (this.id_cart[i] == product_id) {
           this.id_cart.splice(i, 1);
           break;
