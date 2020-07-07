@@ -31,7 +31,7 @@ export class UserManagementService {
     withCredentials?: boolean;
   };
 
-  // Log User In
+  // ### Normal User Sign-in
   loginUser(user: User, callback) {
     const reqOptions = {
       observe: 'response' as const,
@@ -50,7 +50,14 @@ export class UserManagementService {
     );
   }
 
-  // Log out any signed in user
+  // ### Redirect to passed parameter after login
+
+  // ### Log out any signed in user
+  loginThenRedirect(redirect_to: string): void {
+
+  }
+
+  // ### Normal User Logout (or after timeout)
   logoutUser() {
     this.cookieService.delete("session_id");
     this.cookieService.delete("user_email");
@@ -58,7 +65,7 @@ export class UserManagementService {
     document.location.reload();
   }
 
-  // Check if user is still logged in (when navigating throughout site)
+  // ### Check user's session id to confirm they're still logged-in (when navigating the website)
   checkLoggedIn() {
 
     return new Promise((resolve, reject) => {
@@ -93,7 +100,7 @@ export class UserManagementService {
     })  // end of promise
   }
 
-  // Create New User
+  // ### Create New User
   createNewUser(user: User, callback){
     const reqOptions = {
       observe: 'body' as const,
@@ -114,7 +121,7 @@ export class UserManagementService {
 
   }
 
-  // Update User Info
+  // ### Update User Info
   updateUserInfo(user: User) {
 
     return new Promise((resolve, reject) => {

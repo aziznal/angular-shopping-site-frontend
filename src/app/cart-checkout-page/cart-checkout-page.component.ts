@@ -75,7 +75,7 @@ export class CartCheckoutPageComponent implements OnInit {
     item.amount++;
 
     // Add item to cart
-    await this.cartService.add(item.product._id);
+    await this.cartService.add(item.product._id, 1);
 
     // Reload cart items
     this.loadProducts();

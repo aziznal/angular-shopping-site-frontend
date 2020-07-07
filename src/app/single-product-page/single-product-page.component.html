@@ -35,6 +35,13 @@
       <button class="hover-button" (click)="addToCart()">
         <span>Add to Cart</span>
       </button>
+
+      <!-- Increase / Decrease amount buttons -->
+      <button class="hover-button inc-button" (click)="incProductAmount()">^</button>
+      <button class="hover-button dec-button" (click)="decProductAmount()">v</button>
+
+      <span class="product-amount-counter">{{product_amount}}</span>
+
     </div>
 
   </div>

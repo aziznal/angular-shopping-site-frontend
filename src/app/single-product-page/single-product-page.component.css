@@ -69,15 +69,24 @@
 .add-to-cart-area {
   margin-top: 2em;
 
-  display: flex;
+  display: grid;
 
-  padding: 0.3em;
+  grid-template-areas:
+    "add-to-cart-button counter inc-button "
+    "add-to-cart-button counter dec-button ";
+
+  padding: 0.7em 0.3em;
 
   justify-content: flex-end;
   align-items: flex-end;
+
+  border-top: 1px solid rgb(211, 211, 211);
+
 }
 
 .hover-button {
+  grid-area: add-to-cart-button;
+
   margin-right: 1em;
 
   width: 13em;
@@ -89,4 +98,64 @@
 
 .hover-button span {
   font-size: 1.3em;
+}
+
+/* Increment / Decrement buttons */
+.inc-button,
+.dec-button {
+  display: block;
+
+  height: fit-content;
+  width: 2.2em;
+
+  font-size: 0.75em;
+
+  border: 1px solid black;
+
+  cursor: pointer;
+}
+
+.inc-button {
+  grid-area: inc-button;
+
+  border-bottom: 0;
+
+  border-radius: 0;
+  border-top-right-radius: 5px;
+
+}
+
+.dec-button {
+  grid-area: dec-button;
+
+  border-top: 0;
+
+  border-radius: 0;
+  border-bottom-right-radius: 5px;
+
+}
+
+/* Amount Counter */
+.product-amount-counter {
+
+  grid-area: counter;
+
+  display: block;
+
+  padding: 0.32em;
+  min-width: 1.3em;
+  height: 66%;
+
+  font-size: 1.4em;
+  text-align: center;
+
+  background-color: rgb(201, 230, 255);
+
+  border: 1px solid black;
+
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+
+  cursor: default;
+
 }

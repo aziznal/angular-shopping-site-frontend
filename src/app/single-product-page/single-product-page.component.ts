@@ -16,6 +16,11 @@ export class SingleProductPageComponent implements OnInit {
   // ### Page Variables
   @Output() newItemCounter = new EventEmitter<string>(); // Sends a message to app.component
   product: Product;
+  product_amount: number;
+
+  freak_out: false;
+  freak_out_interval;
+
   message: string;
   productFound: boolean;
   userSignedIn: boolean;
@@ -28,6 +33,7 @@ export class SingleProductPageComponent implements OnInit {
     private router: Router
   ) {
     this.product = {} as Product;
+    this.product_amount = 1;
     this.productFound = true;
 
   }
@@ -59,7 +65,6 @@ export class SingleProductPageComponent implements OnInit {
 
   // ### Add to Cart Button
   async addToCart() {
-    // TODO: Add counter to allow user to add multiple of the same item without clicking many times
 
     // TODO: pass in current url to redirect to after user has logged in
     if (!this.userService.userIsLoggedIn){
@@ -67,13 +72,45 @@ export class SingleProductPageComponent implements OnInit {
       return;
     }
 
-    await this.userCart.add(this.product._id);
+    // To avoid adding a negative amount of product
+    if (this.freak_out) return;
+
+    await this.userCart.add(this.product._id, this.product_amount);
 
     this.showAddedItemToCart();
   }
 
+  // ### Notify user that item has been added to cart
   showAddedItemToCart() {
+    // TODO: show notification when an item is added to the cart
     console.log('Item Added to cart');
+  }
+
+  // ### A little joke for when users decrease the product amount to 0
+  freakOut(){
+      this.product_amount = 255;
+      this.freak_out_interval = setInterval(_ => { this.product_amount--; }, 1);
+
+      setTimeout(_ => { clearInterval(this.freak_out_interval); this.product_amount = 1;}, 5000);
+
+  }
+
+  // ### increase button handler
+  incProductAmount(){
+    if (this.product_amount < 99){
+      this.product_amount++;
+    } else {
+      alert("Warning. Maximum item amount exceeded.");
+    }
+  }
+
+  // ### Decrease button handler
+  decProductAmount(){
+    if (this.product_amount > 1){
+      this.product_amount--;
+    } else {
+      this.freakOut();
+    }
   }
 
   // TODO: refactor into own file / component

@@ -58,7 +58,7 @@ export class CartServiceService {
   }
 
   // ### Add
-  add(product_id: string) {
+  add(product_id: string, amount: number) {
     return new Promise(async (resolve, reject) => {
       // Check if user has a cart (first time using cart)
       if (!this.userService.user.cart) {
@@ -66,7 +66,9 @@ export class CartServiceService {
       }
 
       // Push product id onto the cart
-      this.userService.user.cart.push(product_id);
+      for (let i = 0; i < amount; i++){
+        this.userService.user.cart.push(product_id);
+      }
 
       await this.updateRequest();
       resolve();
