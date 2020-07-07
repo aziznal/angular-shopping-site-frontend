@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { UserManagementService } from '../user-management.service';
 import { Router } from '@angular/router';
 import { User } from 'src/templates/user';
@@ -8,30 +8,46 @@ import { User } from 'src/templates/user';
   templateUrl: './user-account-page.component.html',
   styleUrls: ['./user-account-page.component.css'],
 })
+
+// TODO: make transitions between subsections smoother (no page reloads)
+
 export class UserAccountPageComponent implements OnInit {
   // page variables
   user: User;
-  loadPage: boolean; // to stop page from loading before needed data is loaded
   username: string; // displayed in html. here in case user doesn't have a username
+  loadPage: boolean;
 
-  constructor(
+  constructor (
     private userService: UserManagementService,
     private router: Router
   ) {
+
+    // GLITCH: This component's constructor and ngOnInit are being called before the parent component
     this.user = this.userService.user;
-    this.loadPage = false;
+    console.log(JSON.stringify(this.user, null, 2));
     this.username = "";
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+
+    // If not loaded yet, then wait and let service load it.
+    if (!this.user) {
+
+      /*
+      a certain glitch happens when the user first logs in and is redirected
+      to this page. this code makes the glith go away.
+      */
+
+      await this.userService.checkLoggedIn();
+      this.user = this.userService.user;
+    }
+
     // Check that user is signed in before displaying page
     if (!this.userService.userIsLoggedIn) {
       this.router.navigate(['/login']);
     }
 
-    // BUG: getting this.user undefined error when user first logs in and gets redirected to this page
-    // NOTE: bug is most likely because an await is missing where one should be present
-    // Note: everything goes INSIDE the 'else' if the user must be loggged in
+    // everything goes INSIDE the `else` if the user must be loggged in
     else {
       // Determine what to display for username fields
       if (this.user.user_profile_info) {
@@ -50,7 +66,7 @@ export class UserAccountPageComponent implements OnInit {
         this.username = this.user.user_email.split('@')[0];
       }
 
-      // This goes in LAST
+      // Allow page to render after everything is ready
       this.loadPage = true;
     }
   }

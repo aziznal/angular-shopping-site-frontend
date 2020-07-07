@@ -25,7 +25,7 @@
       <span><strong>Rating:</strong> {{ product.rating }} / 5</span>
       <div
         class="star-container"
-        *ngFor="let star of generateStars(product.rating)">
+        *ngFor="let star of product_stars">
         <img [src]="star" alt="star.png" class="rating-star"/>
       </div>
     </div>

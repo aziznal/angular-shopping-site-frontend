@@ -64,10 +64,16 @@ export class PageSelectorComponent implements OnInit {
       // to keep track of current page
       if (params.page) this.page_number = params.page; // then see if actually provided
 
-      this.enablePrevious = +this.page_number > 0;
-      this.enableNext = +this.page_number < this._total_page_number;
+      this.checkButtons();
+
     });
 
+  }
+
+  // ### Disable relevant button at upper / lower bound
+  checkButtons(){
+    this.enablePrevious = +this.page_number > 0;
+    this.enableNext = +this.page_number < this._total_page_number;
   }
 
   onPageChange() {
@@ -103,6 +109,9 @@ export class PageSelectorComponent implements OnInit {
 
     // Send Event to parent
     this.onPageChange();
+
+    // BUG: buttons aren't being disabled at lower / upper bounds
+    this.checkButtons();
   }
 
   // ### Previous Page Button

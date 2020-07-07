@@ -8,7 +8,6 @@ import { Product } from 'src/templates/product';
   providedIn: 'root',
 })
 export class ProductManagementService {
-  // TODO: put the Product Star Generator script in here since it's only gonna be used with products
 
   // IDEA: define each used API_URL in an object to make referencing them easier?
 
@@ -177,4 +176,71 @@ export class ProductManagementService {
   }
 
   //#endregion Product Queries
+
+  //#region Rating Stars Generator
+
+  private generateStarCapacity(difference: number) {
+    const percentage = difference * 100;
+
+    /*
+    note: no need for double sided comparison (prev_num < target < next_num)
+    because 'return' stops the method from progressing either way
+    */
+
+    if (percentage >= 75) {
+      return 'three-quarters';
+    }
+
+    if (percentage >= 50) {
+      return 'half';
+    }
+
+    if (percentage > 0) {
+      return 'quarter';
+    }
+
+    // if all above fails, then percentage == 0
+    return 'empty';
+  }
+
+  private generateStarsPath(stars: string[]) {
+    /*
+      After all stars have been correctly labeled, find their relevant images' path.
+    */
+    stars.map((val, key) => {
+      stars[key] = '../../assets/rating-star/' + val + '.png';
+    });
+  }
+
+  // Star Generator Method
+  generateStars(rating: number) {
+    // Returns a list of paths to load correctly labeled stars
+
+    const stars = [];
+
+    for (let i = 0; i < 5; i++) {
+      // All stars start out empty
+      stars[i] = 'empty';
+
+      if (rating >= i) {
+        // Full star + potential overflow to next star
+        if (rating - i >= 1) {
+          stars[i] = 'full';
+          continue;
+        }
+
+        // Fraction of a star
+        else if (rating - i < 1 || rating != i) {
+          stars[i] = this.generateStarCapacity(rating - i);
+          continue;
+        }
+      }
+    }
+
+    this.generateStarsPath(stars);
+    return stars;
+  }
+
+  //#endregion Rating Stars Generator
+
 }

@@ -44,18 +44,11 @@ export class TestProductsPageComponent implements OnInit {
   // ### init / refresh page variables and load product data
   initPage() {
     this.route.queryParams.subscribe((params) => {
-
-      console.log("Updating Page Data..");
-
-      console.log("page_number from " + this.page_number + " to " + params.page);
       this.page_number = params.page;
-
-      console.log("sort_by from " + this.sort_by + " to " + params.sort_by);
       this.sort_by = params.sort_by;
     });
 
     this.route.params.subscribe((params) => {
-      console.log("selected category from " + this.category + " to " + params.category);
       this.category = params.category;
     });
 
@@ -71,6 +64,13 @@ export class TestProductsPageComponent implements OnInit {
         this.total_page_number = response.body['total_page_number'];
       }
     );
+  }
+
+  // ### Generate stars for each product
+  generateStars(product: Product){
+    // Each product calls this method to generate stars according to its rating
+    return this.productService.generateStars(product.rating);
+
   }
 
   // ### Sort Button Event Handler
@@ -106,65 +106,4 @@ export class TestProductsPageComponent implements OnInit {
     this.initPage();
   }
 
-  // REFACTOR: put script into its own file
-  //#region Rating Stars
-
-  generateStarsCapacity(difference: number) {
-    const percentage = difference * 100;
-
-    /*
-    note: no need for double sided comparison (prev_num < target < next_num)
-    because 'return' stops the method from progressing either way
-    */
-
-    if (percentage >= 75) {
-      return 'three-quarters';
-    }
-
-    if (percentage >= 50) {
-      return 'half';
-    }
-
-    if (percentage > 0) {
-      return 'quarter';
-    }
-
-    // if all above fails, then percentage == 0
-    return 'empty';
-  }
-
-  generateStarsPath(stars: string[]) {
-    stars.map((val, key) => {
-      stars[key] = '../../assets/rating-star/' + val + '.png';
-    });
-  }
-
-  // Star Generator Method
-  generateStars(rating: number) {
-    const stars = [];
-
-    for (let i = 0; i < 5; i++) {
-      // All stars start out empty
-      stars[i] = 'empty';
-
-      if (rating >= i) {
-        // Full star + potential overflow to next star
-        if (rating - i >= 1) {
-          stars[i] = 'full';
-          continue;
-        }
-
-        // Fraction of a star
-        else if (rating - i < 1 || rating != i) {
-          stars[i] = this.generateStarsCapacity(rating - i);
-          continue;
-        }
-      }
-    }
-
-    this.generateStarsPath(stars);
-    return stars;
-  }
-
-  //#endregion Rating Stars
 }
