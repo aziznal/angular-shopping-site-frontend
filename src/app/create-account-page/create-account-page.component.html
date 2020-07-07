@@ -1,28 +1,33 @@
 <div class="login-page-container">
-
   <form class="login-form" (ngSubmit)="onSubmit()" #createAccountForm="ngForm">
-
     <!-- Email Field -->
     <div *ngIf="!success && !failed">
+      <label for="email" style="color: rgb(41, 85, 206);">Email</label>
 
-      <label for="email" style="color: rgb(0, 38, 144);">Email</label>
+      <input
+        id="email-field"
+        type="email"
+        name="email"
+        [(ngModel)]="user.user_email"
+        (focusout)="checkEmail()"
+        placeholder="user@email.com"
+      />
+
+      <div class="popup-hint">
+        <span class="popup-hint-arrow"></span>
+
+        <span class="login-note">
+          Email must <strong>not</strong> already belong to a registered account.
+        </span>
+      </div>
 
       <!-- Bad Email Warning -->
       <span
         class="login-note"
         style="color: red;"
-        *ngIf="field_checks.bad_email">
+        *ngIf="field_checks.bad_email"
+      >
         Invalid Input. Please enter a valid email address
-      </span>
-
-      <input
-        type="email"
-        name="email"
-        [(ngModel)]="user.user_email"
-        (focusout)="checkEmail()"
-        placeholder="user@email.com"/>
-      <span class="login-note">
-        Use an email address that doesn't already have an account here
       </span>
     </div>
 
@@ -30,41 +35,44 @@
     <div *ngIf="!success && !failed">
       <label for="pass" style="color: rgb(122, 0, 170);">Password</label>
 
-      <!-- Bad password warning -->
-      <span
-        class="login-note"
-        style="color: red;"
-        *ngIf="field_checks.bad_password">
-        Invalid Input. Please enter a valid password
-        </span>
-
       <input
+        id="password-field"
         type="password"
         name="pass"
         [(ngModel)]="user.user_password"
         (focusout)="checkPassword()"
         (ngModelChange)="confrimPassword()"
-        placeholder="Password"/>
+        placeholder="Password"
+      />
 
-      <!-- TODO: make password requirements into POPUP instead -->
-      <span class="login-note">
-        Password must be 8+ characters (a-z | A-Z | 0-9)
+      <div #passwordHintsPopup class="popup-hint">
+        <span class="popup-hint-arrow"></span>
+        <div>
+          <span class="login-note"
+            >Password must be 8+ characters (a-z | A-Z | 0-9)</span
+          >
+          <span class="login-note">Must not include empty spaces</span>
+          <span class="login-note"
+            >Must not be "password" or something stupid</span
+          >
+        </div>
+      </div>
+
+      <!-- Bad password warning -->
+      <span
+        class="login-note"
+        style="color: red;"
+        *ngIf="field_checks.bad_password"
+      >
+        Invalid Input. {{field_checks.bad_password_message}}
       </span>
-      <span class="login-note">Must not include empty spaces</span>
-      <span class="login-note">Must not be "password" or something stupid</span>
     </div>
 
     <!-- Password Confirmation Field -->
     <div *ngIf="!success && !failed">
-      <label for="pass" style="color: rgb(122, 0, 170);">Confirm Password</label>
-
-      <!-- Bad Password Confirmation Warning -->
-      <span
-        class="login-note"
-        style="color: red;"
-        *ngIf="field_checks.bad_pass_confirmation">
-        Passwords don't match!
-      </span>
+      <label for="pass" style="color: rgb(122, 0, 170);"
+        >Confirm Password</label
+      >
 
       <input
         type="password"
@@ -72,7 +80,17 @@
         [(ngModel)]="temp_password"
         (ngModelChange)="confrimPassword()"
         placeholder="Confirm Password"
-        required/>
+        required
+      />
+
+      <!-- Bad Password Confirmation Warning -->
+      <span
+        class="login-note"
+        style="color: red;"
+        *ngIf="field_checks.bad_pass_confirmation"
+      >
+        Passwords don't match!
+      </span>
     </div>
 
     <!-- Create Account Button -->

@@ -1,3 +1,48 @@
 @import url('../login-page/login-page.component.css');
 
-/* TODO: add popup style for password hints, maybe put in global styles? */
+.popup-hint {
+
+  max-width: fit-content;
+  min-height: 4.5em;
+
+  position: absolute;
+  left: 65%;
+
+  background-color: rgb(226, 237, 255);
+
+  border: 1px solid black;
+  border-radius: 5px;
+
+  visibility: hidden;
+
+}
+
+.popup-hint-arrow {
+  margin-left: -0.7em;
+
+  width: 0.7em;
+  height: 0.7em;
+
+  transform: matrix(0.71,0.71,-0.71,0.71,0,45);
+
+  background-color: rgb(226, 237, 255);
+
+  border: 1px solid black;
+  border-top: none;
+  border-right: none;
+
+}
+
+.popup-hint > .login-note {
+  margin-left: 1.5em;
+}
+
+/* Email Field - Show popup on hover or focus  */
+#password-field:hover ~ .popup-hint, #password-field:focus ~ .popup-hint {
+  visibility: visible;
+}
+
+/* Password Field - Show popup on hover or focus  */
+#email-field:hover ~ .popup-hint, #email-field:focus ~ .popup-hint {
+  visibility: visible;
+}

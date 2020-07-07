@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { UserManagementService } from '../user-management.service';
@@ -11,6 +11,8 @@ import { User } from 'src/templates/user';
 })
 export class CreateAccountPageComponent implements OnInit {
   // page variables
+  @ViewChild('passwordHintsPopup', { read: ElementRef }) passwordHintsPopup: ElementRef<any>;
+
   user = {} as User;
 
   // triggers elements in the html
@@ -25,6 +27,7 @@ export class CreateAccountPageComponent implements OnInit {
   field_checks = {
     bad_email: false,
     bad_password: false,
+    bad_password_message: "",
     bad_pass_confirmation: false,
   };
 
@@ -39,6 +42,7 @@ export class CreateAccountPageComponent implements OnInit {
     if (this.userService.userIsLoggedIn) {
       this.router.navigate(['/user-account']);
     }
+
   }
 
   // Email field validation
@@ -67,20 +71,23 @@ export class CreateAccountPageComponent implements OnInit {
 
   // Password field validation
   checkPassword() {
-    const check = () => {
+    const check = (message: string) => {
       this.field_checks.bad_password = true;
+      this.field_checks.bad_password_message = message;
     };
 
     // Password is defined
-    if (!this.user.user_password) return check();
+    if (!this.user.user_password) return check("There's like two field you have to fill up, dude.");
 
     // is 8+ chars
-    if (this.user.user_password.length < 8) return check();
+    if (this.user.user_password.length < 8) return check("Password must be 8+ chars, can you count to 8?");
+
+    // does not contain any spaces
+    if (this.user.user_password.split(' ').length > 1) return check("No social distancing between password characters");
 
     // is not stupid
-    // TODO: remove?
     if (['password', '12345678'].includes(this.user.user_password))
-      return check();
+      return check("Your password is stupid. please pick a different password.");
 
     this.field_checks.bad_password = false;
     this.form_touched = true;
