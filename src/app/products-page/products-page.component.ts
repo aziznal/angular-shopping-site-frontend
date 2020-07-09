@@ -7,11 +7,11 @@ import { search_filters } from './search-filters';
 import { Product } from 'src/templates/product';
 
 @Component({
-  selector: 'app-test-products-page',
-  templateUrl: './test-products-page.component.html',
-  styleUrls: ['./test-products-page.component.css'],
+  selector: 'app-products-page',
+  templateUrl: './products-page.component.html',
+  styleUrls: ['./products-page.component.css'],
 })
-export class TestProductsPageComponent implements OnInit {
+export class ProductsPageComponent implements OnInit {
   // ### Page Variables
   products: Product[];
   search_filters: string[];

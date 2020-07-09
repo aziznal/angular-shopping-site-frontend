@@ -15,7 +15,7 @@ import { DebugPageComponent } from './debug-page/debug-page.component';
 import { ProductCreatorComponent } from './product-creator/product-creator.component';
 import { ProductCommentAdderComponent } from './product-comment-adder/product-comment-adder.component';
 import { ProductSpecAdderComponent } from './product-spec-adder/product-spec-adder.component';
-import { TestProductsPageComponent } from './test-products-page/test-products-page.component';
+import { ProductsPageComponent } from './products-page/products-page.component';
 import { ProductFormsPageComponent } from './product-forms-page/product-forms-page.component';
 import { ProductRemoverFormComponent } from './product-remover-form/product-remover-form.component';
 import { ProductFilterFormComponent } from './product-filter-form/product-filter-form.component';
@@ -42,7 +42,7 @@ import { CartCheckoutPageComponent } from './cart-checkout-page/cart-checkout-pa
     ProductCreatorComponent,
     ProductCommentAdderComponent,
     ProductSpecAdderComponent,
-    TestProductsPageComponent,
+    ProductsPageComponent,
     ProductFormsPageComponent,
     ProductRemoverFormComponent,
     ProductFilterFormComponent,

@@ -9,12 +9,19 @@ import { Product } from 'src/templates/product';
 })
 export class ProductManagementService {
 
-  // IDEA: define each used API_URL in an object to make referencing them easier?
-
-  API_URL: string; // url of Backend API
+  BASE_API_URL: string; // url of Backend API
+  API_URL: {} | any;
 
   constructor(private http: HttpClient) {
-    this.API_URL = '//localhost:3000';
+    this.BASE_API_URL = '//localhost:3000';
+
+    this.API_URL = {
+      base: "//localhost:3000",
+      GET: this.BASE_API_URL + "/forms/get",
+      CREATE_OR_UPDATE: this.BASE_API_URL + "/forms",
+      DELETE: this.BASE_API_URL + "/forms/delete"
+    }
+
   }
 
   options: {
@@ -45,7 +52,7 @@ export class ProductManagementService {
       responseType: 'json' as const,
     };
 
-    this.http.post(this.API_URL + '/forms/get', query, getOptions).subscribe(
+    this.http.post(this.API_URL.GET, query, getOptions).subscribe(
       (response) => {
         callback(response);
       },
@@ -66,7 +73,7 @@ export class ProductManagementService {
     this.fixQueryValues(product);
 
     this.http
-      .post(this.API_URL + '/forms', product, postOptions)
+      .post(this.API_URL.CREATE_OR_UPDATE, product, postOptions)
       .subscribe((response) => {
         callback(response);
       });
@@ -82,7 +89,7 @@ export class ProductManagementService {
     // Convert numerical fields from <string> -> <number>
     this.fixQueryValues(product);
 
-    this.http.put(this.API_URL + '/forms', product, putOptions).subscribe(
+    this.http.put(this.API_URL.CREATE_OR_UPDATE, product, putOptions).subscribe(
       (response) => {
         callback(response);
       },
@@ -100,7 +107,7 @@ export class ProductManagementService {
     };
 
     this.http
-      .post(this.API_URL + '/forms/delete', product, deleteOptions)
+      .post(this.API_URL.DELETE, product, deleteOptions)
       .subscribe(
         (response) => {
           callback(response);
@@ -125,7 +132,7 @@ export class ProductManagementService {
         responseType: 'json' as const,
       };
 
-      let url = this.API_URL;
+      let url = this.BASE_API_URL;
 
       // backend expects this param when loading a single document
       if (single_product) {
@@ -158,7 +165,7 @@ export class ProductManagementService {
       responseType: 'json' as const,
     };
 
-    let url = this.API_URL + '/browse?page=' + page_num;
+    let url = this.BASE_API_URL + '/browse?page=' + page_num;
 
     // adding sort filters as a url parameter
     if (sort_by !== null) {

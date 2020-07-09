@@ -7,17 +7,26 @@ import { CookieService } from 'ngx-cookie-service';
   providedIn: 'root',
 })
 export class UserManagementService {
-  // IDEA: add each API_URL used to an object to make them easier to reference
-  API_URL = '//localhost:3000'; // url of Backend API
-
   // Service Variables
-  userIsLoggedIn = false;
+  BASE_API_URL: string; // url of Backend API
+  API_URL: {} | any;
+
+  userIsLoggedIn: boolean;
   user: User;
 
   constructor(
     private http: HttpClient,
     private cookieService: CookieService
     ) {
+      this.BASE_API_URL =  '//localhost:3000';
+
+      this.API_URL = {
+        LOGIN: this.BASE_API_URL + "/user/login",
+        VALIDATE_LOGIN: this.BASE_API_URL + "/user/login-validate",
+        CREATE_USER: this.BASE_API_URL + "/user/create",
+        UPDATE_USER_INFO: this.BASE_API_URL + "/user/update"
+      };
+
       this.userIsLoggedIn = false;
       this.user = {} as User;
     }
@@ -39,7 +48,7 @@ export class UserManagementService {
       withCredentials: true,
     };
 
-    this.http.post(this.API_URL + '/user/login', user, reqOptions).subscribe(
+    this.http.post(this.API_URL.LOGIN, user, reqOptions).subscribe(
       (response) => {
         this.user = response.body['user'];
         callback(response);
@@ -83,7 +92,7 @@ export class UserManagementService {
           withCredentials: true
         }
 
-        this.http.post(this.API_URL + '/user/login-validate', this.user, reqOptions).subscribe(
+        this.http.post(this.API_URL.VALIDATE_LOGIN , this.user, reqOptions).subscribe(
           (response) => {
             if (response.status == 200) {
 
@@ -110,7 +119,7 @@ export class UserManagementService {
       }
     };
 
-    this.http.post(this.API_URL + '/user/create', user, reqOptions).subscribe(
+    this.http.post(this.API_URL.CREATE_USER, user, reqOptions).subscribe(
       (response) => {
         callback(response);
       },
@@ -130,7 +139,7 @@ export class UserManagementService {
         responseType: 'json' as const,
       };
 
-      this.http.put(this.API_URL + '/user/update', user, reqOptions).subscribe(
+      this.http.put(this.API_URL.UPDATE_USER_INFO, user, reqOptions).subscribe(
         (response) => {
 
           // if Successful
