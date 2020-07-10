@@ -7,28 +7,28 @@ import { UserManagementService } from './user-management.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-
   // ### Page Varialbes
-  loadPage: boolean;
+  pageCanLoad: boolean;
 
   constructor(private userService: UserManagementService) {
-    this.loadPage = false;
+    this.pageCanLoad = false;
   }
 
-  async ngOnInit() {
-    /* Settings the user-signed-in check in here makes sure that it's
-       going to be done before any components of the page have been loaded
-    */
+  private async checkUserService() {
+    /* Setting the user-signed-in check in here makes sure that it's
+       going to be done before any components of the page have been loaded */
 
-    console.log("App Component TS initting...");
-
-    // check if user is logged in to modify service accordingly
-    const isLoggedIn = await this.userService.checkLoggedIn();
+    const isLoggedIn = await this.userService.checkUserIsStillLoggedIn();
 
     if (isLoggedIn) this.userService.userIsLoggedIn = true;
     else this.userService.userIsLoggedIn = false;
 
-    this.loadPage = true;
   }
 
+  async ngOnInit() {
+
+    await this.checkUserService();
+
+    this.pageCanLoad = true;
+  }
 }

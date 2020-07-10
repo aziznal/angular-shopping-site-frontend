@@ -58,7 +58,7 @@ export class LoginPageComponent implements OnInit {
   // ### Form Submit Handler
   onSubmit() {
     if (this.validateFormIsTouched()) {
-      this.userService.loginUser(this.user, (response: Response) => {
+      this.userService.normalUserLogin(this.user, (response: Response) => {
         switch (response.status) {
           // Success
           case 200:

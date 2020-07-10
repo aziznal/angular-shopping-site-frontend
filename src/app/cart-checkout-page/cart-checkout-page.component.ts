@@ -39,16 +39,15 @@ export class CartCheckoutPageComponent implements OnInit {
 
   // ### Load all cart items
   async loadProducts() {
-    // Check whether user has ever used their cart before
-    let checkCart = this.userService.user.cart ? true : false;
 
-    if (!checkCart) {
+    let checkCartEverUsed = this.userService.user.cart ? true : false;
+
+    if (!checkCartEverUsed) {
       return (this.cartEmpty = true);
     }
 
-    // If all tests passed
-    await this.cartService.loadAll();
-    this.cartItems = this.cartService.loaded_cart;
+    await this.cartService.loadAllCartItems();
+    this.cartItems = this.cartService.loadedCartItems;
 
     // Finally, check if cart is empty
     if (this.cartItems.length == 0) this.cartEmpty = true;
@@ -70,46 +69,45 @@ export class CartCheckoutPageComponent implements OnInit {
   }
 
   // ### Increase item amount button
-  async increaseCart(item: cartItem) {
+  async addToCartAgain(item: cartItem) {
     // increase number on display
     item.amount++;
 
     // Add item to cart
-    await this.cartService.add(item.product._id, 1);
+    await this.cartService.addItem(item.product._id, 1);
 
     // Reload cart items
     this.loadProducts();
   }
 
   // ### Decrease item amount button
-  async decreaseCart(item: cartItem) {
+  async removeFromCart(item: cartItem) {
     if (item.amount == 1) {
-      const confirmation = confirm('This will remove this item from the cart');
 
-      if (!confirmation) return;
-      item.amount--;
+      const confirmation = confirm('This will remove this item from the cart');
+      if (confirmation) item.amount--;
+      else return;
+
+
     } else if (item.amount > 1) {
       item.amount--;
     }
 
     // Remove an instance of the item from the cart
-    this.cartService.remove(item.product._id);
+    this.cartService.removeItem(item.product._id);
 
     // Reload cart items
     this.loadProducts();
   }
 
-  // ### clear cart from all items BUTTON
+  // ### clear cart from all items button
   clearCart() {
-    const userConfirmaion = confirm(
-      'This will remove all your items from the cart'
-    );
+    const userConfirmaion = confirm('This will remove all your items from the cart');
 
-    if (!userConfirmaion) return;
+    if (userConfirmaion) this.cartService.removeAllItems();
+    else return;
 
-    this.cartService.removeAll();
-
-    // refresh items after clearing
+    // reload variables
     this.cartEmpty = true;
     this.cartItems = [];
     this.calculateTotalPrice();

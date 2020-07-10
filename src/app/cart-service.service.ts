@@ -8,13 +8,13 @@ import { cartItem } from 'src/templates/cartItem';
 @Injectable({
   providedIn: 'root',
 })
-// NOTE: I know that this naming is retarded but I'm too lazy to deal with it
+// TODO: change service name to something not completely idiotic
 export class CartServiceService {
   // ### Page Variables
   private BASE_API_URL: string;
   private API_URL: {} | any;
-  private id_cart: string[]; // While items are not loaded, this is an array of their ids
-  loaded_cart: cartItem[]; // This will hold all the loaded items
+  private cartItemsIdList: string[];
+  loadedCartItems: cartItem[];
 
   constructor(
     private http: HttpClient,
@@ -26,39 +26,45 @@ export class CartServiceService {
       UPDATE: this.BASE_API_URL + 'cart-update',
     };
 
-    this.id_cart = this.userService.user.cart;
-    this.loaded_cart = [];
+    this.cartItemsIdList = this.userService.user.cart;
+    this.loadedCartItems = [];
   }
 
-  // ### Send Update Requst (used in all below methods)
-  updateRequest() {
+  private handleServerResponse(response) {-
+    console.log(response.body['msg']);
+  }
+
+  private handleServerErrorResponse(errorResponse) {
+    console.log('Received Error Response while updating user cart');
+    console.log(errorResponse.body['msg']);
+  }
+
+  private sendCartUpdateRequest() {
     return new Promise((resolve, reject) => {
       const reqOptions = {
         observe: 'response' as const,
         responseType: 'json' as const,
       };
 
-      // Send update request to backend
-      this.http
-        .post(this.API_URL.UPDATE, { user: this.userService.user }, reqOptions)
-        .subscribe(
-          (response) => {
-            console.log(response.body['msg']);
+      const _query = { user: this.userService.user };
 
-            resolve();
-          },
-          (errorResponse) => {
-            console.log('Received Error Response while updating user cart');
-            console.log(errorResponse.body['msg']);
+      this.http.post(this.API_URL.UPDATE, _query, reqOptions).subscribe(
+        (response) => {
+          this.handleServerResponse(response);
 
-            resolve();
-          }
-        );
+          resolve();
+        },
+        (errorResponse) => {
+
+          this.handleServerErrorResponse(errorResponse);
+
+          resolve();
+        }
+      );
     });
   }
 
-  // ### Add
-  add(product_id: string, amount: number) {
+  addItem(product_id: string, amount: number) {
     return new Promise(async (resolve, reject) => {
       // Check if user has a cart (first time using cart)
       if (!this.userService.user.cart) {
@@ -66,50 +72,48 @@ export class CartServiceService {
       }
 
       // Push product id onto the cart
-      for (let i = 0; i < amount; i++){
+      for (let i = 0; i < amount; i++) {
         this.userService.user.cart.push(product_id);
       }
 
-      await this.updateRequest();
+      await this.sendCartUpdateRequest();
       resolve();
     });
   }
 
-  // ### Remove
-  remove(product_id: string) {
+  removeItem(product_id: string) {
     return new Promise(async (resolve, reject) => {
-
       // NOTE: starting search from last keeps the items in same order
       // Search for LAST instance of given id and remove it from array
-      for (let i = this.id_cart.length - 1; i >= 0; i--) {
-        if (this.id_cart[i] == product_id) {
-          this.id_cart.splice(i, 1);
+      for (let i = this.cartItemsIdList.length - 1; i >= 0; i--) {
+        if (this.cartItemsIdList[i] == product_id) {
+          this.cartItemsIdList.splice(i, 1);
           break;
         }
       }
 
       // Send update request to backend
-      await this.updateRequest();
+      await this.sendCartUpdateRequest();
       resolve();
     });
   }
 
   // ### Remove All
-  removeAll() {
+  removeAllItems() {
     return new Promise(async (resolve, reject) => {
       // Reset user cart to an empty array
       this.userService.user.cart = [];
 
       // Send update request to backend
-      await this.updateRequest();
+      await this.sendCartUpdateRequest();
       resolve();
     });
   }
 
   // ### Load All Helper
-  private itemAlreadyLoaded(id: string): boolean {
+  private itemIsAlreadyLoaded(id: string): boolean {
     // Traverese all items to see one matches given id
-    for (let item of this.loaded_cart) {
+    for (let item of this.loadedCartItems) {
       if (item.product._id == id) {
         item.amount++;
         return true;
@@ -120,35 +124,33 @@ export class CartServiceService {
     return false;
   }
 
-  // ### Loads full items (from their ids) in the user's cart
-  async loadAll() {
+  private loadProductToCart(response){
+    const formatted_item = {
+      product: response.body['results'],
+      amount: 1,
+    };
+
+    this.loadedCartItems.push(formatted_item);
+  }
+
+  async loadAllCartItems() {
     return new Promise(async (resolve, reject) => {
-      // NOTE: reset loaded_cart every time this method is called
-      this.loaded_cart = [];
+      // reset loaded_cart every time this method is called
+      this.loadedCartItems = [];
 
-      // Load each item from backend using the id array (cart)
-      for (let i = 0; i < this.id_cart.length; i++) {
-        // Check if current id has already been loaded
-        const alreadyLoaded = this.itemAlreadyLoaded(this.id_cart[i]);
-        if (alreadyLoaded) continue;
+      for (let item_id of this.cartItemsIdList){
 
-        // Send get_single_product request to backend to get this item
-        const query = { _id: this.id_cart[i] };
-        await this.productService.simpleProductQuery(
-          query,
-          true,
-          (response) => {
-            const formatted_item = {
-              product: response.body['results'],
-              amount: 1,
-            };
+        if (this.itemIsAlreadyLoaded(item_id)) continue;
 
-            this.loaded_cart.push(formatted_item);
-          }
-        );
+        const _query = { _id: item_id };
+        await this.productService.simpleProductQuery(_query, true, (response) => {
+          this.loadProductToCart(response);
+        })
+
       }
 
       resolve();
-    }); // End of Promise
+
+    });
   }
 }

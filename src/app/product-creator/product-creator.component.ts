@@ -11,57 +11,65 @@ import { Product } from '../../templates/product';
 })
 export class ProductCreatorComponent implements OnInit {
   // Page Variables
-  product: Product;
-  categories; // to hold product categories
+  @ViewChild('nameField', { read: ElementRef }) nameField: ElementRef<any>;
 
-  // to save the id sent back by the server
-  product_id: string;
+  product: Product;
+  productCategories; // to show as a dropdown list
+
+  // to save the id sent from the backend
+  idAfterProductCreation: string;
 
   // if checked, name field will be generated using model and brand
-  name_checkbox: boolean;
+  autogenerateNameFieldToggled: boolean;
 
   constructor(private productService: ProductManagementService) {
-    this.categories = categories;
     this.product = {} as Product;
-    this.product_id = '';
-    this.name_checkbox = true;
+    this.productCategories = categories;
+
+    this.idAfterProductCreation = '';
+
+    this.autogenerateNameFieldToggled = true;
   }
 
   ngOnInit(): void {}
 
   //#region Name Field Auto-Generation
-  @ViewChild('nameField', { read: ElementRef }) nameField: ElementRef<any>;
-
-  updateNameField() {
-    this.nameField.nativeElement.disabled = !this.name_checkbox;
+  toggleAutogenerateNameField() {
+    this.nameField.nativeElement.disabled = !this.autogenerateNameFieldToggled;
   }
 
-  generateName() {
+  private autogenerateNameField() {
     return this.product.brand + ' ' + this.product.model;
   }
-
   //#endregion Name Field Auto-Generation
 
-  // Form Submit Button
-  onSubmit() {
-    // auto-generate name
-    if (this.name_checkbox) {
-      this.product.name = this.generateName();
-    }
+  private removeQuotes(quoted_string: string): string {
+    if (quoted_string[0] == '"')
+      quoted_string = quoted_string.slice(1, quoted_string.length - 1);
 
+    return quoted_string;
+  }
+
+  private createProductAndStoreId() {
     this.productService.createProduct(this.product, (response) => {
-      // Response may include quotes at the start and finish, this gets rid of em
-      let inserted_product_id = response.body['inserted_id'];
-      if (inserted_product_id[0] == '"')
-        inserted_product_id = inserted_product_id.slice(1, inserted_product_id.length - 1);
+      let createdProductId = response.body['inserted_id'];
 
-      this.product_id = inserted_product_id;
+      createdProductId = this.removeQuotes(createdProductId);
+
+      this.idAfterProductCreation = createdProductId;
     });
   }
 
-  // Form Reset Button
-  onReset() {
+  submitButtonOnClick() {
+    if (this.autogenerateNameFieldToggled) {
+      this.product.name = this.autogenerateNameField();
+    }
+
+    this.createProductAndStoreId();
+  }
+
+  resetButtonOnClick() {
     this.product = {} as Product;
-    this.product_id = '';
+    this.idAfterProductCreation = '';
   }
 }

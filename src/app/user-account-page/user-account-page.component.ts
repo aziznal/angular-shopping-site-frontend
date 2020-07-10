@@ -9,70 +9,81 @@ import { User } from 'src/templates/user';
   styleUrls: ['./user-account-page.component.css'],
 })
 
-// TODO: make transitions between subsections smoother (no page reloads)
-
+// GLITCH: This component's constructor and ngOnInit are being called before the parent component
 export class UserAccountPageComponent implements OnInit {
   // page variables
   user: User;
-  username: string; // displayed in html. here in case user doesn't have a username
-  loadPage: boolean;
+  username: string; // displayed in html. used in case user doesn't have a username
+  pageCanBeLoaded: boolean;
 
-  constructor (
+  constructor(
     private userService: UserManagementService,
     private router: Router
   ) {
-
-    // GLITCH: This component's constructor and ngOnInit are being called before the parent component
     this.user = this.userService.user;
-    console.log(JSON.stringify(this.user, null, 2));
-    this.username = "";
+    this.username = '';
+  }
+
+  // Jerryrigged solution to weird bug
+  private confirmUserServiceLoaded() {
+    return new Promise(async (resolve, reject) => {
+      /*
+      a certain glitch happens when the user first logs in and is redirected
+      to this page. this code makes the glitch go away.
+      */
+
+      await this.userService.checkUserIsStillLoggedIn();
+      this.user = this.userService.user;
+
+      resolve();
+    });
+  }
+
+  private setUsernameFromEmail() {
+    this.username = this.user.user_email.split('@')[0];
+  }
+
+  private setUsernameField() {
+    if (this.user.user_profile_info) {
+      // has username
+      if (this.user.user_profile_info.username) {
+        this.username = this.user.user_profile_info.username;
+      }
+
+      // hasn't username
+      else {
+        this.setUsernameFromEmail();
+      }
+    }
+
+    // hasen't user_profile_info (brand new user - first sign in)
+    else {
+      this.setUsernameFromEmail();
+    }
+  }
+
+  private confirmUserSignedIn() {
+    if (!this.userService.userIsLoggedIn) {
+      this.router.navigate(['/login']);
+      return false;
+    } else {
+      return true;
+    }
   }
 
   async ngOnInit() {
+    if (!this.user) await this.confirmUserServiceLoaded();
 
-    // If not loaded yet, then wait and let service load it.
-    if (!this.user) {
+    if (!this.confirmUserSignedIn()) return;
 
-      /*
-      a certain glitch happens when the user first logs in and is redirected
-      to this page. this code makes the glith go away.
-      */
+    this.setUsernameField();
 
-      await this.userService.checkLoggedIn();
-      this.user = this.userService.user;
-    }
-
-    // Check that user is signed in before displaying page
-    if (!this.userService.userIsLoggedIn) {
-      this.router.navigate(['/login']);
-    }
-
-    // everything goes INSIDE the `else` if the user must be loggged in
-    else {
-      // Determine what to display for username fields
-      if (this.user.user_profile_info) {
-        // User has username
-        if (this.user.user_profile_info.username) {
-          this.username = this.user.user_profile_info.username;
-        }
-        // user doesn't have username
-        else {
-          this.username = this.user.user_email.split('@')[0];
-        }
-      }
-
-      // user doesn't have user_profile_info
-      else {
-        this.username = this.user.user_email.split('@')[0];
-      }
-
-      // Allow page to render after everything is ready
-      this.loadPage = true;
-    }
+    // finally allow page to render
+    this.pageCanBeLoaded = true;
   }
 
-  // Simple Method to Log User Out
-  logout() {
+  // logout button handler
+  logoutButtonOnClick() {
     this.userService.logoutUser();
   }
 }

@@ -14,22 +14,19 @@ export class UserManagementService {
   userIsLoggedIn: boolean;
   user: User;
 
-  constructor(
-    private http: HttpClient,
-    private cookieService: CookieService
-    ) {
-      this.BASE_API_URL =  '//localhost:3000';
+  constructor(private http: HttpClient, private cookieService: CookieService) {
+    this.BASE_API_URL = '//localhost:3000';
 
-      this.API_URL = {
-        LOGIN: this.BASE_API_URL + "/user/login",
-        VALIDATE_LOGIN: this.BASE_API_URL + "/user/login-validate",
-        CREATE_USER: this.BASE_API_URL + "/user/create",
-        UPDATE_USER_INFO: this.BASE_API_URL + "/user/update"
-      };
+    this.API_URL = {
+      LOGIN: this.BASE_API_URL + '/user/login',
+      VALIDATE_LOGIN: this.BASE_API_URL + '/user/login-validate',
+      CREATE_USER: this.BASE_API_URL + '/user/create',
+      UPDATE_USER_INFO: this.BASE_API_URL + '/user/update',
+    };
 
-      this.userIsLoggedIn = false;
-      this.user = {} as User;
-    }
+    this.userIsLoggedIn = false;
+    this.user = {} as User;
+  }
 
   options: {
     headers?: HttpHeaders | { [header: string]: string | string[] };
@@ -41,7 +38,7 @@ export class UserManagementService {
   };
 
   // ### Normal User Sign-in
-  loginUser(user: User, callback) {
+  normalUserLogin(user: User, callback) {
     const reqOptions = {
       observe: 'response' as const,
       responseType: 'json' as const,
@@ -59,43 +56,44 @@ export class UserManagementService {
     );
   }
 
-  // ### Redirect to passed parameter after login
-
-  // ### Log out any signed in user
-  loginThenRedirect(redirect_to: string): void {
-
-  }
+  redirectedLogin(redirect_to: string): void {}
 
   // ### Normal User Logout (or after timeout)
   logoutUser() {
-    this.cookieService.delete("session_id");
-    this.cookieService.delete("user_email");
+    this.cookieService.delete('session_id');
+    this.cookieService.delete('user_email');
 
     document.location.reload();
   }
 
-  // ### Check user's session id to confirm they're still logged-in (when navigating the website)
-  checkLoggedIn() {
-
+  private checkSessionIdExists() {
     return new Promise((resolve, reject) => {
-
-      // These two cookies are what determines if the user is in an active session
       const session_id = this.cookieService.get('session_id');
       const user_email = this.cookieService.get('user_email');
 
-      if (!session_id || !user_email){
-        resolve(false);
-      } else {
-        const reqOptions = {
-          observe: 'response' as const,
-          responseType: 'json' as const,
-          withCredentials: true
-        }
+      console.log('Found session id as: ' + session_id);
 
-        this.http.post(this.API_URL.VALIDATE_LOGIN , this.user, reqOptions).subscribe(
+      if (session_id) {
+        resolve(true);
+      } else {
+        resolve(false);
+      }
+    });
+  }
+
+  private sendLoginValidationRequest() {
+    return new Promise((resolve, reject) => {
+      const reqOptions = {
+        observe: 'response' as const,
+        responseType: 'json' as const,
+        withCredentials: true,
+      };
+
+      this.http
+        .post(this.API_URL.VALIDATE_LOGIN, this.user, reqOptions)
+        .subscribe(
           (response) => {
             if (response.status == 200) {
-
               // Server sends back current user info as response (password not included)
               this.user = response.body['user'];
               resolve(true);
@@ -104,19 +102,32 @@ export class UserManagementService {
           (err) => {
             console.error(err);
           }
-        )
+        );
+    });
+  }
+
+  checkUserIsStillLoggedIn() {
+    return new Promise(async (resolve, reject) => {
+      const sessionIdExists = await this.checkSessionIdExists();
+
+      if (!sessionIdExists) {
+        console.log('Session ID does not exist');
+        resolve(false);
+      } else {
+        await this.sendLoginValidationRequest();
+        resolve();
       }
-    })  // end of promise
+    }); // end of promise
   }
 
   // ### Create New User
-  createNewUser(user: User, callback){
+  createNewUser(user: User, callback) {
     const reqOptions = {
       observe: 'body' as const,
       responseType: 'json' as const,
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     };
 
     this.http.post(this.API_URL.CREATE_USER, user, reqOptions).subscribe(
@@ -126,13 +137,26 @@ export class UserManagementService {
       (err) => {
         callback(err);
       }
-      )
+    );
+  }
 
+  private handleUpdateResponse(response) {
+    return new Promise((resolve, reject) => {
+      // if Successful
+      if (response.status == 200) {
+        console.log(response.body['msg']);
+        resolve();
+      } else {
+        console.log('Unhandled server response');
+        console.log(JSON.stringify(response, null, 2));
+
+        resolve();
+      }
+    });
   }
 
   // ### Update User Info
   updateUserInfo(user: User) {
-
     return new Promise((resolve, reject) => {
       const reqOptions = {
         observe: 'response' as const,
@@ -140,28 +164,16 @@ export class UserManagementService {
       };
 
       this.http.put(this.API_URL.UPDATE_USER_INFO, user, reqOptions).subscribe(
-        (response) => {
-
-          // if Successful
-          if (response.status == 200){
-            console.log(response.body['msg']);
-            resolve();
-          } else {
-            console.log("Unhandled server response");
-            console.log(JSON.stringify(response, null, 2));
-
-            resolve();
-          }
-
+        async (response) => {
+          await this.handleUpdateResponse(response);
+          resolve();
         },
         (error_response) => {
-          console.log("Recieved error response from backend server");
+          console.log('Recieved error response from backend server');
           console.log(JSON.stringify(error_response, null, 2));
           resolve();
         }
-      )
-    })
-
+      );
+    });
   }
-
 }

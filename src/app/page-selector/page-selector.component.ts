@@ -1,15 +1,24 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ElementRef,
+  OnDestroy,
+} from '@angular/core';
 
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-page-selector',
   templateUrl: './page-selector.component.html',
   styleUrls: ['./page-selector.component.css'],
 })
-export class PageSelectorComponent implements OnInit {
-
-  // Event Emitter to tell parent to update page data
+export class PageSelectorComponent implements OnInit, OnDestroy {
+  // Event Emitter to tell parent (products-page-component) to load new page data
   @Output() updateData = new EventEmitter<any>();
 
   // Page Variables
@@ -17,128 +26,185 @@ export class PageSelectorComponent implements OnInit {
   @ViewChild('prevButton', { read: ElementRef }) prevButton: ElementRef<any>;
   @ViewChild('goButton', { read: ElementRef }) goButton: ElementRef<any>;
 
-  page_params;
-  page_number: string;
-  private _total_page_number: number;
+  storedPageParameters: {} | any;
+  currentPageNumber: string;
+
+  enablePreviousButton: boolean;
+  enableNextButton: boolean;
+  enableGoButton: boolean;
+
+  private subscriptions: Subscription[];
+
+  // set by parent (products-page-component)
+  private __numberOfTotalPages: number;
 
   @Input()
-  set total_page_number(total_page_number: number) {
-    this._total_page_number = total_page_number;
+  set numberOfTotalPages(totalPageNumber: number) {
+    this.__numberOfTotalPages = totalPageNumber;
 
-    // Update Next Button
-    this.enableNext = +this.page_number < this._total_page_number;
-  };
+    // BUG: nextButton isn't being disabled using this condition
+    this.setButtonsActiveOrInactive();
+  }
 
-  get total_page_number(): number {
-    return this._total_page_number;
-  };
-
-  // for enabling and disabling prev. page and next page buttons
-  enablePrevious: boolean;
-  enableNext: boolean;
+  get numberOfTotalPages(): number {
+    return this.__numberOfTotalPages;
+  }
 
   constructor(private route: ActivatedRoute, private router: Router) {
-    this.page_params = {};
+    this.storedPageParameters = {};
+
+    this.enableNextButton = false;
+    this.enablePreviousButton = false;
+    this.enableGoButton = true;
+
+    this.subscriptions = [] as Subscription[];
+  }
+
+  private storeParamsObject(params) {
+    Object.keys(params).map((key, _) => {
+      this.storedPageParameters[key] = params[key];
+    });
+  }
+
+  private goToPageZero() {
+    this.storedPageParameters.page = '0';
+    this.router
+      .navigate([this.router.url.split('?')[0]], {
+        queryParams: this.storedPageParameters,
+      })
+      .then(() => {
+        document.location.reload();
+      });
+  }
+
+  private storePageParameters() {
+    return new Promise((resolve, reject) => {
+      let queryParams = this.route.queryParams;
+
+      let observable = queryParams.subscribe((params) => {
+        // these will be loaded to new url when changing pages
+        this.storeParamsObject(params);
+
+        // if missing parameter
+        if (!params.page) {
+          this.goToPageZero();
+        }
+
+        this.currentPageNumber = params.page;
+      });
+
+      resolve();
+
+      this.queueForUnsubscription(observable);
+    });
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
+    this.storePageParameters();
+    this.setButtonsActiveOrInactive();
+  }
 
-      // get starting page params to add to the url again later
-      Object.keys(params).map((key, _) => {
-        this.page_params[key] = params[key];
-      });
+  private queueForUnsubscription(observable: Subscription) {
+    this.subscriptions.push(observable);
+  }
 
-      // if no page param was given, go to page 0 by default
-      if (!params.page) {
-        this.page_params.page = '0';
-        this.router
-          .navigate([this.router.url.split('?')[0]], {
-            queryParams: this.page_params,
-          })
-          .then(() => {
-            document.location.reload();
-          });
-      }
-
-      // to keep track of current page
-      if (params.page) this.page_number = params.page; // then see if actually provided
-
-      this.checkButtons();
-
+  private unsubscribeFromAllObservables() {
+    this.subscriptions.forEach((observable) => {
+      observable.unsubscribe();
     });
-
   }
 
-  // ### Disable relevant button at upper / lower bound
-  checkButtons(){
-    this.enablePrevious = +this.page_number > 0;
-    this.enableNext = +this.page_number < this._total_page_number;
+  ngOnDestroy() {
+    this.unsubscribeFromAllObservables();
   }
 
-  onPageChange() {
+  private setButtonsActiveOrInactive() {
+    // BUG: buttons aren't being disabled at lower / upper bounds
+    // NOTE: to see the effects of this bug, start on page 0, press next, then press previous.
+    // NOTE: Alternatively, start at last page, press previous, then press next.7
+
+    this.enablePreviousButton = +this.currentPageNumber > 0;
+    this.enableNextButton = +this.currentPageNumber < this.__numberOfTotalPages;
+  }
+
+  private notifyParentOfPageChange() {
     this.updateData.emit();
   }
 
-  // ### Change Page
+  private goToNewPage() {
+    const baseRoute = this.router.url.split('?')[0];
+
+    this.storedPageParameters.page = this.currentPageNumber;
+
+    this.router
+      .navigate([baseRoute], { queryParams: this.storedPageParameters })
+      .then(() => {
+        window.scrollTo(0, 0);
+      });
+  }
+
+  private disableAllButtonsForChosenPeriod(chosenPeriod: number) {
+    this.enableNextButton = false;
+    this.enablePreviousButton = false;
+    this.enableGoButton = false;
+
+    setTimeout(() => {
+      this.enableNextButton = true;
+      this.enablePreviousButton = true;
+      this.enableGoButton = true;
+    }, chosenPeriod);
+  }
+
   async changePage() {
     await new Promise((resolve, reject) => {
-      const base_route = this.router.url.split('?')[0];
+      // do nothing for negative page numbers
+      if (+this.currentPageNumber < 0) return;
 
-      // for negative inputs, do nothing.
-      if (+this.page_number < 0) return;
+      this.goToNewPage();
 
-      this.page_params.page = this.page_number;
-
-      this.router.navigate([base_route], { queryParams: this.page_params })
-      .then(() => { window.scrollTo(0, 0) }); // scroll to top
-
-      // Disable all three buttons for 1.5 seconds after any of them is clicked
-      this.nextButton.nativeElement.disabled = true;
-      this.prevButton.nativeElement.disabled = true;
-      this.goButton.nativeElement.disabled  = true;
-
-      setTimeout(() => {
-        this.nextButton.nativeElement.disabled = false;
-        this.prevButton.nativeElement.disabled = false;
-        this.goButton.nativeElement.disabled  = false;
-      }, 1500);
+      // To prevent spam
+      this.disableAllButtonsForChosenPeriod(500);
 
       resolve();
-    })
+    });
 
-    // Send Event to parent
-    this.onPageChange();
+    this.notifyParentOfPageChange();
 
-    // BUG: buttons aren't being disabled at lower / upper bounds
-    this.checkButtons();
+    // BUG: this call nullifies the effects of disableAllButtonsForChosenPeriod
+    this.setButtonsActiveOrInactive();
   }
 
-  // ### Previous Page Button
-  previousPage() {
-
-    if (+this.page_number < 0) {
-      this.page_number = '0';
-      this.changePage();
-    } else {
-
-      this.page_number = +this.page_number - 1 + '';
-      this.changePage();
-    }
-
+  //#region Button Click Handlers
+  goButtonOnClick() {
+    this.changePage();
   }
 
-  // ### Next Page Button
-  nextPage() {
-
-    // if a negative number was entered in input, reset to 0
-    if (+this.page_number < 0) {
-      this.page_number = '0';
+  private goToPreviousPage(){
+    if (+this.currentPageNumber < 0) {
+      this.currentPageNumber = '0';
       this.changePage();
     } else {
-
-      this.page_number = +this.page_number + 1 + '';
+      this.currentPageNumber = (+this.currentPageNumber - 1) + '';
       this.changePage();
     }
   }
+
+  previousButtonOnClick() {
+    this.goToPreviousPage();
+  }
+
+  private goToNextPage(){
+    if (+this.currentPageNumber < 0) {
+      this.currentPageNumber = '0';
+      this.changePage();
+    } else {
+      this.currentPageNumber = (+this.currentPageNumber + 1) + '';
+      this.changePage();
+    }
+  }
+
+  nextButtonOnClick() {
+    this.goToNextPage();
+  }
+  //#endregion
 }

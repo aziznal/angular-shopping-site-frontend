@@ -10,65 +10,94 @@ import { Product } from 'src/templates/product';
   styleUrls: ['./product-remover-form.component.css'],
 })
 export class ProductRemoverFormComponent implements OnInit {
-
   // Page Variables
-  foundProduct: boolean; // set to true once product is found after search
-  notFound: boolean; // set to false if product not found after search
+  productHasBeenFound: boolean;
+  productNotFound: boolean;
   idToSearch: string;
-  productRemoved: boolean;
+  productHasBeenRemoved: boolean;
   product: Product;
 
   constructor(private productService: ProductManagementService) {
-    this.foundProduct = false;
-    this.notFound = false;
+    this.resetPageVaribles();
+  }
+
+  private resetPageVaribles() {
+    this.productHasBeenFound = false;
+    this.productNotFound = false;
     this.idToSearch = '';
-    this.productRemoved = false;
+    this.productHasBeenRemoved = false;
     this.product = {} as Product;
   }
 
   ngOnInit(): void {}
 
-  findProductById(): void {
-    // Don't show form before an item with an ID is entered
-    if (this.idToSearch === undefined) {
-      this.notFound = true;
+  private confirmIdFieldNotEmpty() {
+    if (this.idToSearch === undefined || this.idToSearch.length == 0) {
+      this.productNotFound = true;
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  private setProductFound() {
+    this.productHasBeenFound = true;
+    this.productNotFound = false;
+  }
+
+  private setProductNotFound() {
+    this.productHasBeenFound = false;
+    this.productNotFound = true;
+  }
+
+  private confirmResponseContainsProduct(response) {
+    if (response.body['results'].length > 0) {
+      this.setProductFound();
+      return true;
+    } else {
+      this.setProductNotFound();
+      return false;
+    }
+  }
+
+  private handleSearchResponse(response) {
+    if (response.status == 404) {
+      this.productNotFound = true;
       return;
     }
 
-    this.productService.getProduct({ _id: this.idToSearch }, (response) => {
-      if (response.status == 404) {
-        this.notFound = true;
-        return;
-      }
-
-      this.notFound = false;
-      this.foundProduct = true;
-
+    if (this.confirmResponseContainsProduct(response))
       this.product = response.body['results'][0];
+  }
+
+  private handleRemoveResponse(response) {
+    if (response.status == 404) {
+      console.log(response.body['msg']);
+      console.error(JSON.stringify(response, null, 2));
+      return;
+    }
+
+    this.productHasBeenRemoved = true;
+  }
+
+  //#region Button Click Handlers
+
+  searchButtonOnClick(): void {
+    if (!this.confirmIdFieldNotEmpty()) return;
+
+    this.productService.getProduct({ _id: this.idToSearch }, (response) => {
+      this.handleSearchResponse(response);
     });
   }
 
-  // Submit Button
-  onSubmit() {
+  submitButtonOnClick() {
     this.productService.removeProduct(this.product, (response) => {
-
-      if (response.status == 404) {
-        console.log(response.body['msg']);
-        console.error(JSON.stringify(response, null, 2));
-        return;
-      }
-
-      this.productRemoved = true;
-
+      this.handleRemoveResponse(response);
     });
   }
 
-  // Reset Button
-  onReset() {
-    this.product = {} as Product;
-    this.foundProduct = false;
-    this.notFound = false;
-    this.idToSearch = undefined;
-    this.productRemoved = false;
+  resetButtonOnClick() {
+    this.resetPageVaribles();
   }
+  //#endregion
 }

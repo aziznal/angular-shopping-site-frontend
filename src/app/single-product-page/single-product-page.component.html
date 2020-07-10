@@ -11,12 +11,12 @@
   <!-- Product Info -->
 
   <!-- if product was not found -->
-  <div class="product-info" *ngIf="!productFound">
+  <div class="product-info" *ngIf="!productHasBeenFound">
     <h1>Product Was not found</h1>
   </div>
 
   <!-- if product was found -->
-  <div class="product-info" *ngIf="productFound">
+  <div class="product-info" *ngIf="productHasBeenFound">
     <h1>{{ product.name }}</h1>
     <h2>{{ product.brand }}</h2>
     <h3>{{ product.price | currency }}</h3>
@@ -25,22 +25,22 @@
       <span><strong>Rating:</strong> {{ product.rating }} / 5</span>
       <div
         class="star-container"
-        *ngFor="let star of product_stars">
+        *ngFor="let star of productRatingStars">
         <img [src]="star" alt="star.png" class="rating-star"/>
       </div>
     </div>
 
     <!-- Add to Cart Button -->
     <div class="add-to-cart-area">
-      <button class="hover-button" (click)="addToCart()">
+      <button class="hover-button" (click)="addToCartButtonOnClick()">
         <span>Add to Cart</span>
       </button>
 
       <!-- Increase / Decrease amount buttons -->
-      <button class="hover-button inc-button" (click)="incProductAmount()">^</button>
-      <button class="hover-button dec-button" (click)="decProductAmount()">v</button>
+      <button class="hover-button inc-button" (click)="productCounterIncreaseOnClick()">^</button>
+      <button class="hover-button dec-button" (click)="productCounterDecreaseOnClick()">v</button>
 
-      <span class="product-amount-counter">{{product_amount}}</span>
+      <span class="product-amount-counter">{{currentAddCounter}}</span>
 
     </div>
 

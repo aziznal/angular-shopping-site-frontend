@@ -24,13 +24,14 @@ const routes: Routes = [
 
   { path: 'category/:category', component: ProductsPageComponent },
 
-  // ### Product Forms:
+  // ### Product Forms
   { path: 'debug/product-forms-page', component: ProductFormsPageComponent },
   { path: 'debug/product-forms-page/creator', component: ProductCreatorComponent },
   { path: 'debug/product-forms-page/updater', component: ProductUpdaterFormComponent },
   { path: 'debug/product-forms-page/remover', component: ProductRemoverFormComponent },
   { path: 'debug/product-forms-page/filter', component: ProductFilterFormComponent },
 
+  // ### Single Product
   { path: 'p/:_id', component: SingleProductPageComponent },
 
   // ### User related

@@ -1,7 +1,7 @@
 <div class="top-side-container">
   <!-- Hotlinks -->
   <ul class="hotlinks">
-    <li *ngFor="let link of links">
+    <li *ngFor="let link of hotlinks">
       <a routerLink="/{{ link.url }}">
         {{ link.name }}
       </a>
@@ -41,7 +41,7 @@
       <span>Cart</span>
 
       <div id="item-counter">
-        {{ itemCount }}
+        {{ cartItemCount }}
       </div>
     </a>
     <!-- End of Cart Button -->

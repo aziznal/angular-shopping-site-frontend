@@ -9,93 +9,93 @@
 
   <!-- Reset Button -->
 
-  <h3 class="dev-link" (click)="onReset()">
+  <h3 class="dev-link" (click)="resetButtonOnClick()">
     <a>Reset</a>
   </h3>
 
   <form action="" #productCreatorForm="ngForm" >
 
     <!-- Finding The Product by its ID -->
-    <span *ngIf="!foundProduct" class="note center">Specify a product by its ID</span>
+    <span *ngIf="!productHasBeenFound" class="note center">Specify a product by its ID</span>
 
-    <div *ngIf="!foundProduct">
-      <input type="text" name="id" (submit)="findProductById()" [title]="'24 Hex Characters'"
+    <div *ngIf="!productHasBeenFound">
+      <input type="text" name="id" (submit)="searchButtonOnClick()" [title]="'24 Hex Characters'"
       [(ngModel)]="idToSearch">
     </div>
 
-    <span class="note center" *ngIf="notFound" style="color: red;">Product was not found</span>
+    <span class="note center" *ngIf="productNotFound" style="color: red;">Product was not found</span>
 
     <!-- Search Button -->
-    <div *ngIf="!foundProduct">
-      <button (click)="findProductById()">
+    <div *ngIf="!productHasBeenFound">
+      <button (click)="searchButtonOnClick()">
         Search
       </button>
     </div>
 
 
     <!-- ID -->
-    <div *ngIf="foundProduct">
+    <div *ngIf="productHasBeenFound">
       <label for="_id">ID:</label>
       <input type="text" name="_id" [title]="'24 Hex Characters'"
       [(ngModel)]="product._id" disabled />
     </div>
 
     <!-- Category -->
-    <div *ngIf="foundProduct">
+    <div *ngIf="productHasBeenFound">
       <label for="category">Category:</label>
       <input name="category" [(ngModel)]="product.category" disabled [title]="'Product Category'">
     </div>
 
     <!-- Brand -->
-    <div *ngIf="foundProduct">
+    <div *ngIf="productHasBeenFound">
       <label for="brand">Brand:</label>
       <input name="brand" [(ngModel)]="product.brand" disabled [title]="'Product Brand'">
     </div>
 
     <!-- Model -->
-    <div *ngIf="foundProduct">
+    <div *ngIf="productHasBeenFound">
       <label for="model">Model:</label>
       <input type="text" name="model"
       [(ngModel)]="product.model" disabled [title]="'Product Model e.g: Pavilion XP-17'" />
     </div>
 
     <!-- Name -->
-    <div *ngIf="foundProduct">
+    <div *ngIf="productHasBeenFound">
       <label for="name">Name / Title:</label>
       <input type="text" name="name" [title]="'Usually consists of Brand + Model. Add more details if needed.'"
       [(ngModel)]="product.name" disabled />
     </div>
 
     <!-- Price -->
-    <div *ngIf="foundProduct">
+    <div *ngIf="productHasBeenFound">
       <label for="price">Price:</label>
       <input type="text" name="price" [title]="'Product Price (American Dollar)'"
       [(ngModel)]="product.price" disabled/>
     </div>
 
     <!-- Rating -->
-    <div *ngIf="foundProduct">
+    <div *ngIf="productHasBeenFound">
       <label for="rating">Rating:</label>
       <input type="text" name="rating" [title]="'Any number between 1.00 and 4.99'"
       [(ngModel)]="product.rating" disabled/>
     </div>
 
     <!-- Sold -->
-    <div *ngIf="foundProduct">
+    <div *ngIf="productHasBeenFound">
       <label for="sold">Sold:</label>
       <input type="text" name="sold" [title]="'Amount sold of Product.'"
       [(ngModel)]="product.sold" disabled/>
     </div>
 
     <!-- Submit Button -->
-    <div *ngIf="foundProduct">
-      <button (click)="onSubmit()" style="color: darkred;">
+    <div *ngIf="productHasBeenFound">
+      <button (click)="submitButtonOnClick()" style="color: darkred;">
         Delete
       </button>
     </div>
 
     <!-- Deletion Results -->
-    <h3 class="dev-link result" *ngIf="productRemoved">
+    <h3 class="dev-link result" *ngIf="productHasBeenRemoved">
       <a style="color: green; cursor: default;">Successfully Deleted</a>
     </h3>
 

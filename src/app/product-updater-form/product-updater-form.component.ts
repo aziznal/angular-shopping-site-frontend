@@ -10,60 +10,96 @@ import { Product } from 'src/templates/product';
   styleUrls: ['./product-updater-form.component.css'],
 })
 export class ProductUpdaterFormComponent implements OnInit {
+
   // Page Variables
   product: Product;
-  foundProduct: boolean; // set to true once product is found
-  notFound: boolean; // set to false if product not found after search
+  productHasBeenFound: boolean;
+  productNotFound: boolean;
   idToSearch: string;
-  productUpdated: boolean;
+  productHasBeenUpdated: boolean;
 
   constructor(private productService: ProductManagementService) {
-    this.product = {} as Product;
-    this.foundProduct = false;
-    this.notFound = false;
+    this.resetPageVaribles();
+  }
+
+  private resetPageVaribles() {
+    this.productHasBeenFound = false;
+    this.productNotFound = false;
     this.idToSearch = '';
-    this.productUpdated = false;
+    this.productHasBeenUpdated = false;
+    this.product = {} as Product;
   }
 
   ngOnInit(): void {}
 
-  findProductById(): void {
-    // Don't show form before an item with an ID is entered
-    if (this.idToSearch === undefined) {
-      this.notFound = true;
+  private confirmIdFieldNotEmpty() {
+    if (this.idToSearch === undefined || this.idToSearch.length == 0) {
+      this.productNotFound = true;
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  private setProductFound() {
+    this.productHasBeenFound = true;
+    this.productNotFound = false;
+  }
+
+  private setProductNotFound() {
+    this.productHasBeenFound = false;
+    this.productNotFound = true;
+  }
+
+  private confirmResponseContainsProduct(response) {
+    if (response.body['results'].length > 0) {
+      this.setProductFound();
+      return true;
+    } else {
+      this.setProductNotFound();
+      return false;
+    }
+  }
+
+  private handleSearchResponse(response) {
+    if (response.status == 404) {
+      this.productNotFound = true;
       return;
     }
 
-    this.productService.getProduct({ _id: this.idToSearch }, (response) => {
-      if (response.status == 404) {
-        this.notFound = true;
-        return;
-      }
-
-      this.notFound = false;
-      this.foundProduct = true;
-
-      console.log(response.body['msg']);
+    if (this.confirmResponseContainsProduct(response))
       this.product = response.body['results'][0];
+  }
+
+  private handleUpdateResponse(response) {
+    if (response.status == 404) {
+      console.log(response.body['msg']);
+      console.error(JSON.stringify(response, null, 2));
+      return;
+    }
+
+    this.productHasBeenUpdated = true;
+  }
+
+  //#region Button Click Handlers
+
+  searchButtonOnClick(): void {
+    if (!this.confirmIdFieldNotEmpty()) return;
+
+    this.productService.getProduct({ _id: this.idToSearch }, (response) => {
+      this.handleSearchResponse(response);
     });
   }
 
-  onSubmit() {
+  submitButtonOnClick() {
     this.productService.updateProduct(this.product, (response) => {
-      if (response.status == 404) {
-        console.log(response.body['msg']);
-        return;
-      }
-
-      this.productUpdated = true;
+      this.handleUpdateResponse(response);
     });
   }
 
-  onReset() {
-    this.product = {} as Product;
-    this.foundProduct = false;
-    this.notFound = false;
-    this.idToSearch = undefined;
-    this.productUpdated = false;
+  resetButtonOnClick() {
+    this.resetPageVaribles();
   }
+  //#endregion
+
 }

@@ -20,8 +20,8 @@
             type="checkbox"
             class="field-activator"
             name="field_checkbox1"
-            (click)="disableUsernameField()"
-            [(ngModel)]="active_fields.username"
+            (click)="toggleUsernameField()"
+            [(ngModel)]="activeFieldFlags.username"
           />
           <label for="username">Username</label>
           <input
@@ -38,8 +38,8 @@
             type="checkbox"
             class="field-activator"
             name="field_checkbox2"
-            (click)="disablePhoneField()"
-            [(ngModel)]="active_fields.phone"
+            (click)="togglePhoneField()"
+            [(ngModel)]="activeFieldFlags.phone"
           />
           <label for="phone">Telephone</label>
           <input
@@ -56,8 +56,8 @@
             type="checkbox"
             class="field-activator"
             name="field_checkbox3"
-            (click)="disableAgeField()"
-            [(ngModel)]="active_fields.age"
+            (click)="toggleAgeField()"
+            [(ngModel)]="activeFieldFlags.age"
           />
           <label for="age">Age</label>
           <select
@@ -66,7 +66,7 @@
             [(ngModel)]="user.user_profile_info.age"
             #ageField
           >
-            <option *ngFor="let age of ages" (value)="(age)">{{ age }}</option>
+            <option *ngFor="let age of agesDropdownMenu" (value)="(age)">{{ age }}</option>
           </select>
         </div>
 
@@ -76,8 +76,8 @@
             type="checkbox"
             class="field-activator"
             name="field_checkbox4"
-            (click)="disableGenderField()"
-            [(ngModel)]="active_fields.gender"
+            (click)="toggleGenderField()"
+            [(ngModel)]="activeFieldFlags.gender"
           />
           <label for="gender">Gender</label>
           <select
@@ -93,7 +93,7 @@
 
         <!-- Submit Button -->
         <div class="form-field" style="justify-content: center;">
-          <button class="hover-button" (click)="onSubmit()">
+          <button class="hover-button" (click)="updateButtonOnClick()">
             <span>Update</span>
           </button>
         </div>

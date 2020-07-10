@@ -9,7 +9,7 @@
         type="email"
         name="email"
         [(ngModel)]="user.user_email"
-        (focusout)="checkEmail()"
+        (focusout)="checkEmailField()"
         placeholder="user@email.com"
       />
 
@@ -40,8 +40,8 @@
         type="password"
         name="pass"
         [(ngModel)]="user.user_password"
-        (focusout)="checkPassword()"
-        (ngModelChange)="confrimPassword()"
+        (focusout)="checkPasswordField()"
+        (ngModelChange)="checkPasswordField()"
         placeholder="Password"
       />
 
@@ -64,7 +64,7 @@
         style="color: red;"
         *ngIf="field_checks.bad_password"
       >
-        Invalid Input. {{field_checks.bad_password_message}}
+        Invalid Input. {{badPasswordMessage}}
       </span>
     </div>
 
@@ -77,8 +77,8 @@
       <input
         type="password"
         name="pass"
-        [(ngModel)]="temp_password"
-        (ngModelChange)="confrimPassword()"
+        [(ngModel)]="tempPassword"
+        (ngModelChange)="checkConfirmPasswordField()"
         placeholder="Confirm Password"
         required
       />

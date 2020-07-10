@@ -1,16 +1,16 @@
 <div class="page-selector-container">
   <!-- Previous Page Button -->
-  <button (click)="previousPage()" [disabled]="!enablePrevious" #prevButton>Prev.</button>
+  <button (click)="previousButtonOnClick()" [disabled]="!enablePreviousButton" #prevButton>Prev.</button>
 
   <!-- Page Number Input Field -->
-  <input type="text" name="for" [(ngModel)]="page_number" />
+  <input type="text" name="for" [(ngModel)]="currentPageNumber" />
 
-  <span> / {{total_page_number}} </span>
+  <span> / {{numberOfTotalPages}} </span>
 
   <!-- Next Page Button -->
-  <button (click)="nextPage()" [disabled]="!enableNext" #nextButton>Next</button>
+  <button (click)="nextButtonOnClick()" [disabled]="!enableNextButton" #nextButton>Next</button>
 
   <!-- Go Button -->
-  <button (click)="changePage()" #goButton>Go</button>
+  <button (click)="goButtonOnClick()" [disabled]="!enableGoButton" #goButton>Go</button>
 
 </div>

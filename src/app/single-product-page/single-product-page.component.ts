@@ -1,5 +1,6 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 import { ProductManagementService } from '../product-management.service';
 import { CartServiceService } from '../cart-service.service';
@@ -12,19 +13,18 @@ import { Product } from '../../templates/product';
   templateUrl: './single-product-page.component.html',
   styleUrls: ['./single-product-page.component.css'],
 })
-export class SingleProductPageComponent implements OnInit {
+export class SingleProductPageComponent implements OnInit, OnDestroy {
   // ### Page Variables
-  @Output() newItemCounter = new EventEmitter<string>(); // Sends a message to app.component
   product: Product;
-  product_amount: number;
-  product_stars: string[];
+  currentAddCounter: number;
+  productRatingStars: string[];
 
-  freak_out: false;
-  freak_out_interval;
+  freakOutEnabled: false;
+  freakOutInterval; // to clear interval once done freaking out
 
-  message: string;
-  productFound: boolean;
-  userSignedIn: boolean;
+  productHasBeenFound: boolean;
+
+  subscriptions: Subscription[];
 
   constructor(
     private productService: ProductManagementService,
@@ -34,87 +34,121 @@ export class SingleProductPageComponent implements OnInit {
     private router: Router
   ) {
     this.product = {} as Product;
-    this.product_amount = 1;
-    this.productFound = true;
+    this.currentAddCounter = 1;
+    this.productHasBeenFound = true;
 
+    this.subscriptions = [] as Subscription[];
   }
 
-  ngOnInit(): void {
-    // get id from url
-    this.message = JSON.stringify(this.route.params, null, 2);
-    this.route.params.subscribe((params) => {
-      this.product._id = params._id;
-    });
+  private queueObservableForUnsubscription(observable: Subscription) {
+    this.subscriptions.push(observable);
+  }
 
-    // then load data from backend
-    this.productService.simpleProductQuery(this.product, true, (response) => {
-      if (response.status == 404) {
-        this.productFound = false;
-        return;
-      }
+  private getProductIdFromUrl() {
+    return new Promise((resolve, reject) => {
+      let params = this.route.params;
 
-      if (response.status == 400) {
-        console.log(response.body['mgs']);
-        this.productFound = false;
-        return;
-      }
+      let observable = params.subscribe((params) => {
+        this.product._id = params._id;
+      });
 
-      this.product = response.body['results'];
-      this.productFound = true;
+      resolve();
 
-      this.product_stars = this.productService.generateStars(this.product.rating);
-
+      this.queueObservableForUnsubscription(observable);
     });
   }
 
-  // ### Add to Cart Button
-  async addToCart() {
-
-    // TODO: pass url to redirect to after user sign-in
-    if (!this.userService.userIsLoggedIn){
-      this.router.navigate(['login']);
+  private handleServerResponse(response) {
+    if (response.status == 404) {
+      this.productHasBeenFound = false;
       return;
     }
 
-    // To avoid adding a negative amount of product
-    if (this.freak_out) return;
+    if (response.status == 400) {
+      console.log(response.body['mgs']);
+      this.productHasBeenFound = false;
+      return;
+    }
 
-    await this.userCart.add(this.product._id, this.product_amount);
+    this.product = response.body['results'];
+    this.productHasBeenFound = true;
 
-    this.showAddedItemToCart();
+    this.productRatingStars = this.productService.generateStars(
+      this.product.rating
+    );
   }
 
-  // ### Notify user that item has been added to cart
-  showAddedItemToCart() {
+  async ngOnInit() {
+    await this.getProductIdFromUrl();
+
+    // then load data from backend
+    this.productService.simpleProductQuery(this.product, true, (response) => {
+      this.handleServerResponse(response);
+    });
+  }
+
+  private unsubscribeFromAllObservables() {
+    this.subscriptions.forEach((observable) => {
+      observable.unsubscribe();
+    });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribeFromAllObservables();
+  }
+
+  private checkUserLoggedIn() {
+    // TODO: pass url to redirect to after user sign-in
+    if (!this.userService.userIsLoggedIn) {
+      this.router.navigate(['login']);
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  private showItemHasBeenAdded() {
     // TODO: show notification when an item is added to the cart
     console.log('Item Added to cart');
   }
 
-  // ### A little joke for when users decrease the product amount to 0
-  freakOut(){
-      this.product_amount = 255;
-      this.freak_out_interval = setInterval(_ => { this.product_amount--; }, 1);
+  async addToCartButtonOnClick() {
+    // not allowed to use button while freaking out
+    if (this.freakOutEnabled) return;
 
-      setTimeout(_ => { clearInterval(this.freak_out_interval); this.product_amount = 1;}, 5000);
+    if (!this.checkUserLoggedIn()) return;
 
+    await this.userCart.addItem(this.product._id, this.currentAddCounter);
+
+    this.showItemHasBeenAdded();
   }
 
-  // ### increase button handler
-  incProductAmount(){
-    if (this.product_amount < 99){
-      this.product_amount++;
+  // ### A stupid little joke for when users decrease the product amount to 0
+  freakOut() {
+    this.currentAddCounter = 255;
+    this.freakOutInterval = setInterval((_) => {
+      this.currentAddCounter--;
+    }, 0);
+
+    setTimeout((_) => {
+      clearInterval(this.freakOutInterval);
+      this.currentAddCounter = 1;
+    }, 1500);
+  }
+
+  productCounterIncreaseOnClick() {
+    if (this.currentAddCounter < 99) {
+      this.currentAddCounter++;
     } else {
-      alert("Warning. Maximum item amount exceeded.");
+      alert('Warning. Maximum item amount exceeded.');
     }
   }
 
-  // ### Decrease button handler
-  decProductAmount(){
-    if (this.product_amount > 1){
-      this.product_amount--;
+  productCounterDecreaseOnClick() {
+    if (this.currentAddCounter > 1) {
+      this.currentAddCounter--;
     } else {
       this.freakOut();
     }
   }
-
 }

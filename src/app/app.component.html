@@ -1,10 +1,10 @@
-<div *ngIf="loadPage" class="main-grid-container">
+<div *ngIf="pageCanLoad" class="main-grid-container">
   <div class="top-side">
     <app-top-side></app-top-side>
   </div>
 
   <div class="middle-side">
-    <router-outlet (loadPage)=(loadPage)></router-outlet>
+    <router-outlet (loadPage)=(pageCanLoad)></router-outlet>
   </div>
 
   <div class="bottom-side">

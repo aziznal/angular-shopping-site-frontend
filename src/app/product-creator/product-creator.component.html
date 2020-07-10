@@ -8,17 +8,17 @@
   </h3>
 
   <!-- Reset Button -->
-  <h3 class="dev-link" (click)="onReset()">
+  <h3 class="dev-link" (click)="resetButtonOnClick()">
     <a>Reset Form</a>
   </h3>
 
-  <form action="" #productCreatorForm="ngForm" (ngSubmit)="onSubmit()">
+  <form action="" #productCreatorForm="ngForm" (ngSubmit)="submitButtonOnClick()">
 
     <!-- Category -->
     <div>
       <label for="category">Category:</label>
       <select name="category" [(ngModel)]="product.category" [title]="'Product Category'">
-        <option  value="{{category.url}}" *ngFor="let category of categories">
+        <option  value="{{category.url}}" *ngFor="let category of productCategories">
           {{category.name}}
         </option>
       </select>
@@ -50,8 +50,8 @@
     <div>
       <span class="note">Auto-generate name
         <input class="checkbox-override" type="checkbox" name="name-override" value="0"
-        (click)="updateNameField()"
-        [(ngModel)]="name_checkbox">
+        (click)="toggleAutogenerateNameField()"
+        [(ngModel)]="autogenerateNameFieldToggled">
       </span>
 
     </div>
@@ -99,7 +99,7 @@
 
     <!-- Showing Product ID after product creation -->
     <h3 class="dev-link result">
-      <a>{{ product_id }}</a>
+      <a>{{ idAfterProductCreation }}</a>
     </h3>
 
   </form>

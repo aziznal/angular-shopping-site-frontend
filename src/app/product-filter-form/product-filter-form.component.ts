@@ -12,31 +12,31 @@ import { Product } from 'src/templates/product';
 export class ProductFilterFormComponent implements OnInit {
   // Page Variables
   product: Product;
-  categories;
-  results: Product[];
-  show_results: boolean;
+
+  productCategories;        // To show as a dropdown list
+
+  filteredResults: Product[];
+  showResultsTable: boolean;
 
   constructor(private productService: ProductManagementService) {
     this.product = {} as Product;
-    this.categories = categories;
-    this.results = [] as Product[];
-    this.show_results = false;
+    this.productCategories = categories;
+    this.filteredResults = [] as Product[];
+    this.showResultsTable = false;
   }
 
   ngOnInit(): void {}
 
-  // Form Submit Button
-  onSubmit() {
+  submitButtonOnClick() {
     this.productService.getProduct(this.product, (response) => {
-      this.results = response.body['results'];
-      this.show_results = true;
+      this.filteredResults = response.body['results'];
+      this.showResultsTable = true;
     });
   }
 
-  // Form Reset Button
-  onReset() {
+  resetButtonOnClick() {
     this.product = {} as Product;
-    this.results = [] as Product[];
-    this.show_results = false;
+    this.filteredResults = [] as Product[];
+    this.showResultsTable = false;
   }
 }

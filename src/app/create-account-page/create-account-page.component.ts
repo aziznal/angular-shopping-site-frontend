@@ -11,42 +11,56 @@ import { User } from 'src/templates/user';
 })
 export class CreateAccountPageComponent implements OnInit {
   // page variables
-  @ViewChild('passwordHintsPopup', { read: ElementRef }) passwordHintsPopup: ElementRef<any>;
+  @ViewChild('passwordHintsPopup', { read: ElementRef })
+  passwordHintsPopup: ElementRef<any>;
 
   user = {} as User;
 
-  // triggers elements in the html
-  success = false; // Account created successfully
-  failed = false; // Account Failed to be created
-  already_exists = false;
+  success: boolean; // on account created successfully
+  failed: boolean; // on failed to create account
+  accountAlreadyExists: boolean;
 
-  form_touched: boolean = false; // Whether at least one field was changed
-  temp_password: string = '';
+  formHasBeenTouched: boolean; // true if at least one field was changed
+  tempPassword: string;
+  badPasswordMessage: string;
 
-  // This holds "bad" flags for fields
-  field_checks = {
-    bad_email: false,
-    bad_password: false,
-    bad_password_message: "",
-    bad_pass_confirmation: false,
+  field_checks: {
+    bad_email: boolean;
+    bad_password: boolean;
+    bad_pass_confirmation: boolean;
   };
 
   constructor(
     private userService: UserManagementService,
     private router: Router
-  ) {}
+  ) {
+    this.success = false;
+    this.failed = false;
+    this.accountAlreadyExists = false;
 
-  ngOnInit(): void {
-    // Check to see if user accessing this page is already signed in
-    // If Yes, then redirect them to user-account immediately
-    if (this.userService.userIsLoggedIn) {
-      this.router.navigate(['/user-account']);
-    }
+    this.formHasBeenTouched = false;
+    this.tempPassword = '';
+    this.badPasswordMessage = '';
 
+    this.field_checks = {
+      bad_email: false,
+      bad_password: false,
+      bad_pass_confirmation: false,
+    };
   }
 
-  // Email field validation
-  checkEmail() {
+  private checkLoggedIn() {
+    if (this.userService.userIsLoggedIn) {
+      // TODO: use redirect to get user back to this page
+      this.router.navigate(['/user-account']);
+    }
+  }
+
+  ngOnInit(): void {
+    this.checkLoggedIn();
+  }
+
+  checkEmailField() {
     const check = () => {
       this.field_checks.bad_email = true;
     };
@@ -55,7 +69,7 @@ export class CreateAccountPageComponent implements OnInit {
     // check defined
     if (!this.user.user_email) return check();
 
-    // a@b.c is five chars at least, so check it
+    // a@b.c is five chars at least
     if (!(this.user.user_email.length >= 5)) return check();
 
     // [a, b.c] has length two every single time
@@ -66,86 +80,95 @@ export class CreateAccountPageComponent implements OnInit {
       return check();
 
     this.field_checks.bad_email = false;
-    this.form_touched = true;
+    this.formHasBeenTouched = true;
   }
 
-  // Password field validation
-  checkPassword() {
+  checkPasswordField() {
     const check = (message: string) => {
       this.field_checks.bad_password = true;
-      this.field_checks.bad_password_message = message;
+      this.badPasswordMessage = message;
     };
 
     // Password is defined
-    if (!this.user.user_password) return check("There's like two field you have to fill up, dude.");
+    if (!this.user.user_password)
+      return check("There's like two field you have to fill up, dude.");
 
     // is 8+ chars
-    if (this.user.user_password.length < 8) return check("Password must be 8+ chars, can you count to 8?");
+    if (this.user.user_password.length < 8)
+      return check('Password must be 8+ chars, can you count to 8?');
 
     // does not contain any spaces
-    if (this.user.user_password.split(' ').length > 1) return check("No social distancing between password characters");
+    if (this.user.user_password.split(' ').length > 1)
+      return check('No social distancing between password characters');
 
     // is not stupid
     if (['password', '12345678'].includes(this.user.user_password))
-      return check("Your password is stupid. please pick a different password.");
+      return check(
+        'Your password is stupid. please pick a different password.'
+      );
 
     this.field_checks.bad_password = false;
-    this.form_touched = true;
+    this.formHasBeenTouched = true;
   }
 
-  // Password Confirmation
-  confrimPassword() {
+  checkConfirmPasswordField() {
     // Check nothing if user still hasn't entered the first field
     if (!this.user.user_password) return;
 
     // Check only when user "seems" to have finished writing the confirmation
-    if (this.temp_password.length >= this.user.user_password.length) {
+    if (this.tempPassword.length >= this.user.user_password.length) {
       this.field_checks.bad_pass_confirmation =
-        this.temp_password != this.user.user_password;
+        this.tempPassword != this.user.user_password;
+    }
+  }
+
+  private checkAllTestsPassed() {
+    let checks: boolean[] = [];
+
+    Object.keys(this.field_checks).map((val, i) => {
+      checks[i] = this.field_checks[val];
+    });
+
+    return checks.every((v) => {
+      return !v;
+    });
+  }
+
+  private handleResponse(response) {
+    switch (response.status) {
+      // TODO: change below section after backend refactor.
+      // if server sends a json then it won't have a response.status (which is stupidly designed by me)
+      case 201:
+      case undefined:
+        this.success = true;
+
+        // Show success page, then redirect user to update their info
+        // TODO: log user into their account as soon as its successfully created
+        const redirect = () => {
+          this.router.navigate(['/user-account/update-info']);
+        };
+        setTimeout(redirect, 5000);
+        break;
+
+      case 409:
+        this.failed = true;
+        this.accountAlreadyExists = true;
+        break;
+
+      case 500:
+        this.failed = true;
+        break;
+
+      default:
+        console.log('Unhandled Server Response');
+        console.log(JSON.stringify(response, null, 2));
     }
   }
 
   onSubmit() {
-    let bad_vals = [];
-    Object.keys(this.field_checks).map((val, i) => {
-      bad_vals[i] = this.field_checks[val];
-    });
-
-    // Check that all tests have passed, and that at least one field has been "touched"
-    if (
-      bad_vals.every((v) => {
-        return !v;
-      }) &&
-      this.form_touched
-    ) {
+    if (this.formHasBeenTouched && this.checkAllTestsPassed()) {
       this.userService.createNewUser(this.user, (response) => {
-        switch (response.status) {
-          // if server sends a json then it won't have a response.status (which is stupidly designed by me)
-          case 201:
-          case undefined:
-            this.success = true;
-
-            // Show success page, then redirect user to update their info
-            // TODO: log user into their account as soon as its successfully created, otherwise this reroute doesn't work
-            const redirect = () => {
-              this.router.navigate(['/user-account/update-info']);
-            };
-            setTimeout(redirect, 1000);
-            break;
-
-          case 409:
-            this.failed = true;
-            this.already_exists = true;
-            break;
-
-          case 500:
-            this.failed = true;
-            break;
-
-          default:
-            console.log('Unhandled Server Response');
-            console.log(response);
-        }
+        this.handleResponse(response);
       });
     }
   }

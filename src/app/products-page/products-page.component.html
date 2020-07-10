@@ -7,7 +7,7 @@
 
     <!-- Page Selector -->
     <app-page-selector
-      [total_page_number]="total_page_number"
+      [numberOfTotalPages]="totalPagesAmount"
       (updateData)="updatePageData()"
       ></app-page-selector>
 
@@ -16,8 +16,8 @@
 
       <label for="filters">Sort By: </label>
 
-      <select name="filters" [(ngModel)]="sort_by">
-        <option *ngFor="let filter of search_filters" [value]="filter.toLowerCase()">
+      <select name="filters" [(ngModel)]="currentSearchFilter">
+        <option *ngFor="let filter of productSearchFilters" [value]="filter.toLowerCase()">
           {{ filter | titlecase }}
         </option>
       </select>
@@ -31,7 +31,7 @@
     <div class="product-grid">
 
       <!-- Individual Product -->
-      <a class="product-box" *ngFor="let product of products"
+      <a class="product-box" *ngFor="let product of currentLoadedProducts"
       [routerLink]="'/p/' + product._id">
         <!-- Image -->
         <img
@@ -49,7 +49,7 @@
 
           <div
             class="star-container"
-            *ngFor="let star of generateStars(product)"
+            *ngFor="let star of generateProductStars(product)"
           >
             <img [src]="star" alt="star.png" class="rating-star" />
           </div>
@@ -67,7 +67,7 @@
 
     <!-- Page Selector -->
     <app-page-selector
-      [total_page_number]="total_page_number"
+      [numberOfTotalPages]="totalPagesAmount"
       (updateData)="updatePageData()"
       ></app-page-selector>
 

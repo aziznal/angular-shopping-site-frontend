@@ -1,103 +1,175 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { ProductManagementService } from '../product-management.service';
 
 import { search_filters } from './search-filters';
 import { Product } from 'src/templates/product';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-products-page',
   templateUrl: './products-page.component.html',
   styleUrls: ['./products-page.component.css'],
 })
-export class ProductsPageComponent implements OnInit {
+export class ProductsPageComponent implements OnInit, OnDestroy {
   // ### Page Variables
-  products: Product[];
-  search_filters: string[];
-
-  page_number: number;
-  total_page_number: number;
-  category: string;
-  sort_by: string;
-
-  // ### Getting Sort Button Element
   @ViewChild('sortButton', { read: ElementRef }) sort_button: ElementRef<any>;
+
+  currentLoadedProducts: Product[];
+
+  productSearchFilters: string[];
+  currentSearchFilter: string;
+
+  currentPageNumber: number;
+  totalPagesAmount: number;
+
+  currentProductCategory: string;
+
+  subscriptions: Subscription[];
 
   constructor(
     private productService: ProductManagementService,
     private route: ActivatedRoute,
     private router: Router
   ) {
-    this.products = [] as Product[];
-    this.page_number = 0;
-    this.total_page_number = 0;
-    this.category = '';
-    this.search_filters = search_filters;
+    this.currentLoadedProducts = [] as Product[];
+    this.currentPageNumber = 0;
+    this.totalPagesAmount = 0;
+    this.currentProductCategory = '';
+    this.productSearchFilters = search_filters;
+
+    this.subscriptions = [] as Subscription[];
   }
 
-  // ### ngOnInit
   ngOnInit(): void {
     this.initPage();
   }
 
-  // ### init / refresh page variables and load product data
-  initPage() {
-    this.route.queryParams.subscribe((params) => {
-      this.page_number = params.page;
-      this.sort_by = params.sort_by;
+  private unsubscribeFromAllObservables(){
+    this.subscriptions.forEach(observable => {
+      observable.unsubscribe();
     });
-
-    this.route.params.subscribe((params) => {
-      this.category = params.category;
-    });
-
-    this.loadData();
   }
 
-  // ### Loads all products from backend
-  loadData() {
-    const _query = { category: this.category };
-    this.productService.advancedProductQuery(this.page_number, _query, this.sort_by, (response) => {
-        if (response.status == 404) console.log('404 No Products were found!');
-        this.products = response.body['results'];
-        this.total_page_number = response.body['total_page_number'];
+  ngOnDestroy(){
+    this.unsubscribeFromAllObservables();
+  }
+
+  private queueForUnsubscription(observable: Subscription){
+    this.subscriptions.push(observable);
+  }
+
+  private getPageQueryParams() {
+    return new Promise((resolve, reject) => {
+
+      let queryParams = this.route.queryParams;
+
+      let observable = queryParams.subscribe((params) => {
+        this.currentPageNumber = params.page;
+        this.currentSearchFilter = params.sort_by;
+
+        resolve();
+
+      });
+
+      this.queueForUnsubscription(observable);
+
+    });
+  }
+
+  private getPageParams() {
+    return new Promise((resolve, reject) => {
+
+      let params = this.route.params;
+
+      let observable = params.subscribe((params) => {
+        this.currentProductCategory = params.category;
+
+        resolve();
+      });
+
+      this.queueForUnsubscription(observable);
+
+    });
+  }
+
+  private loadProductData() {
+    const _query = { category: this.currentProductCategory };
+
+    this.productService.advancedProductQuery(
+      this.currentPageNumber,
+      _query,
+      this.currentSearchFilter,
+      (response) => {
+        this.handleServerResponse(response);
       }
     );
   }
 
-  // ### Generate stars for each product
-  generateStars(product: Product){
-    // Each product calls this method to generate stars according to its rating
-    return this.productService.generateStars(product.rating);
+  async initPage() {
+    await this.getPageQueryParams(); // store /:param  type parameters
+    await this.getPageParams(); // store &param=  type parameters
 
+    this.loadProductData();
   }
 
-  // ### Sort Button Event Handler
-  sortButtonOnclick() {
+  private handleServerResponse(response) {
+    if (response.status == 404) console.log('404 No Products were found!');
+    this.currentLoadedProducts = response.body['results'];
+    this.totalPagesAmount = response.body['total_page_number'];
+  }
+
+  generateProductStars(product: Product) {
+    return this.productService.generateStars(product.rating);
+  }
+
+  private disableSortButtonForGivenPeriod(given_period) {
+
     this.sort_button.nativeElement.disabled = true;
 
-    // Button is disabled for two seconds after click to prevent spam
     setTimeout(() => {
       this.sort_button.nativeElement.disabled = false;
-    }, 2000);
+    }, given_period);
+  }
 
-    // setting url parameters for page change
-    const query_params = {
-      page: this.page_number,
+  private setNewUrlParameters() {
+    // set new url parameters
+    let query_params = {
+      page: this.currentPageNumber,
     };
 
-    if (this.sort_by !== null && this.sort_by != 'none') {
-      query_params['sort_by'] = this.sort_by;
-    }
+    this.checkSortMethod(query_params);
 
-    // adjust url to keep settings after changing to another page
-    this.router.navigate([this.router.url.split('?')[0]], {
-      queryParams: query_params,
-    });
+    return query_params;
+  }
+
+  private checkSortMethod(query_params) {
+    if (
+      this.currentSearchFilter !== null &&
+      this.currentSearchFilter != 'none'
+    ) {
+      query_params['sort_by'] = this.currentSearchFilter;
+    }
+  }
+
+  private navigateToNewPageUrl() {
+    let urlParameters = this.setNewUrlParameters();
+
+    const baseUrl = this.router.url.split('?')[0];
+
+    // create new url with the new parameters
+    this.router.navigate([baseUrl], { queryParams: urlParameters });
+  }
+
+  sortButtonOnclick() {
+    // to prevent spam
+    this.disableSortButtonForGivenPeriod(500);
+
+    this.navigateToNewPageUrl();
 
     // reload data to visualize sort
-    this.loadData();
+    this.loadProductData();
   }
 
   // ### Event listener for page selector
@@ -105,5 +177,4 @@ export class ProductsPageComponent implements OnInit {
     // GLITCH: Multiple page data updates seem to be getting sent per child event emitted
     this.initPage();
   }
-
 }

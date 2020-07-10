@@ -14,11 +14,11 @@
         <div class="cart-item" *ngFor="let item of cartItems">
           <!-- Counter -->
           <div class="cart-item-counter-container">
-            <span class="item-counter-button" (click)="increaseCart(item)"
+            <span class="item-counter-button" (click)="addToCartAgain(item)"
               >^</span
             >
             <span class="item-counter-display">{{ item.amount }}</span>
-            <span class="item-counter-button" (click)="decreaseCart(item)"
+            <span class="item-counter-button" (click)="removeFromCart(item)"
               >v</span
             >
           </div>

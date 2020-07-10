@@ -9,22 +9,27 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class UserAccountSidebarComponent implements OnInit {
   // Page Variables
+  sidebarLinks: typeof links;
+  pageCanLoad = false;
 
-  // Array of link objects
-  links;
-  loadPage = false;
-
-  constructor(private route: ActivatedRoute, private router: Router) {
-    // assign from imports
-    this.links = links;
+  constructor(private router: Router) {
+    this.sidebarLinks = links;
     this.highlightCurrentLink();
-    this.loadPage = true;
+    this.pageCanLoad = true;
   }
 
   // highlight the first link with an attribute that matches the url
-  highlightCurrentLink() {
+  private highlightCurrentLink() {
+    this.sidebarLinks = links;
+
     const found_link = links.filter((link) => link.url == this.router.url)[0];
     found_link.state = 'active';
+  }
+
+  resetAllLinkStates() {
+    this.sidebarLinks.map((link) => {
+      link.state = 'inactive';
+    });
   }
 
   ngOnInit(): void {}

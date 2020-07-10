@@ -3,7 +3,7 @@
   <app-user-account-sidebar class="user-account-sidebar"></app-user-account-sidebar>
 
   <!-- Main Sub-Section Container -->
-  <div class="user-account-content-container" *ngIf="loadPage" >
+  <div class="user-account-content-container" *ngIf="pageCanBeLoaded" >
     <!-- Welcome Messages -->
     <div>
       <h2>Welcome to your account, {{ username }} </h2>
@@ -26,7 +26,7 @@
 
     <!-- Logout Button -->
     <div class="user-account-subsection-container">
-      <button class="hover-button" (click)="logout()">
+      <button class="hover-button" (click)="logoutButtonOnClick()">
         <span>Logout</span>
       </button>
     </div>

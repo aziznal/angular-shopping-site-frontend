@@ -8,7 +8,6 @@ import { Product } from 'src/templates/product';
   providedIn: 'root',
 })
 export class ProductManagementService {
-
   BASE_API_URL: string; // url of Backend API
   API_URL: {} | any;
 
@@ -16,12 +15,11 @@ export class ProductManagementService {
     this.BASE_API_URL = '//localhost:3000';
 
     this.API_URL = {
-      base: "//localhost:3000",
-      GET: this.BASE_API_URL + "/forms/get",
-      CREATE_OR_UPDATE: this.BASE_API_URL + "/forms",
-      DELETE: this.BASE_API_URL + "/forms/delete"
-    }
-
+      base: '//localhost:3000',
+      GET: this.BASE_API_URL + '/forms/get',
+      CREATE_OR_UPDATE: this.BASE_API_URL + '/forms',
+      DELETE: this.BASE_API_URL + '/forms/delete',
+    };
   }
 
   options: {
@@ -33,11 +31,10 @@ export class ProductManagementService {
     withCredentials?: boolean;
   };
 
-  // Method to convert necessary fields to a numerical value
-  fixQueryValues(product: Product): void {
-    const numericals = ['price', 'rating', 'sold'];
+  convertNumericalFieldsToFloat(product: Product): void {
+    const numericalFields = ['price', 'rating', 'sold'];
     Object.keys(product).map((key, _) => {
-      if (numericals.includes(key)) {
+      if (numericalFields.includes(key)) {
         product[key] = parseFloat(product[key]);
       }
     });
@@ -70,7 +67,7 @@ export class ProductManagementService {
     };
 
     // Convert numerical fields from <string> -> <number>
-    this.fixQueryValues(product);
+    this.convertNumericalFieldsToFloat(product);
 
     this.http
       .post(this.API_URL.CREATE_OR_UPDATE, product, postOptions)
@@ -87,7 +84,7 @@ export class ProductManagementService {
     };
 
     // Convert numerical fields from <string> -> <number>
-    this.fixQueryValues(product);
+    this.convertNumericalFieldsToFloat(product);
 
     this.http.put(this.API_URL.CREATE_OR_UPDATE, product, putOptions).subscribe(
       (response) => {
@@ -106,27 +103,22 @@ export class ProductManagementService {
       responseType: 'json' as const,
     };
 
-    this.http
-      .post(this.API_URL.DELETE, product, deleteOptions)
-      .subscribe(
-        (response) => {
-          callback(response);
-        },
-        (err) => {
-          callback(err);
-        }
-      );
+    this.http.post(this.API_URL.DELETE, product, deleteOptions).subscribe(
+      (response) => {
+        callback(response);
+      },
+      (err) => {
+        callback(err);
+      }
+    );
   }
 
   //#endregion PRODUCT_FORM_QUERIES
 
   //#region Product Queries
 
-  // Simple Product Query
   simpleProductQuery(query, single_product: boolean, callback) {
-
-    return new Promise ((resolve, reject) => {
-
+    return new Promise((resolve, reject) => {
       const options = {
         observe: 'response' as const,
         responseType: 'json' as const,
@@ -149,17 +141,11 @@ export class ProductManagementService {
           resolve();
         }
       );
-
     });
-
   }
 
-  // Advanced Product Query
-  /*
-    Advanced Query is mainly used to load a page of products,
-    or load products pre-ordered according to a certain criteria
-  */
   advancedProductQuery(page_num, query, sort_by, callback: Function) {
+    // used to load a page of products, which can be filtered or sorted
     const reqOptions = {
       observe: 'response' as const,
       responseType: 'json' as const,
@@ -186,7 +172,7 @@ export class ProductManagementService {
 
   //#region Rating Stars Generator
 
-  private generateStarCapacity(difference: number) {
+  private generateStarLabel(difference: number) {
     const percentage = difference * 100;
 
     /*
@@ -206,11 +192,11 @@ export class ProductManagementService {
       return 'quarter';
     }
 
-    // if all above fails, then percentage == 0
+    // percentage == 0
     return 'empty';
   }
 
-  private generateStarsPath(stars: string[]) {
+  private generateAssetPaths(stars: string[]) {
     /*
       After all stars have been correctly labeled, find their relevant images' path.
     */
@@ -219,9 +205,8 @@ export class ProductManagementService {
     });
   }
 
-  // Star Generator Method
   generateStars(rating: number) {
-    // Returns a list of paths to load correctly labeled stars
+    // Returns a list of paths of star images chosen according to rating
 
     const stars = [];
 
@@ -230,24 +215,23 @@ export class ProductManagementService {
       stars[i] = 'empty';
 
       if (rating >= i) {
-        // Full star + potential overflow to next star
+        // Case: Full star
         if (rating - i >= 1) {
           stars[i] = 'full';
           continue;
         }
 
-        // Fraction of a star
+        // Case: Fraction of a star ( or empty star)
         else if (rating - i < 1 || rating != i) {
-          stars[i] = this.generateStarCapacity(rating - i);
+          stars[i] = this.generateStarLabel(rating - i);
           continue;
         }
       }
     }
 
-    this.generateStarsPath(stars);
+    this.generateAssetPaths(stars);
     return stars;
   }
 
   //#endregion Rating Stars Generator
-
 }
