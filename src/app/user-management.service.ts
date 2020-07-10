@@ -115,7 +115,7 @@ export class UserManagementService {
         resolve(false);
       } else {
         await this.sendLoginValidationRequest();
-        resolve();
+        resolve(true);
       }
     }); // end of promise
   }
